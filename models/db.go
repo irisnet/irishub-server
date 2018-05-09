@@ -17,9 +17,9 @@ var (
 	session *mgo.Session
 )
 
-func Init() {
+func init() {
 	if session == nil {
-		url := fmt.Sprintf("mongodb://%s:%s", conf.ConfMongodb.Host, conf.ConfMongodb.Port)
+		url := fmt.Sprintf("mongodb://%s:%s", conf.ConfMongodb.Host, fmt.Sprint(conf.ConfMongodb.Port))
 
 		logger.Info.Printf("Mgo start on %s\n", url)
 
@@ -110,18 +110,18 @@ func Update(h Document) error {
 }
 
 /**
- * 执行查询，此方法可拆分做为公共方法
+ *
  * [SearchPerson description]
  * @param {[type]} collectionName string [description]
  * @param {[type]} query          bson.M [description]
- * @param {[type]} sort           bson.M [description]
  * @param {[type]} fields         bson.M [description]
  * @param {[type]} skip           int    [description]
+ * @param {[type]} sort           bson.M [description]
  * @param {[type]} limit          int)   (results      []interface{}, err error [description]
  */
-func Query(collectionName string, query bson.M, sort string, fields bson.M, skip int, limit int) (results []interface{}, err error) {
+func Query(collectionName string, query bson.M, fields bson.M, skip int, limit int, sorts ...string) (results []interface{}, err error) {
 	exop := func(c *mgo.Collection) error {
-		return c.Find(query).Sort(sort).Select(fields).Skip(skip).Limit(limit).All(&results)
+		return c.Find(query).Select(fields).Sort(sorts...).Skip(skip).Limit(limit).All(&results)
 	}
 	return results, ExecCollection(collectionName, exop)
 }

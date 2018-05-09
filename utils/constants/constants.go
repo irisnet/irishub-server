@@ -9,6 +9,5 @@ const PAGE_LIMIT_NUM = 20
 
 // response status
 const STATUS_CODE_OK = 200
-const STATUS_CODE_OK_MESSAGE = "success"
-const STATUS_CODE_FAILED = 400
-const STATUS_CODE_FAILED_MESSAGE = "error occurred"
+const STATUS_SUCCESS = "success"
+const STATUS_FAIL = "fail"

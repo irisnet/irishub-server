@@ -5,39 +5,28 @@ import (
 	"github.com/irisnet/iris-api-server/utils/constants"
 )
 
-var HTTP_OK = constants.STATUS_CODE_OK
+var HttpStatusOk = constants.STATUS_CODE_OK
 
 type BaseResponse struct {
-	StatusCode    int         `json:"status_code"`
-	StatusMessage string      `json:"status_message"`
-	Data          interface{} `json:"data"`
-}
-
-type ExceptionResponse struct {
-	BaseResponse
-	Data struct {
-		err_code    string
-		err_message string
-	} `json:"data"`
+	Status  string      `json:"status_code"`
+	ErrCode string      `json:"err_code"`
+	ErrMsg  string      `json:"err_msg"`
+	Data    interface{} `json:"data"`
 }
 
 func BuildResponse(data interface{}) *BaseResponse {
 	return &BaseResponse{
-		StatusCode:    constants.STATUS_CODE_OK,
-		StatusMessage: constants.STATUS_CODE_OK_MESSAGE,
-		Data:          data,
+		Status: constants.STATUS_SUCCESS,
+		Data:   data,
 	}
 }
 
-func BuildExceptionResponse(irisErr errors.IrisError) *ExceptionResponse {
-	return &ExceptionResponse{
-		BaseResponse: BaseResponse{
-			StatusCode:    constants.STATUS_CODE_FAILED,
-			StatusMessage: constants.STATUS_CODE_FAILED_MESSAGE,
-		},
+func BuildExpResponse(error errors.IrisError) *BaseResponse {
+	return &BaseResponse{
+		Status: constants.STATUS_FAIL,
+		ErrCode: error.ErrCode,
+		ErrMsg: error.ErrMsg,
 		Data: struct {
-			err_code    string
-			err_message string
-		}{err_code: irisErr.ErrCode, err_message: irisErr.ErrMsg},
+		}{},
 	}
 }

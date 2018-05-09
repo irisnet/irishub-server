@@ -1,2 +1,4 @@
 .idea
 *.bak
+*.DS_Store
+vendor

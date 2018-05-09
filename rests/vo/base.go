@@ -1,6 +1,6 @@
 package vo
 
 type BaseVO struct {
-	PageNum  int `json:"pageNum"`
-	PageSize int `json:"pageSize"`
+	Page  int `json:"page" form:"page"`
+	PerPage int `json:"per_page" form:"per_page"`
 }

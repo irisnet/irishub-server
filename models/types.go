@@ -2,10 +2,6 @@
 
 package models
 
-import (
-	"gopkg.in/mgo.v2"
-)
-
 type Document interface {
 	// collection name
 	Name() string
