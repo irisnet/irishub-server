@@ -13,9 +13,9 @@ const (
 )
 
 type Delegator struct {
-	Address string `bson:"address"`
-	PubKey  string `bson:"pub_key"`
-	Shares  int64  `bson:"shares"`
+	Address string `json:"address" bson:"address"`
+	PubKey  string `json:"pub_key" bson:"pub_key"`
+	Shares  int64  `json:"shares" bson:"shares"`
 }
 
 func (d Delegator) Name() string {
@@ -48,6 +48,22 @@ func (d Delegator) GetDelegatorListByAddressAndPubKeys(address string, pubKeys [
 	sorts := make([]string, 0)
 
 	delegator, err := d.Query(query, 0, len(pubKeys), sorts...)
+
+	if err != nil {
+		logger.Error.Println(err)
+	}
+
+	return delegator, err
+}
+
+func (d Delegator) GetDelegatorListByAddress(address string, skip int,
+	limit int, sorts []string) ([]Delegator, error) {
+
+	query := bson.M{
+		"address": address,
+	}
+
+	delegator, err := d.Query(query, skip, limit, sorts...)
 
 	if err != nil {
 		logger.Error.Println(err)

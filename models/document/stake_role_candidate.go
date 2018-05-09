@@ -53,6 +53,22 @@ func (d Candidate) GetCandidatesList(sorts []string, skip int, limit int) ([]Can
 	}
 
 	return candidates, err
+}
 
+func (d Candidate) GetCandidatesListByPubKeys(pubKeys []string) ([]Candidate, error)  {
+	query := bson.M{
+		"pub_key": &bson.M{
+			"$in": pubKeys,
+		},
+	}
+	sorts := make([]string, 0)
+
+	candidates, err := d.Query(query, 0, len(pubKeys), sorts...)
+
+	if err != nil {
+		logger.Error.Println(err)
+	}
+
+	return candidates, err
 }
 

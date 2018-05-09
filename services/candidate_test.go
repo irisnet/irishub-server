@@ -15,7 +15,7 @@ func TestCandidateService_List(t *testing.T) {
 		listVo vo.CandidateListVo
 	}
 	baseVo := vo.BaseVO{
-		Page: 1,
+		Page:    1,
 		PerPage: 10,
 	}
 	tests := []struct {
@@ -29,9 +29,9 @@ func TestCandidateService_List(t *testing.T) {
 			name: "test candidate list",
 			args: args{
 				listVo: vo.CandidateListVo{
-					BaseVO: baseVo,
-					Sort: "-voting_power",
-					Q: "",
+					BaseVO:  baseVo,
+					Sort:    "-voting_power",
+					Q:       "",
 					Address: "8CD379DAC8B6B7DB578A8E86C2527AE046AFAC0B",
 				},
 			},
@@ -45,6 +45,43 @@ func TestCandidateService_List(t *testing.T) {
 				logger.Error.Fatalln(err)
 			}
 			logger.Info.Println(helper.ToJson(candidates))
+		})
+	}
+}
+
+func TestCandidateService_DelegatorCandidateList(t *testing.T) {
+	type args struct {
+		listVo vo.DelegatorCandidateListVo
+	}
+	tests := []struct {
+		name  string
+		s     CandidateService
+		args  args
+	}{
+		{
+			name: "test delegator candidate list",
+			args:args{
+				listVo: vo.DelegatorCandidateListVo{
+					Address: "8CD379DAC8B6B7DB578A8E86C2527AE046AFAC0B",
+					Sort: "",
+					Q: "",
+					BaseVO: vo.BaseVO{
+						Page: 1,
+						PerPage: 10,
+					},
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := CandidateService{}
+			candidates, err := s.DelegatorCandidateList(tt.args.listVo)
+			if err.IsNotNull() {
+				logger.Error.Panic(err)
+			}
+			logger.Info.Println(helper.ToJson(candidates))
+
 		})
 	}
 }

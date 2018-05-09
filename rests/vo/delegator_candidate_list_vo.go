@@ -1,6 +1,6 @@
 package vo
 
-type CandidateListVo struct {
+type DelegatorCandidateListVo struct {
 	BaseVO
 	Address string `form:"address"`
 	Sort string `form:"sort"`

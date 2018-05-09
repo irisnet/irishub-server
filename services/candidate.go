@@ -11,21 +11,20 @@ import (
 type CandidateService struct {
 }
 
-var (
-	model document.Candidate
-	delegatorModel document.Delegator
-	irisErr errors.IrisError
-)
-
 func (s CandidateService) List(listVo vo.CandidateListVo) ([]document.Candidate, errors.IrisError)  {
 	sort := listVo.Sort
-	sorts := strings.Split(sort, ",")
+	var (
+		sorts []string
+	)
+	if sort != "" {
+		sorts = strings.Split(sort, ",")
+	}
 	skip := (listVo.Page - 1) * listVo.PerPage
 	limit := listVo.PerPage
 	address := listVo.Address
 
 	// query all candidates
-	candidates, err := model.GetCandidatesList(sorts, skip, limit)
+	candidates, err := candidateModel.GetCandidatesList(sorts, skip, limit)
 	if err != nil {
 		irisErr = irisErr.New(errors.EC50001, err.Error())
 		return nil, irisErr
@@ -43,6 +42,52 @@ func (s CandidateService) List(listVo vo.CandidateListVo) ([]document.Candidate,
 		irisErr = irisErr.New(errors.EC50001, err.Error())
 		return nil, irisErr
 	}
+	for i, cd := range candidates {
+		delegators := make([]document.Delegator, 0)
+		for _, de := range delegator {
+			if cd.PubKey == de.PubKey {
+				delegators = append(delegators, de)
+				cd.Delegators = delegators
+			}
+			break
+		}
+		candidates[i] = cd
+	}
+
+	return candidates, irisErr
+}
+
+func (s CandidateService) DelegatorCandidateList(listVo vo.DelegatorCandidateListVo) ([]document.Candidate, errors.IrisError)  {
+	sort := listVo.Sort
+	var sorts []string
+	if sort != "" {
+		sorts = strings.Split(sort, ",")
+	}
+
+	skip := (listVo.Page - 1) * listVo.PerPage
+	limit := listVo.PerPage
+	address := listVo.Address
+
+	// query delegator list by address
+	delegator, err := delegatorModel.GetDelegatorListByAddress(address, skip, limit, sorts)
+	if err != nil {
+		irisErr = irisErr.New(errors.EC50001, err.Error())
+		return nil, irisErr
+	}
+
+	// query all candidate which delegator have delegated
+	var (
+		pubKeys []string
+	)
+	for _, de := range delegator {
+		pubKeys = append(pubKeys, de.PubKey)
+	}
+	candidates, err := candidateModel.GetCandidatesListByPubKeys(pubKeys)
+	if err != nil {
+		irisErr = irisErr.New(errors.EC50001, err.Error())
+		return nil, irisErr
+	}
+
 	for i, cd := range candidates {
 		delegators := make([]document.Delegator, 0)
 		for _, de := range delegator {
