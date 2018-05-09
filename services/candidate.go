@@ -11,6 +11,7 @@ import (
 type CandidateService struct {
 }
 
+// TODO: calculate voting_power
 func (s CandidateService) List(listVo vo.CandidateListVo) ([]document.Candidate, errors.IrisError)  {
 	sort := listVo.Sort
 	var (
@@ -57,6 +58,8 @@ func (s CandidateService) List(listVo vo.CandidateListVo) ([]document.Candidate,
 	return candidates, irisErr
 }
 
+// TODO: sort by update_time which is field of delegator
+// TODO: calculate voting_power
 func (s CandidateService) DelegatorCandidateList(listVo vo.DelegatorCandidateListVo) ([]document.Candidate, errors.IrisError)  {
 	sort := listVo.Sort
 	var sorts []string
