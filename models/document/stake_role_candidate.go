@@ -1,6 +1,7 @@
 package document
 
 import (
+	"time"
 
 	"github.com/irisnet/iris-api-server/models"
 	"github.com/irisnet/iris-api-server/modules/logger"
@@ -16,10 +17,12 @@ type Candidate struct {
 	Address     string      `json:"address" bson:"address"` // owner
 	PubKey      string      `json:"pub_key" bson:"pub_key"`
 	Shares      int64       `json:"shares" bson:"shares"`
-	VotingPower uint64      `json:"voting_power" bson:"voting_power"` // Voting power if pubKey is a considered a validator
 	Description Description `json:"description" bson:"description"`  // Description terms for the candidate
+    UpdateTime  time.Time   `json:"update_time" bson:"update_time"`
 
-	Delegators []Delegator `json:"delegators"`
+	VotingPower float64     `json:"voting_power"` // Voting power if pubKey is a considered a validator
+	Delegators []Delegator  `json:"delegators"`
+
 }
 
 func (d Candidate) Name() string {
@@ -70,5 +73,45 @@ func (d Candidate) GetCandidatesListByPubKeys(pubKeys []string) ([]Candidate, er
 	}
 
 	return candidates, err
+}
+
+func (d Candidate) GetTotalShares() (uint64, error)  {
+	type result struct {
+		Id string `bson:"_id"`
+		TotalShares uint64 `bson:"total_shares"`
+	}
+	var value result
+	value.TotalShares = 1
+
+	q := func(c *mgo.Collection) error {
+		m := []bson.M{
+			{"$group": bson.M{"_id": "test", "total_shares": bson.M{"$sum": "$shares"}}},
+		}
+		return c.Pipe(m).One(&value)
+	}
+
+	err := models.ExecCollection(d.Name(), q)
+
+	if err !=  nil {
+		return 0, err
+	}
+	return value.TotalShares, nil
+}
+
+func (d Candidate) GetCandidateDetail(pubKey string) (Candidate, error) {
+	query := bson.M{
+		"pub_key": pubKey,
+	}
+	sorts := make([]string, 0)
+
+	candidates, err := d.Query(query, 0, 1, sorts...)
+
+	if err != nil {
+		logger.Error.Println(err)
+	}
+	if len(candidates) > 0 {
+		return candidates[0], err
+	}
+	return Candidate{}, err
 }
 

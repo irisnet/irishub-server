@@ -1,6 +1,8 @@
 package document
 
 import (
+	"time"
+
 	"github.com/irisnet/iris-api-server/modules/logger"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -16,6 +18,7 @@ type Delegator struct {
 	Address string `json:"address" bson:"address"`
 	PubKey  string `json:"pub_key" bson:"pub_key"`
 	Shares  int64  `json:"shares" bson:"shares"`
+	UpdateTime  time.Time   `json:"update_time" bson:"update_time"`
 }
 
 func (d Delegator) Name() string {

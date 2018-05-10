@@ -17,10 +17,12 @@ func RegisterRoutesDelegator(r *gin.Engine) {
 	rg := r.Group("/delegators")
 	{
 		rg.GET("/:address/candidates", delegatorRoute.DelegatorCandidateList)
+		rg.GET("/:address/candidates/:pub_key", delegatorRoute.DelegatorCandidateDetail)
+
 	}
 }
 
-func (d DelegatorRoute) DelegatorCandidateList(c *gin.Context)  {
+func (r DelegatorRoute) DelegatorCandidateList(c *gin.Context)  {
 	address := c.Param("address")
 	var (
 		listVo vo.DelegatorCandidateListVo
@@ -33,6 +35,18 @@ func (d DelegatorRoute) DelegatorCandidateList(c *gin.Context)  {
 	listVo.Address = address
 
 	response, iriErr := candidateService.DelegatorCandidateList(listVo)
+	if iriErr.IsNotNull() {
+		c.JSON(HttpStatusOk, BuildExpResponse(irisErr))
+	}
+	c.JSON(HttpStatusOk, response)
+
+}
+
+func (r DelegatorRoute) DelegatorCandidateDetail(c *gin.Context)  {
+	pubKey := c.Param("pub_key")
+	address := c.Param("address")
+
+	response, iriErr := candidateService.Detail(pubKey, address)
 	if iriErr.IsNotNull() {
 		c.JSON(HttpStatusOk, BuildExpResponse(irisErr))
 	}
