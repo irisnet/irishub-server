@@ -26,17 +26,13 @@ func init() {
 
 	switch env.ENV {
 	case constants.ENV_DEV:
-		host = "116.62.62.39"
-		user = "postgres"
+		host = "127.0.0.1"
 		port = 27117
 		dbName = "sync_iris"
-		password = "admino0o0oo0"
 	case constants.ENV_PRO:
 		host = "127.0.0.1"
-		user = "postgres"
 		port = 27117
 		dbName = "sync_iris"
-		password = "admino0o0oo0"
 	}
 
 	ConfMongodb = configMongodb{

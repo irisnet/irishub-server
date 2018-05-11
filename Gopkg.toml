@@ -26,12 +26,16 @@
 
 
 [[constraint]]
-  name = "github.com/gin-gonic/gin"
   branch = "master"
+  name = "github.com/swaggo/gin-swagger"
 
 [[constraint]]
   branch = "v2"
   name = "gopkg.in/mgo.v2"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/gin-gonic/gin"
 
 [prune]
   go-tests = true

@@ -1,0 +1,155 @@
+definitions:
+  document.Candidate:
+    properties:
+      address:
+        type: string
+      delegators:
+        items:
+          $ref: '#/definitions/document.Delegator'
+        type: array
+      description:
+        $ref: '#/definitions/document.Description'
+        type: object
+      pub_key:
+        type: string
+      shares:
+        type: integer
+      update_time:
+        type: string
+      voting_power:
+        type: number
+    type: object
+  document.Delegator:
+    properties:
+      address:
+        type: string
+      pub_key:
+        type: string
+      shares:
+        type: integer
+      update_time:
+        type: string
+    type: object
+  document.Description:
+    properties:
+      details:
+        type: string
+      identity:
+        type: string
+      moniker:
+        type: string
+      website:
+        type: string
+    type: object
+host: host
+info:
+  contact: {}
+  description: IRIS API Server that supports various light clients
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: IRIS SERVER API
+  version: 0.1.0
+paths:
+  /candidates:
+    get:
+      consumes:
+      - application/json
+      description: the list of candidates
+      parameters:
+      - description: user address
+        in: query
+        name: address
+        required: true
+        type: string
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: per_page
+        in: query
+        name: per_page
+        required: true
+        type: integer
+      - description: order
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: content of data
+          schema:
+            items:
+              $ref: '#/definitions/document.Candidate'
+            type: array
+      summary: candidate list
+      tags:
+      - stake
+  /delegators/{address}/candidates:
+    get:
+      consumes:
+      - application/json
+      description: list of candidate which delegated by address
+      parameters:
+      - description: user address
+        in: path
+        name: address
+        required: true
+        type: string
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: per_page
+        in: query
+        name: per_page
+        required: true
+        type: integer
+      - description: order
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: content of data
+          schema:
+            items:
+              $ref: '#/definitions/document.Candidate'
+            type: array
+      summary: delegator candidate list
+      tags:
+      - stake
+  /delegators/{address}/candidates/{pub_key}:
+    get:
+      consumes:
+      - application/json
+      description: detail of candidate which delegated by address
+      parameters:
+      - description: user address
+        in: path
+        name: address
+        required: true
+        type: string
+      - description: public key of candidate
+        in: path
+        name: pub_key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: content of data
+          schema:
+            $ref: '#/definitions/document.Candidate'
+            type: object
+      summary: delegator candidate detail
+      tags:
+      - stake
+swagger: "2.0"

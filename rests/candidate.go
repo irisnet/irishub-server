@@ -19,6 +19,17 @@ func RegisterRoutesCandidate(r *gin.Engine) {
 	}
 }
 
+// @Summary candidate list
+// @Description the list of candidates
+// @Tags stake
+// @Accept json
+// @Produce json
+// @Param address query string true "user address"
+// @Param page query int true "page"
+// @Param per_page query int true "per_page"
+// @Param sort query string false "order"
+// @Success 200 {array} document.Candidate "content of data"
+// @router /candidates [get]
 func (cr CandidateRoute) List(c *gin.Context) {
 	var listVo vo.CandidateListVo
 	err := c.ShouldBindQuery(&listVo)
