@@ -22,6 +22,17 @@ func RegisterRoutesDelegator(r *gin.Engine) {
 	}
 }
 
+// @Summary delegator candidate list
+// @Description list of candidate which delegated by address
+// @Tags stake
+// @Accept json
+// @Produce json
+// @Param address path string true "user address"
+// @Param page query int true "page"
+// @Param per_page query int true "per_page"
+// @Param sort query string false "order"
+// @Success 200 {array} document.Candidate "content of data"
+// @router /delegators/{address}/candidates [get]
 func (r DelegatorRoute) DelegatorCandidateList(c *gin.Context)  {
 	address := c.Param("address")
 	var (
@@ -42,6 +53,15 @@ func (r DelegatorRoute) DelegatorCandidateList(c *gin.Context)  {
 
 }
 
+// @Summary delegator candidate detail
+// @Description detail of candidate which delegated by address
+// @Tags stake
+// @Accept json
+// @Produce json
+// @Param address path string true "user address"
+// @Param pub_key path string true "public key of candidate"
+// @Success 200 {object} document.Candidate "content of data"
+// @router /delegators/{address}/candidates/{pub_key} [get]
 func (r DelegatorRoute) DelegatorCandidateDetail(c *gin.Context)  {
 	pubKey := c.Param("pub_key")
 	address := c.Param("address")
