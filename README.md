@@ -22,4 +22,15 @@ IRIS API Server that supports various light clients
 
 - Build: `make build`
 - Run: `make run`
-- Cross compilation: `make build-linux` or `make docker-build`
+- Cross compilation: `make build-linux`
+
+# Run with docker
+
+You can run application with docker.
+
+Example:
+
+```
+# docker build -t iris-api:v1 .
+# docker run --name iris-api-server -v /mnt/data/iris-log:/iris-api/log -p 9080:9080 -e "DB_HOST=127.0.0.1" -e "DB_PORT=27117" -e "ENV=stage" -d iris-api:v1
+```
