@@ -19,8 +19,22 @@ func init() {
 	switch env.ENV {
 	case constants.ENV_DEV:
 		host = "0.0.0.0:9080"
+		if env.ServerPort != "" {
+			host = "0.0.0.0:" + env.ServerPort
+		}
+		break
+	case constants.ENV_STAGE:
+		host = "0.0.0.0:9080"
+		if env.ServerPort != "" {
+			host = "0.0.0.0:" + env.ServerPort
+		}
+		break
 	case constants.ENV_PRO:
-		host = "0.0.0.0:80"
+		host = "0.0.0.0:9080"
+		if env.ServerPort != "" {
+			host = "0.0.0.0:" + env.ServerPort
+		}
+		break
 	}
 
 	ServerConfig = configServer{

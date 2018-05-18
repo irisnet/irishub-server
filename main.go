@@ -25,7 +25,7 @@ import (
 func main() {
 	r := gin.New()
 
-	//log
+	// log
 	f, _ := os.Create("app.log")
 	gin.DefaultWriter = io.MultiWriter(f)
 	r.Use(gin.Logger())

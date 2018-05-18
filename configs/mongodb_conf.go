@@ -1,7 +1,10 @@
 package configs
 
 import (
+	"strconv"
+	
 	"github.com/irisnet/iris-api-server/env"
+	"github.com/irisnet/iris-api-server/modules/logger"
 	"github.com/irisnet/iris-api-server/utils/constants"
 )
 
@@ -27,12 +30,57 @@ func init() {
 	switch env.ENV {
 	case constants.ENV_DEV:
 		host = "127.0.0.1"
+		if env.DbHost != "" {
+			host = env.DbHost
+		}
+		
 		port = 27117
+		if env.DbPort != "" {
+			var err error
+			port, err = strconv.Atoi(env.DbPort)
+			if err != nil {
+				logger.Error.Printf("can't convert %v to int",
+					constants.ENV_NAME_DB_PORT)
+			}
+		} 
+		
 		dbName = "sync_iris"
+		break
+	case constants.ENV_STAGE:
+		host = "127.0.0.1"
+		if env.DbHost != "" {
+			host = env.DbHost
+		}
+		
+		port = 27117
+		if env.DbPort != "" {
+			var err error
+			port, err = strconv.Atoi(env.DbPort)
+			if err != nil {
+				logger.Error.Printf("can't convert %v to int",
+					constants.ENV_NAME_DB_PORT)
+			}
+		} 
+		
+		dbName = "sync_iris"
+		break
 	case constants.ENV_PRO:
 		host = "127.0.0.1"
+		if env.DbHost != "" {
+			host = env.DbHost
+		}
+		
 		port = 27117
+		if env.DbPort != "" {
+			var err error
+			port, err = strconv.Atoi(env.DbPort)
+			if err != nil {
+				logger.Error.Printf("can't convert %v to int",
+					constants.ENV_NAME_DB_PORT)
+			}
+		}
 		dbName = "sync_iris"
+		break
 	}
 
 	ConfMongodb = configMongodb{
