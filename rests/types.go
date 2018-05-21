@@ -7,5 +7,6 @@ import (
 
 var (
 	candidateService services.CandidateService
+	delegatorService services.DelegatorService
 	irisErr          errors.IrisError
 )

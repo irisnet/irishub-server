@@ -5,7 +5,7 @@ import (
 	"github.com/irisnet/iris-api-server/utils/constants"
 )
 
-var HttpStatusOk = constants.STATUS_CODE_OK
+var OK = constants.STATUS_CODE_OK
 
 type BaseResponse struct {
 	Status  string      `json:"status_code"`

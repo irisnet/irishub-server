@@ -30,6 +30,11 @@ definitions:
       update_time:
         type: string
     type: object
+  document.DelegatorShares:
+    properties:
+      total_shares:
+        type: integer
+    type: object
   document.Description:
     properties:
       details:
@@ -150,6 +155,28 @@ paths:
             $ref: '#/definitions/document.Candidate'
             type: object
       summary: delegator candidate detail
+      tags:
+      - stake
+  /shares/delegator/{address}:
+    get:
+      consumes:
+      - application/json
+      description: get total shares which own by a delegator
+      parameters:
+      - description: user address
+        in: path
+        name: address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: content of data
+          schema:
+            $ref: '#/definitions/document.DelegatorShares'
+            type: object
+      summary: shares own by a delegator
       tags:
       - stake
 swagger: "2.0"

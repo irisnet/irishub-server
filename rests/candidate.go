@@ -35,13 +35,13 @@ func (cr CandidateRoute) List(c *gin.Context) {
 	err := c.ShouldBindQuery(&listVo)
 	if err != nil {
 		irisErr = irisErr.New(errors.EC40001, errors.EM40001)
-		c.JSON(HttpStatusOk, BuildExpResponse(irisErr))
+		c.JSON(OK, BuildExpResponse(irisErr))
 	}
 	response, irisErr := candidateService.List(listVo)
 	if irisErr.IsNotNull() {
-		c.JSON(HttpStatusOk, BuildExpResponse(irisErr))
+		c.JSON(OK, BuildExpResponse(irisErr))
 	}
-	c.JSON(HttpStatusOk, BuildResponse(response))
+	c.JSON(OK, BuildResponse(response))
 }
 
 

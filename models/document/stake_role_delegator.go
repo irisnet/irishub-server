@@ -21,6 +21,11 @@ type Delegator struct {
 	UpdateTime  time.Time   `json:"update_time" bson:"update_time"`
 }
 
+type DelegatorShares struct {
+	TotalShares uint64 `json:"total_shares" bson:"total_shares"`
+}
+
+
 func (d Delegator) Name() string {
 	return CollectionNmStakeRoleDelegator
 }
@@ -73,4 +78,40 @@ func (d Delegator) GetDelegatorListByAddress(address string, skip int,
 	}
 
 	return delegator, err
+}
+
+func (d Delegator) GetTotalSharesByAddress(address string) (DelegatorShares, error)  {
+	var value DelegatorShares
+	
+	q := func(c *mgo.Collection) error {
+		m := []bson.M{
+			{
+				"$project": bson.M{
+					"_id": 0,
+				},
+				
+			},
+			{
+				"$match": bson.M{
+					"address": address,
+				},
+			},
+			{
+				"$group": bson.M{
+					"_id": "$address",
+					"total_shares": bson.M{"$sum": "$shares"},
+				},
+			},
+		}
+		return c.Pipe(m).One(&value)
+	}
+	
+	err := models.ExecCollection(d.Name(), q)
+	
+	if err !=  nil {
+		return DelegatorShares{}, err
+	}
+	return value, nil
+
+
 }

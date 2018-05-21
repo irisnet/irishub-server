@@ -22,7 +22,7 @@ clean:
 	rm -f $(BINARY_UNIX)
 
 run:
-	$(GOBUILD) -o $(BINARY_NAME) -v ./...
+	$(GOBUILD) -o $(BINARY_NAME) -v
 	./$(BINARY_NAME)
 
 
