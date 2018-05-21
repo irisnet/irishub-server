@@ -81,7 +81,6 @@ func (d Candidate) GetTotalShares() (uint64, error)  {
 		TotalShares uint64 `bson:"total_shares"`
 	}
 	var value result
-	value.TotalShares = 1
 
 	q := func(c *mgo.Collection) error {
 		m := []bson.M{

@@ -161,6 +161,39 @@
                     }
                 }
             }
+        },
+        "/shares/delegator/{address}": {
+            "get": {
+                "description": "get total shares which own by a delegator",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "stake"
+                ],
+                "summary": "shares own by a delegator",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "content of data",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/document.DelegatorShares"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -208,6 +241,14 @@
                 },
                 "update_time": {
                     "type": "string"
+                }
+            }
+        },
+        "document.DelegatorShares": {
+            "type": "object",
+            "properties": {
+                "total_shares": {
+                    "type": "integer"
                 }
             }
         },

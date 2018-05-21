@@ -18,7 +18,6 @@ func RegisterRoutesDelegator(r *gin.Engine) {
 	{
 		rg.GET("/:address/candidates", delegatorRoute.DelegatorCandidateList)
 		rg.GET("/:address/candidates/:pub_key", delegatorRoute.DelegatorCandidateDetail)
-
 	}
 }
 
@@ -41,15 +40,15 @@ func (r DelegatorRoute) DelegatorCandidateList(c *gin.Context)  {
 	err := c.ShouldBindQuery(&listVo)
 	if err != nil {
 		irisErr = irisErr.New(errors.EC40001, errors.EM40001)
-		c.JSON(HttpStatusOk, BuildExpResponse(irisErr))
+		c.JSON(OK, BuildExpResponse(irisErr))
 	}
 	listVo.Address = address
 
 	response, iriErr := candidateService.DelegatorCandidateList(listVo)
 	if iriErr.IsNotNull() {
-		c.JSON(HttpStatusOk, BuildExpResponse(irisErr))
+		c.JSON(OK, BuildExpResponse(irisErr))
 	}
-	c.JSON(HttpStatusOk, response)
+	c.JSON(OK, response)
 
 }
 
@@ -68,8 +67,8 @@ func (r DelegatorRoute) DelegatorCandidateDetail(c *gin.Context)  {
 
 	response, iriErr := candidateService.Detail(pubKey, address)
 	if iriErr.IsNotNull() {
-		c.JSON(HttpStatusOk, BuildExpResponse(irisErr))
+		c.JSON(OK, BuildExpResponse(irisErr))
 	}
-	c.JSON(HttpStatusOk, response)
+	c.JSON(OK, response)
 
 }
