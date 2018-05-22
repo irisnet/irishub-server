@@ -6,21 +6,15 @@ import (
 	"github.com/irisnet/iris-api-server/models/document"
 	"github.com/irisnet/iris-api-server/rests/errors"
 	"github.com/irisnet/iris-api-server/rests/vo"
+	"github.com/irisnet/iris-api-server/utils/helper"
 )
 
 type CandidateService struct {
 }
 
 func (s CandidateService) List(listVo vo.CandidateListVo) ([]document.Candidate, errors.IrisError)  {
-	sort := listVo.Sort
-	var (
-		sorts []string
-	)
-	if sort != "" {
-		sorts = strings.Split(sort, ",")
-	}
-	skip := (listVo.Page - 1) * listVo.PerPage
-	limit := listVo.PerPage
+	sorts := helper.ParseParamSort(listVo.Sort)
+	skip, limit := helper.ParseParamPage(listVo.Page, listVo.PerPage)
 	address := listVo.Address
 
 	// query all candidates

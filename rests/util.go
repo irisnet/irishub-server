@@ -14,15 +14,15 @@ type BaseResponse struct {
 	Data    interface{} `json:"data"`
 }
 
-func BuildResponse(data interface{}) *BaseResponse {
-	return &BaseResponse{
+func BuildResponse(data interface{}) BaseResponse {
+	return BaseResponse{
 		Status: constants.STATUS_SUCCESS,
 		Data:   data,
 	}
 }
 
-func BuildExpResponse(error errors.IrisError) *BaseResponse {
-	return &BaseResponse{
+func BuildExpResponse(error errors.IrisError) BaseResponse {
+	return BaseResponse{
 		Status: constants.STATUS_FAIL,
 		ErrCode: error.ErrCode,
 		ErrMsg: error.ErrMsg,

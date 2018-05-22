@@ -8,5 +8,6 @@ import (
 var (
 	candidateService services.CandidateService
 	delegatorService services.DelegatorService
+	stakeTxService   services.StakeTxService
 	irisErr          errors.IrisError
 )
