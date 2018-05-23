@@ -19,6 +19,13 @@ definitions:
       voting_power:
         type: number
     type: object
+  document.Coin:
+    properties:
+      Amount:
+        type: integer
+      Denom:
+        type: string
+    type: object
   document.Delegator:
     properties:
       address:
@@ -44,6 +51,24 @@ definitions:
       moniker:
         type: string
       website:
+        type: string
+    type: object
+  document.StakeTx:
+    properties:
+      amount:
+        $ref: '#/definitions/document.Coin'
+        type: object
+      from:
+        type: string
+      height:
+        type: integer
+      pub_key:
+        type: string
+      time:
+        type: string
+      tx_hash:
+        type: string
+      type:
         type: string
     type: object
 host: host
@@ -179,4 +204,53 @@ paths:
       summary: shares own by a delegator
       tags:
       - stake
+  /stake_txs:
+    get:
+      consumes:
+      - application/json
+      description: get list of stake tx
+      parameters:
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: per_page
+        in: query
+        name: per_page
+        required: true
+        type: integer
+      - description: user address
+        in: query
+        name: address
+        required: true
+        type: string
+      - description: pubKet of candidate
+        in: query
+        name: pub_key
+        type: string
+      - description: tx time
+        in: query
+        name: start_time
+        type: string
+      - description: tx time
+        in: query
+        name: end_time
+        type: string
+      - description: order
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: content of data
+          schema:
+            items:
+              $ref: '#/definitions/document.StakeTx'
+            type: array
+      summary: stake tx list
+      tags:
+      - txs
 swagger: "2.0"

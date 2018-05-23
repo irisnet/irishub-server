@@ -8,6 +8,7 @@ import (
 var (
 	candidateModel document.Candidate
 	delegatorModel document.Delegator
+	stakeTxModel   document.StakeTx
 	irisErr        errors.IrisError
 )
 

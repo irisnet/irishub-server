@@ -38,6 +38,7 @@ func main() {
 	rests.RegisterRoutesCandidate(r)
 	rests.RegisterRoutesDelegator(r)
 	rests.RegisterRoutesShare(r)
+	rests.RegisterStakeTxRoute(r)
 
 	r.Run(conf.ServerConfig.Host) // listen and serve on 0.0.0.0:8080
 	logger.Info.Println("server start")

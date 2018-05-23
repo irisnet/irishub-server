@@ -194,6 +194,79 @@
                     }
                 }
             }
+        },
+        "/stake_txs": {
+            "get": {
+                "description": "get list of stake tx",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "txs"
+                ],
+                "summary": "stake tx list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "per_page",
+                        "name": "per_page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user address",
+                        "name": "address",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pubKet of candidate",
+                        "name": "pub_key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "tx time",
+                        "name": "start_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "tx time",
+                        "name": "end_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "order",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "content of data",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/document.StakeTx"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -224,6 +297,17 @@
                 },
                 "voting_power": {
                     "type": "number"
+                }
+            }
+        },
+        "document.Coin": {
+            "type": "object",
+            "properties": {
+                "Amount": {
+                    "type": "integer"
+                },
+                "Denom": {
+                    "type": "string"
                 }
             }
         },
@@ -265,6 +349,33 @@
                     "type": "string"
                 },
                 "website": {
+                    "type": "string"
+                }
+            }
+        },
+        "document.StakeTx": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "object",
+                    "$ref": "#/definitions/document.Coin"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "pub_key": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "tx_hash": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }
