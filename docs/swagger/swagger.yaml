@@ -229,6 +229,10 @@ paths:
         in: query
         name: pub_key
         type: string
+      - description: stake tx type
+        in: query
+        name: tx_type
+        type: string
       - description: tx time
         in: query
         name: start_time

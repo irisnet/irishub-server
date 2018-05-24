@@ -27,6 +27,7 @@ func RegisterStakeTxRoute(r *gin.Engine)  {
 // @Param per_page query int true "per_page"
 // @Param address query string true "user address"
 // @Param pub_key query string false "pubKet of candidate"
+// @Param tx_type query string false "stake tx type"
 // @Param start_time query string false "tx time"
 // @Param end_time query string false "tx time"
 // @Param sort query string false "order"
