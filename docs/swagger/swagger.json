@@ -238,6 +238,12 @@
                     },
                     {
                         "type": "string",
+                        "description": "stake tx type",
+                        "name": "tx_type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "description": "tx time",
                         "name": "start_time",
                         "in": "query"

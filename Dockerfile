@@ -2,7 +2,7 @@
 # docker build -t iris-api:v1 .
 # docker run --name iris-api-server -v /mnt/data/iris-log:/iris-api/log -p 9080:9080 -e "DB_HOST=127.0.0.1" -e "DB_PORT=27117" -e "ENV=stage" -d iris-api:v1
 
-ROM alpine:edge
+FROM alpine:edge
 
 # Set up dependencies
 ENV PACKAGES go make git libc-dev bash
@@ -30,7 +30,8 @@ COPY . $REPO_PATH
 # Install minimum necessary dependencies, build iris-api-server
 RUN apk add --no-cache $PACKAGES && \
     cd $REPO_PATH && make all && \
-    cp $REPO_PATH/iris-api $GOPATH/bin && \
+    mv $REPO_PATH/iris-api $GOPATH/bin && \
+    rm -rf $REPO_PATH/vendor && \
     apk del $PACKAGES
 
 CMD iris-api > $LOG_DIR/debug.log && tail -f $LOG_DIR/debug.log

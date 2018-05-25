@@ -15,17 +15,31 @@ var (
 )
 
 func init()  {
-	ENV = os.Getenv(constants.ENV_NAME_ENV)
-	DbHost = os.Getenv(constants.ENV_NAME_DB_HOST)
-	DbPort = os.Getenv(constants.ENV_NAME_DB_PORT)
-	ServerPort = os.Getenv(constants.ENV_NAME_SERVER_PORT)
-	
-	if ENV == "" {
-		logger.Error.Printf("Environment variable %v is not set, default set to dev\n",
-			constants.ENV_NAME_ENV)
+	env, found := os.LookupEnv(constants.ENV_NAME_ENV)
+	if !found {
 		ENV = constants.ENV_DEV
+		logger.Error.Printf("Environment variable %v is not set, default set to %v\n",
+			constants.ENV_NAME_ENV, ENV)
 	} else {
+		ENV = env
 		logger.Info.Printf("Environment has been set to %v\n", ENV)
 	}
+	
+	dbHost, found := os.LookupEnv(constants.ENV_NAME_DB_HOST)
+	if found {
+		DbHost = dbHost
+	}
+	
+	dbPort, found := os.LookupEnv(constants.ENV_NAME_DB_PORT)
+	if found {
+		DbPort = dbPort
+	}
+	
+	serverPort, found := os.LookupEnv(constants.ENV_NAME_SERVER_PORT)
+	if found {
+		ServerPort = serverPort
+	}
+	
+	
 	
 }
