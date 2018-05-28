@@ -14,6 +14,7 @@ ENV BASE_PATH    $GOPATH/src/github.com/irisnet
 ENV REPO_PATH    $BASE_PATH/iris-api-server
 ENV LOG_DIR      /iris-api/log
 ENV PATH         $GOPATH/bin:$PATH
+ENV API_PORT     9080
 
 # Set volumes
 
@@ -34,5 +35,9 @@ RUN apk add --no-cache $PACKAGES && \
     rm -rf $REPO_PATH/vendor && \
     rm -rf $GOPATH/src/github.com/golang $GOPATH/bin/dep $GOPATH/pkg/* && \
     apk del $PACKAGES
+
+VOLUME ["$LOG_DIR"]
+
+EXPOSE $API_PORT
 
 CMD iris-api > $LOG_DIR/debug.log && tail -f $LOG_DIR/debug.log
