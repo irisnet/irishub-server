@@ -18,21 +18,6 @@ func RegisterStakeTxRoute(r *gin.Engine)  {
 	}
 }
 
-// @Summary stake tx list
-// @Description get list of stake tx
-// @Tags txs
-// @Accept json
-// @Produce json
-// @Param page query int true "page"
-// @Param per_page query int true "per_page"
-// @Param address query string true "user address"
-// @Param pub_key query string false "pubKet of candidate"
-// @Param tx_type query string false "stake tx type"
-// @Param start_time query string false "tx time"
-// @Param end_time query string false "tx time"
-// @Param sort query string false "order"
-// @Success 200 {array} document.StakeTx "content of data"
-// @router /stake_txs [get]
 func (r StakeTxRoute) GetList(c *gin.Context) {
 	var listVo vo.StakeTxListVO
 	err := c.ShouldBindQuery(&listVo)

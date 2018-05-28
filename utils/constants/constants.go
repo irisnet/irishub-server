@@ -20,3 +20,20 @@ const STATUS_FAIL = "fail"
 
 const TIME_START  = "1970-01-01 00:00:00"
 const TIME_LAYOUT_FULL = "2006-01-02 15:04:05"
+
+// define tx type
+const TxTypeCoinReceive  = "receive"
+const TxTypeCoinSend  = "send"
+const TxTypeStakeDelegate  = "delegate"
+const TxTypeStakeUnBond  = "unBond"
+
+// define tx type store in db
+const DbTxTypeCoin = "coin"
+const DbTxTypeStakeDelegate  = "delegate"
+const DbTxTypeStakeUnBond = "unbond"
+var TxTypeFrontMapDb = map[string]string{
+	TxTypeCoinReceive: DbTxTypeCoin,
+	TxTypeCoinSend: DbTxTypeCoin,
+	TxTypeStakeDelegate: DbTxTypeStakeDelegate,
+	TxTypeStakeUnBond: DbTxTypeStakeUnBond,
+}

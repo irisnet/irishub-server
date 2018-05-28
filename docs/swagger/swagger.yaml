@@ -19,13 +19,6 @@ definitions:
       voting_power:
         type: number
     type: object
-  document.Coin:
-    properties:
-      Amount:
-        type: integer
-      Denom:
-        type: string
-    type: object
   document.Delegator:
     properties:
       address:
@@ -53,31 +46,13 @@ definitions:
       website:
         type: string
     type: object
-  document.StakeTx:
-    properties:
-      amount:
-        $ref: '#/definitions/document.Coin'
-        type: object
-      from:
-        type: string
-      height:
-        type: integer
-      pub_key:
-        type: string
-      time:
-        type: string
-      tx_hash:
-        type: string
-      type:
-        type: string
-    type: object
 host: host
 info:
   contact: {}
   description: IRIS API Server that supports various light clients
   license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    name: API Spec Document
+    url: http://wiki.bianjie.ai/pages/viewpage.action?pageId=2621489
   title: IRIS SERVER API
   version: 0.1.0
 paths:
@@ -204,11 +179,11 @@ paths:
       summary: shares own by a delegator
       tags:
       - stake
-  /stake_txs:
+  /txs:
     get:
       consumes:
       - application/json
-      description: get list of stake tx
+      description: get list of tx
       parameters:
       - description: page
         in: query
@@ -225,11 +200,7 @@ paths:
         name: address
         required: true
         type: string
-      - description: pubKet of candidate
-        in: query
-        name: pub_key
-        type: string
-      - description: stake tx type
+      - description: tx type
         in: query
         name: tx_type
         type: string
@@ -249,12 +220,10 @@ paths:
       - application/json
       responses:
         "200":
-          description: content of data
+          description: generate response data error, please see result
           schema:
-            items:
-              $ref: '#/definitions/document.StakeTx'
-            type: array
-      summary: stake tx list
+            type: string
+      summary: tx list
       tags:
       - txs
 swagger: "2.0"
