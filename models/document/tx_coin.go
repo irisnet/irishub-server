@@ -9,7 +9,6 @@ const (
 	CollectionNmCoinTx = "tx_coin"
 )
 
-//Coin交易
 type CoinTx struct {
 	TxHash string     `bson:"tx_hash"`
 	Time   time.Time  `bson:"time"`

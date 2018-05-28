@@ -18,8 +18,8 @@ import (
 // @version 0.1.0
 // @description IRIS API Server that supports various light clients
 
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @license.name API Spec Document
+// @license.url https://github.com/kaifei-bianjie/share/blob/master/api_spec.md
 
 // @host host
 func main() {
@@ -39,6 +39,7 @@ func main() {
 	rests.RegisterRoutesDelegator(r)
 	rests.RegisterRoutesShare(r)
 	rests.RegisterStakeTxRoute(r)
+	rests.RegisterCommonTxRoute(r)
 
 	r.Run(conf.ServerConfig.Host) // listen and serve on 0.0.0.0:8080
 	logger.Info.Println("server start")

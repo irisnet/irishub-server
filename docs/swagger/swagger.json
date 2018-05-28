@@ -5,8 +5,8 @@
         "title": "IRIS SERVER API",
         "contact": {},
         "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            "name": "API Spec Document",
+            "url": "http://wiki.bianjie.ai/pages/viewpage.action?pageId=2621489"
         },
         "version": "0.1.0"
     },
@@ -195,9 +195,9 @@
                 }
             }
         },
-        "/stake_txs": {
+        "/txs": {
             "get": {
-                "description": "get list of stake tx",
+                "description": "get list of tx",
                 "consumes": [
                     "application/json"
                 ],
@@ -207,7 +207,7 @@
                 "tags": [
                     "txs"
                 ],
-                "summary": "stake tx list",
+                "summary": "tx list",
                 "parameters": [
                     {
                         "type": "integer",
@@ -232,13 +232,7 @@
                     },
                     {
                         "type": "string",
-                        "description": "pubKet of candidate",
-                        "name": "pub_key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "stake tx type",
+                        "description": "tx type",
                         "name": "tx_type",
                         "in": "query"
                     },
@@ -263,12 +257,9 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "content of data",
+                        "description": "generate response data error, please see result",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/document.StakeTx"
-                            }
+                            "type": "string"
                         }
                     }
                 }
@@ -303,17 +294,6 @@
                 },
                 "voting_power": {
                     "type": "number"
-                }
-            }
-        },
-        "document.Coin": {
-            "type": "object",
-            "properties": {
-                "Amount": {
-                    "type": "integer"
-                },
-                "Denom": {
-                    "type": "string"
                 }
             }
         },
@@ -355,33 +335,6 @@
                     "type": "string"
                 },
                 "website": {
-                    "type": "string"
-                }
-            }
-        },
-        "document.StakeTx": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "object",
-                    "$ref": "#/definitions/document.Coin"
-                },
-                "from": {
-                    "type": "string"
-                },
-                "height": {
-                    "type": "integer"
-                },
-                "pub_key": {
-                    "type": "string"
-                },
-                "time": {
-                    "type": "string"
-                },
-                "tx_hash": {
-                    "type": "string"
-                },
-                "type": {
                     "type": "string"
                 }
             }
