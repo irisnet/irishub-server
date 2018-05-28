@@ -3,15 +3,18 @@ package main
 import (
 	"io"
 	"os"
-
+	
 	conf "github.com/irisnet/iris-api-server/configs"
 	_ "github.com/irisnet/iris-api-server/docs"
 	"github.com/irisnet/iris-api-server/modules/logger"
 	"github.com/irisnet/iris-api-server/rests"
 
-	"github.com/gin-gonic/gin"
-	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
+
+"github.com/gin-contrib/cors"
+"github.com/gin-gonic/gin"
+"github.com/swaggo/gin-swagger"
+"github.com/swaggo/gin-swagger/swaggerFiles"
+
 )
 
 // @title IRIS SERVER API
@@ -29,7 +32,14 @@ func main() {
 	f, _ := os.Create("app.log")
 	gin.DefaultWriter = io.MultiWriter(f)
 	r.Use(gin.Logger())
-	logger.Info.SetOutput(gin.DefaultWriter) // You may need this
+	logger.Info.SetOutput(gin.DefaultWriter)
+	
+	r.Use(cors.New(cors.Config{
+		AllowMethods:     []string{"GET", "POST", "PUT", "HEAD", "DELETE"},
+		AllowHeaders:     []string{"*"},
+		AllowCredentials: false,
+		AllowAllOrigins:  true,
+	}))
 
 	// use ginSwagger middleware to
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
