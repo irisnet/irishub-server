@@ -32,6 +32,7 @@ RUN apk add --no-cache $PACKAGES && \
     cd $REPO_PATH && make all && \
     mv $REPO_PATH/iris-api $GOPATH/bin && \
     rm -rf $REPO_PATH/vendor && \
+    rm -rf $GOPATH/src/github.com/golang $GOPATH/bin/dep $GOPATH/pkg/* && \
     apk del $PACKAGES
 
 CMD iris-api > $LOG_DIR/debug.log && tail -f $LOG_DIR/debug.log
