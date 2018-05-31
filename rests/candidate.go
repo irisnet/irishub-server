@@ -36,10 +36,12 @@ func (cr CandidateRoute) List(c *gin.Context) {
 	if err != nil {
 		irisErr = irisErr.New(errors.EC40001, errors.EM40001)
 		c.JSON(OK, BuildExpResponse(irisErr))
+		return
 	}
 	response, irisErr := candidateService.List(listVo)
 	if irisErr.IsNotNull() {
 		c.JSON(OK, BuildExpResponse(irisErr))
+		return
 	}
 	c.JSON(OK, BuildResponse(response))
 }

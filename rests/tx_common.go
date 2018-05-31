@@ -25,11 +25,11 @@ func RegisterCommonTxRoute(r *gin.Engine)  {
 // @Produce json
 // @Param page query int true "page"
 // @Param per_page query int true "per_page"
-// @Param address query string true "user address"
-// @Param tx_type query string false "tx type"
+// @Param address query string true "wallet address"
+// @Param tx_type query string false "tx type" Enums(send, receive, delegate, unbond)
 // @Param start_time query string false "tx time"
 // @Param end_time query string false "tx time"
-// @Param sort query string false "order"
+// @Param sort query string false "order" Enums(-time)
 // @Success 200 {string} string "generate response data error, please see result"
 // @router /txs [get]
 func (r CommonTxRoute) GetList(c *gin.Context) {

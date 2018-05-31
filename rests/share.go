@@ -31,6 +31,7 @@ func (r ShareRoute) GetTotalShares(c *gin.Context)  {
 	response, irisErr := delegatorService.GetTotalShares(address)
 	if irisErr.IsNotNull() {
 		c.JSON(OK, BuildExpResponse(irisErr))
+		return
 	}
 	c.JSON(OK, response)
 }

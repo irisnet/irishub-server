@@ -49,3 +49,5 @@ func ParseParamPage(page int, perPage int) (skip int, limit int)  {
 	}
 	return (page - 1) * perPage, perPage
 }
+
+

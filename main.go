@@ -24,7 +24,7 @@ import (
 // @license.name API Spec Document
 // @license.url https://github.com/kaifei-bianjie/share/blob/master/api_spec.md
 
-// @host host
+// @host 47.104.155.125:9080
 func main() {
 	r := gin.New()
 

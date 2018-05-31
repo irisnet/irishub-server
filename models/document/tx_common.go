@@ -4,7 +4,6 @@ import (
 	"time"
 	
 	"github.com/irisnet/iris-api-server/models"
-	"github.com/irisnet/iris-api-server/modules/logger"
 	"github.com/irisnet/iris-api-server/utils/constants"
 	"github.com/irisnet/iris-api-server/utils/helper"
 	"gopkg.in/mgo.v2"
@@ -83,7 +82,6 @@ func (d CommonTx) GetList(address string, txType string,
 		"$lte": endTime,
 	}
 	fields := bson.M{}
-	logger.Info.Println(helper.ToJson(query))
 	
 	return d.Query(query, fields, skip, limit, sorts...)
 }
