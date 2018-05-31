@@ -6,11 +6,11 @@
         "contact": {},
         "license": {
             "name": "API Spec Document",
-            "url": "http://wiki.bianjie.ai/pages/viewpage.action?pageId=2621489"
+            "url": "https://github.com/kaifei-bianjie/share/blob/master/api_spec.md"
         },
         "version": "0.1.0"
     },
-    "host": "host",
+    "host": "47.104.155.125:9080",
     "paths": {
         "/candidates": {
             "get": {
@@ -225,12 +225,18 @@
                     },
                     {
                         "type": "string",
-                        "description": "user address",
+                        "description": "wallet address",
                         "name": "address",
                         "in": "query",
                         "required": true
                     },
                     {
+                        "enum": [
+                            "send",
+                            "receive",
+                            "delegate",
+                            "unbond"
+                        ],
                         "type": "string",
                         "description": "tx type",
                         "name": "tx_type",
@@ -249,6 +255,9 @@
                         "in": "query"
                     },
                     {
+                        "enum": [
+                            "-time"
+                        ],
                         "type": "string",
                         "description": "order",
                         "name": "sort",

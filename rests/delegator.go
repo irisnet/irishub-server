@@ -41,12 +41,14 @@ func (r DelegatorRoute) DelegatorCandidateList(c *gin.Context)  {
 	if err != nil {
 		irisErr = irisErr.New(errors.EC40001, errors.EM40001)
 		c.JSON(OK, BuildExpResponse(irisErr))
+		return
 	}
 	listVo.Address = address
 
 	response, iriErr := candidateService.DelegatorCandidateList(listVo)
 	if iriErr.IsNotNull() {
 		c.JSON(OK, BuildExpResponse(irisErr))
+		return
 	}
 	c.JSON(OK, response)
 

@@ -18,6 +18,7 @@ const STATUS_CODE_OK = 200
 const STATUS_SUCCESS = "success"
 const STATUS_FAIL = "fail"
 
+// time layout
 const TIME_START  = "1970-01-01 00:00:00"
 const TIME_LAYOUT_FULL = "2006-01-02 15:04:05"
 
@@ -25,7 +26,7 @@ const TIME_LAYOUT_FULL = "2006-01-02 15:04:05"
 const TxTypeCoinReceive  = "receive"
 const TxTypeCoinSend  = "send"
 const TxTypeStakeDelegate  = "delegate"
-const TxTypeStakeUnBond  = "unBond"
+const TxTypeStakeUnBond  = "unbond"
 
 // define tx type store in db
 const DbTxTypeCoin = "coin"
@@ -37,3 +38,6 @@ var TxTypeFrontMapDb = map[string]string{
 	TxTypeStakeDelegate: DbTxTypeStakeDelegate,
 	TxTypeStakeUnBond: DbTxTypeStakeUnBond,
 }
+
+// define token denom
+const Denom  = "iris"

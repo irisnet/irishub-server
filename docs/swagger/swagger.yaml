@@ -46,13 +46,13 @@ definitions:
       website:
         type: string
     type: object
-host: host
+host: 47.104.155.125:9080
 info:
   contact: {}
   description: IRIS API Server that supports various light clients
   license:
     name: API Spec Document
-    url: http://wiki.bianjie.ai/pages/viewpage.action?pageId=2621489
+    url: https://github.com/kaifei-bianjie/share/blob/master/api_spec.md
   title: IRIS SERVER API
   version: 0.1.0
 paths:
@@ -195,12 +195,17 @@ paths:
         name: per_page
         required: true
         type: integer
-      - description: user address
+      - description: wallet address
         in: query
         name: address
         required: true
         type: string
       - description: tx type
+        enum:
+        - send
+        - receive
+        - delegate
+        - unbond
         in: query
         name: tx_type
         type: string
@@ -213,6 +218,8 @@ paths:
         name: end_time
         type: string
       - description: order
+        enum:
+        - -time
         in: query
         name: sort
         type: string

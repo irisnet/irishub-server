@@ -26,7 +26,7 @@ func TestCommonTxService_GetList(t *testing.T) {
 						PerPage: 50,
 					},
 					Address: "D4C9FEA4BEBD5600878EC90E1F87B5F07A9DB00A",
-					TxType: "send",
+					TxType: "unBond",
 					StartTime: "2018-05-27 00:00:00",
 					EndTime: "",
 					Sort: "-time",

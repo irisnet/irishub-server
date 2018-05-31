@@ -3,6 +3,7 @@ package services
 import (
 	"github.com/irisnet/iris-api-server/models/document"
 	"github.com/irisnet/iris-api-server/rests/errors"
+	"github.com/irisnet/iris-api-server/utils/constants"
 )
 
 var (
@@ -28,4 +29,18 @@ func RemoveRepetitionStrValueFromSlice(strSlice []string) []string {
 	}
 	
 	return list
+}
+
+// calculate unBond token
+func CalculateUnBondToken(coin document.Coin) document.Coin {
+	token := coin.Amount * GetShareTokenRatio()
+	return document.Coin{
+		Amount: token,
+		Denom: constants.Denom,
+	}
+}
+
+// get ratio of share/token
+func GetShareTokenRatio() int64 {
+	return 1
 }

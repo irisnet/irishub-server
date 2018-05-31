@@ -110,6 +110,7 @@ func (s CommonTxService) buildData(commonTx document.CommonTx,
 		break
 	case constants.DbTxTypeStakeUnBond:
 		txTypeDisplay = constants.TxTypeStakeUnBond
+		commonTx.Amount[0] = CalculateUnBondToken(commonTx.Amount[0])
 		break
 	default:
 		logger.Info.Println("unsupport tx type")
