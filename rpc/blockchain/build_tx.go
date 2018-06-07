@@ -2,14 +2,31 @@ package blockchain
 
 import (
 	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
+	"github.com/irisnet/iris-api-server/rpc"
 	vo "github.com/irisnet/iris-api-server/rpc/vo"
+	"golang.org/x/net/context"
 )
+
+type BuildTxController struct {
+}
+
+
+func (c BuildTxController) Handler(ctx context.Context, request *chainModel.BuildTxRequest) (
+	*chainModel.BuildTxResponse, error) {
+	buildTxVO := c.buildRequest(request)
+	res, err := buildTxService.BuildTx(buildTxVO)
+	if err.IsNotNull() {
+		return nil, rpc.ConvertIrisErrToGRPCErr(err)
+	}
+	response := c.buildResponse(res)
+	return response, nil
+}
 
 // transform common request to suitable request
 //
 // buildTxRequest is common model,
 // every api server of chain may need transform them before handle these data
-func TransformBuildTxRequest(request *chainModel.BuildTxRequest) (vo.BuildTxVO) {
+func (c BuildTxController) buildRequest(request *chainModel.BuildTxRequest) (vo.BuildTxVO) {
 	var coins []vo.Coin
 	for _, amount := range request.Amount {
 		coin := vo.Coin{
@@ -48,7 +65,7 @@ func TransformBuildTxRequest(request *chainModel.BuildTxRequest) (vo.BuildTxVO) 
 }
 
 // transform service result to common response
-func TransformBuildTxResponse(res []byte) (*chainModel.BuildTxResponse) {
+func (c BuildTxController) buildResponse(res []byte) (*chainModel.BuildTxResponse) {
 	return &chainModel.BuildTxResponse{
 		Data: res,
 	}
