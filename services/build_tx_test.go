@@ -9,7 +9,7 @@ import (
 
 func TestBuildTxService_BuildTx(t *testing.T) {
 	type args struct {
-		vo vo.BuildTxVO
+		vo vo.BuildTxReqVO
 	}
 	tests := []struct {
 		name    string
@@ -21,7 +21,7 @@ func TestBuildTxService_BuildTx(t *testing.T) {
 			s: BuildTxService{
 			},
 			args:args{
-				vo: vo.BuildTxVO{
+				vo: vo.BuildTxReqVO{
 					Fees: vo.Fee{
 						Denom: "iris",
 						Amount: 0,

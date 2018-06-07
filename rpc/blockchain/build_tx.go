@@ -13,20 +13,21 @@ type BuildTxController struct {
 
 func (c BuildTxController) Handler(ctx context.Context, request *chainModel.BuildTxRequest) (
 	*chainModel.BuildTxResponse, error) {
+	
 	buildTxVO := c.buildRequest(request)
 	res, err := buildTxService.BuildTx(buildTxVO)
+	
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)
 	}
-	response := c.buildResponse(res)
-	return response, nil
+	return c.buildResponse(res), nil
 }
 
 // transform common request to suitable request
 //
 // buildTxRequest is common model,
 // every api server of chain may need transform them before handle these data
-func (c BuildTxController) buildRequest(request *chainModel.BuildTxRequest) (vo.BuildTxVO) {
+func (c BuildTxController) buildRequest(request *chainModel.BuildTxRequest) (vo.BuildTxReqVO) {
 	var coins []vo.Coin
 	for _, amount := range request.Amount {
 		coin := vo.Coin{
@@ -37,7 +38,7 @@ func (c BuildTxController) buildRequest(request *chainModel.BuildTxRequest) (vo.
 	}
 	
 	
-	buildTxVO := vo.BuildTxVO{
+	buildTxVO := vo.BuildTxReqVO{
 		Fees: vo.Fee{
 			Denom: request.Fee.Denom,
 			Amount: int64(request.Fee.Amount),

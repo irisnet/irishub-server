@@ -13,7 +13,7 @@ import (
 type PostTxService struct {
 }
 
-func (s PostTxService) PostTx(vo vo.PostTxVO) ([]byte, errors.IrisError) {
+func (s PostTxService) PostTx(vo vo.PostTxReqVO) ([]byte, errors.IrisError) {
 	requestBody, err := json.Marshal(vo)
 	if err != nil {
 		return nil, NewIrisErr(errors.EC40002, errors.EM40002 + err.Error())

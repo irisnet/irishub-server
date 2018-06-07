@@ -15,7 +15,7 @@ type BuildTxService struct {
 
 }
 
-func (s BuildTxService) BuildTx(vo vo.BuildTxVO) ([]byte, errors.IrisError) {
+func (s BuildTxService) BuildTx(vo vo.BuildTxReqVO) ([]byte, errors.IrisError) {
 	requestBody, err := json.Marshal(vo)
 	if err != nil {
 		return nil, NewIrisErr(errors.EC40002, errors.EM40002 + err.Error())

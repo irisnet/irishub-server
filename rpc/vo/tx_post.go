@@ -1,6 +1,6 @@
 package vo
 
-type PostTxVO struct {
+type PostTxReqVO struct {
 	Tx []byte `json:"tx,omitempty"`
 }
 

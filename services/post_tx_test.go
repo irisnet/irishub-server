@@ -9,7 +9,7 @@ import (
 
 func TestPostTxService_PostTx(t *testing.T) {
 	type args struct {
-		vo vo.PostTxVO
+		vo vo.PostTxReqVO
 	}
 	tests := []struct {
 		name  string
@@ -20,7 +20,7 @@ func TestPostTxService_PostTx(t *testing.T) {
 			name: "Test post tx",
 			s: PostTxService{},
 			args: args{
-				vo: vo.PostTxVO{
+				vo: vo.PostTxReqVO{
 				
 				},
 			},

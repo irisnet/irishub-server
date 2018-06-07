@@ -51,6 +51,7 @@ var ErrorStatusCodes = []int{400}
 const HttpUriBuildTx = "/build/send"
 const HttpUriByteTx  = "/byteTx"
 const HttpUriPostTx  = "/tx"
+const HttpUriGetSequence  = "/query/nonce/%s" // /query/nonce/{{address}}
 
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"

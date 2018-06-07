@@ -1,6 +1,6 @@
 package vo
 
-type BuildTxVO struct {
+type BuildTxReqVO struct {
 	Fees Fee `json:"fees"`
 	Multi bool `json:"multi"`
 	Sequence uint64 `json:"sequence"`

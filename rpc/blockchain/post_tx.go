@@ -18,13 +18,12 @@ func (c PostTxController) Handler(ctx context.Context, req *chainModel.PostTxReq
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)
 	}
-	response := c.buildResponse(res)
-	return response, nil
+	return c.buildResponse(res), nil
 }
 
 
-func (c PostTxController) buildRequest(request *chainModel.PostTxRequest) vo.PostTxVO {
-	postTxVO := vo.PostTxVO{
+func (c PostTxController) buildRequest(request *chainModel.PostTxRequest) vo.PostTxReqVO {
+	postTxVO := vo.PostTxReqVO{
 		Tx: request.GetTx(),
 	}
 	

@@ -5,11 +5,13 @@ import (
 	"io/ioutil"
 	"net/http"
 	
-	conf "github.com/irisnet/iris-api-server/configs"
-	"github.com/irisnet/iris-api-server/models/document"
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/errors"
-	"github.com/irisnet/iris-api-server/utils/constants"
+
+conf "github.com/irisnet/iris-api-server/configs"
+"github.com/irisnet/iris-api-server/errors"
+"github.com/irisnet/iris-api-server/models/document"
+"github.com/irisnet/iris-api-server/modules/logger"
+"github.com/irisnet/iris-api-server/utils/constants"
+
 )
 
 var (
@@ -75,4 +77,22 @@ func HttpClientPostJsonData(uri string, requestBody *bytes.Buffer) (int, []byte)
 	
 	return res.StatusCode, resByte
 	
+}
+
+// get data use http client
+func HttpClientGetData(uri string) (int, []byte) {
+	res, err := http.Get(conf.ServerConfig.AddrNodeServer + uri)
+	defer res.Body.Close()
+	
+	if err != nil {
+		logger.Error.Println(err)
+	}
+	
+	
+	resByte, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		logger.Error.Println(err)
+	}
+	
+	return res.StatusCode, resByte
 }
