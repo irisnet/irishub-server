@@ -50,4 +50,12 @@ func ParseParamPage(page int, perPage int) (skip int, limit int)  {
 	return (page - 1) * perPage, perPage
 }
 
-
+// contains method for a slice
+func Contains(s []int, e int) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}

@@ -11,7 +11,7 @@ var (
 	ENV        string
 	DbHost     string
 	DbPort     string
-	ServerPort string
+	AddrNodeServer string
 )
 
 func init()  {
@@ -35,9 +35,9 @@ func init()  {
 		DbPort = dbPort
 	}
 	
-	serverPort, found := os.LookupEnv(constants.ENV_NAME_SERVER_PORT)
+	addrNodeServer, found := os.LookupEnv(constants.ENV_NAME_ADDR_NODE_SERVER)
 	if found {
-		ServerPort = serverPort
+		AddrNodeServer = addrNodeServer
 	}
 	
 	

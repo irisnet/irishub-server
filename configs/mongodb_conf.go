@@ -29,7 +29,7 @@ func init() {
 
 	switch env.ENV {
 	case constants.ENV_DEV:
-		host = "127.0.0.1"
+		host = "116.62.62.39"
 		if env.DbHost != "" {
 			host = env.DbHost
 		}

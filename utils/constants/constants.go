@@ -9,7 +9,7 @@ const ENV_PRO = "pro"
 const ENV_NAME_ENV  = "ENV"
 const ENV_NAME_DB_HOST  = "DB_HOST"
 const ENV_NAME_DB_PORT  = "DB_PORT"
-const ENV_NAME_SERVER_PORT = "SERVER_PORT"
+const ENV_NAME_ADDR_NODE_SERVER = "ADDR_NODE_SERVER"
 
 const PAGE_LIMIT_NUM = 20
 
@@ -41,3 +41,15 @@ var TxTypeFrontMapDb = map[string]string{
 
 // define token denom
 const Denom  = "iris"
+
+// define success status code and fail status code
+var SuccessStatusCodes  = []int{200}
+var ErrorStatusCodes = []int{400}
+
+
+// define uri of server which expose by block chain
+const HttpUriBuildTx = "/build/send"
+const HttpUriByteTx  = "/byteTx"
+
+// define http header
+const HeaderContentTypeJson = "application/json;charset=utf-8"
