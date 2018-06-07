@@ -18,7 +18,7 @@ type BuildTxService struct {
 func (s BuildTxService) BuildTx(vo vo.BuildTxVO) ([]byte, errors.IrisError) {
 	requestBody, err := json.Marshal(vo)
 	if err != nil {
-		return nil, irisError.New(errors.EC40002, errors.EM40002 + err.Error())
+		return nil, NewIrisErr(errors.EC40002, errors.EM40002 + err.Error())
 	}
 	
 	reqBuildTx := bytes.NewBuffer([]byte(requestBody))
@@ -26,7 +26,7 @@ func (s BuildTxService) BuildTx(vo vo.BuildTxVO) ([]byte, errors.IrisError) {
 	
 	// http status code isn't ok
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
-		return nil, irisError.New(errors.EC40001, errors.EM40001 + string(resBuildTx))
+		return nil, NewIrisErr(errors.EC40001, errors.EM40001 + string(resBuildTx))
 	}
 	
 	reqByteTx := "{\"tx\": " + string(resBuildTx) + "}"
@@ -36,8 +36,8 @@ func (s BuildTxService) BuildTx(vo vo.BuildTxVO) ([]byte, errors.IrisError) {
 	
 	// http status code isn't success
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
-		return nil, irisError.New(errors.EC40001, errors.EM40001 + string(resBuildTx))
+		return nil, NewIrisErr(errors.EC40001, errors.EM40001 + string(resBuildTx))
 	}
 	
-	return resByteTx, irisError
+	return resByteTx, irisErr
 }

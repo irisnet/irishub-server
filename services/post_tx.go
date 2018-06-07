@@ -2,7 +2,6 @@ package services
 
 import (
 	"bytes"
-	
 	"encoding/json"
 	
 	"github.com/irisnet/iris-api-server/errors"
