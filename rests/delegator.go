@@ -2,7 +2,7 @@ package rests
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/irisnet/iris-api-server/rests/errors"
+	"github.com/irisnet/iris-api-server/errors"
 	"github.com/irisnet/iris-api-server/rests/vo"
 )
 

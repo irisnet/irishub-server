@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	
+	"github.com/irisnet/iris-api-server/errors"
 	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/rpc/errors"
 	"github.com/irisnet/iris-api-server/rpc/vo"
 	"github.com/irisnet/iris-api-server/utils/constants"
 	"github.com/irisnet/iris-api-server/utils/helper"
@@ -25,7 +25,7 @@ func (s BuildTxService) BuildTx(vo vo.BuildTxVO) ([]byte, errors.IrisError) {
 	statusCode, resBuildTx := HttpClientPostJsonData(constants.HttpUriBuildTx, reqBuildTx)
 	
 	// http status code isn't ok
-	if helper.Contains(constants.ErrorStatusCodes, statusCode) {
+	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
 		return nil, irisError.New(errors.EC40001, errors.EM40001 + string(resBuildTx))
 	}
 	
@@ -35,7 +35,7 @@ func (s BuildTxService) BuildTx(vo vo.BuildTxVO) ([]byte, errors.IrisError) {
 	statusCode, resByteTx := HttpClientPostJsonData(constants.HttpUriByteTx, reqByteTxData)
 	
 	// http status code isn't success
-	if helper.Contains(constants.ErrorStatusCodes, statusCode) {
+	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
 		return nil, irisError.New(errors.EC40001, errors.EM40001 + string(resBuildTx))
 	}
 	

@@ -50,6 +50,7 @@ var ErrorStatusCodes = []int{400}
 // define uri of server which expose by block chain
 const HttpUriBuildTx = "/build/send"
 const HttpUriByteTx  = "/byteTx"
+const HttpUriPostTx  = "/tx"
 
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"

@@ -8,8 +8,7 @@ import (
 	conf "github.com/irisnet/iris-api-server/configs"
 	"github.com/irisnet/iris-api-server/models/document"
 	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/rests/errors"
-	irisErrRPC "github.com/irisnet/iris-api-server/rpc/errors"
+	"github.com/irisnet/iris-api-server/errors"
 	"github.com/irisnet/iris-api-server/utils/constants"
 )
 
@@ -19,11 +18,14 @@ var (
 	stakeTxModel   document.StakeTx
 	commonTxModel  document.CommonTx
 	irisErr        errors.IrisError
-	irisError      irisErrRPC.IrisError
 )
 
 func ConvertSysErr(err error) errors.IrisError  {
 	return irisErr.New(errors.EC50001, err.Error())
+}
+
+func NewIrisErr(errCode uint32, errMsg string) errors.IrisError  {
+	return irisErr.New(errCode, errMsg)
 }
 
 func RemoveRepetitionStrValueFromSlice(strSlice []string) []string {

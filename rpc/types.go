@@ -2,7 +2,7 @@ package rpc
 
 import (
 	
-	"github.com/irisnet/iris-api-server/rpc/errors"
+	"github.com/irisnet/iris-api-server/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

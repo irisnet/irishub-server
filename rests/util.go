@@ -1,7 +1,7 @@
 package rests
 
 import (
-	"github.com/irisnet/iris-api-server/rests/errors"
+	"github.com/irisnet/iris-api-server/errors"
 	"github.com/irisnet/iris-api-server/utils/constants"
 )
 
@@ -9,7 +9,7 @@ var OK = constants.STATUS_CODE_OK
 
 type BaseResponse struct {
 	Status  string      `json:"status_code"`
-	ErrCode string      `json:"err_code"`
+	ErrCode uint32      `json:"err_code"`
 	ErrMsg  string      `json:"err_msg"`
 	Data    interface{} `json:"data"`
 }
