@@ -1,2 +1,2 @@
-# iris-api-server
-IRIS API Server that supports various light clients
+# irishub-server
+A gRPC server that allows light clients to interact with IRIS hub
