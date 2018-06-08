@@ -2,10 +2,10 @@ package rests
 
 import (
 	"testing"
-
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/rests/errors"
-	"github.com/irisnet/iris-api-server/utils/helper"
+	
+	"github.com/irisnet/irishub-server/errors"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 func TestBuildResponse(t *testing.T) {
@@ -35,7 +35,7 @@ func TestBuildResponse(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			response := BuildResponse(tt.args.data)
-			logger.Info.Println(helper.ToJson(*response))
+			logger.Info.Println(helper.ToJson(response))
 		})
 	}
 }
@@ -53,10 +53,10 @@ func TestBuildErrResponse(t *testing.T) {
 			name: "test build exception response",
 			args: struct{ error errors.IrisError }{
 				error: struct {
-					ErrCode string
+					ErrCode uint32
 					ErrMsg  string
 				}{
-					ErrCode: "40001",
+					ErrCode: 40001,
 					ErrMsg: "参数缺失",
 						}},
 		},
@@ -65,7 +65,7 @@ func TestBuildErrResponse(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			response := BuildExpResponse(tt.args.error)
 
-			logger.Info.Println(helper.ToJson(*response))
+			logger.Info.Println(helper.ToJson(response))
 		})
 	}
 }

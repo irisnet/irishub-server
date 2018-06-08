@@ -3,10 +3,10 @@ package services
 import (
 	"time"
 	
-	"github.com/irisnet/iris-api-server/models/document"
-	"github.com/irisnet/iris-api-server/rests/errors"
-	"github.com/irisnet/iris-api-server/rests/vo"
-	"github.com/irisnet/iris-api-server/utils/helper"
+	"github.com/irisnet/irishub-server/errors"
+	"github.com/irisnet/irishub-server/models/document"
+	"github.com/irisnet/irishub-server/rests/vo"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 type StakeTxService struct {

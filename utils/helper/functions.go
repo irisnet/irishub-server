@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 	
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/utils/constants"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/utils/constants"
 )
 
 // convert object to json
@@ -50,4 +50,12 @@ func ParseParamPage(page int, perPage int) (skip int, limit int)  {
 	return (page - 1) * perPage, perPage
 }
 
-
+// contains method for a slice
+func SliceContains(s []int, e int) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}

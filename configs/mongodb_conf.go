@@ -3,9 +3,9 @@ package configs
 import (
 	"strconv"
 	
-	"github.com/irisnet/iris-api-server/env"
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/utils/constants"
+	"github.com/irisnet/irishub-server/env"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/utils/constants"
 )
 
 type configMongodb struct {
@@ -29,7 +29,7 @@ func init() {
 
 	switch env.ENV {
 	case constants.ENV_DEV:
-		host = "127.0.0.1"
+		host = "116.62.62.39"
 		if env.DbHost != "" {
 			host = env.DbHost
 		}

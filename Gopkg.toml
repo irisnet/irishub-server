@@ -24,11 +24,6 @@
 #   go-tests = true
 #   unused-packages = true
 
-
-[[constraint]]
-  branch = "master"
-  name = "github.com/swaggo/gin-swagger"
-
 [[constraint]]
   branch = "v2"
   name = "gopkg.in/mgo.v2"
@@ -37,10 +32,10 @@
   branch = "master"
   name = "github.com/gin-gonic/gin"
 
+[[constraint]]
+  branch = "develop"
+  name = "github.com/irisnet/blockchain-rpc"
+
 [prune]
   go-tests = true
   unused-packages = true
-
-[[constraint]]
-  name = "github.com/gin-contrib/cors"
-  version = "1.2.0"

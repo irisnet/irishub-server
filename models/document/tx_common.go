@@ -3,9 +3,9 @@ package document
 import (
 	"time"
 	
-	"github.com/irisnet/iris-api-server/models"
-	"github.com/irisnet/iris-api-server/utils/constants"
-	"github.com/irisnet/iris-api-server/utils/helper"
+	"github.com/irisnet/irishub-server/models"
+	"github.com/irisnet/irishub-server/utils/constants"
+	"github.com/irisnet/irishub-server/utils/helper"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )

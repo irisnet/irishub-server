@@ -3,9 +3,9 @@ package services
 import (
 	"testing"
 
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/rests/vo"
-	"github.com/irisnet/iris-api-server/utils/helper"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/rests/vo"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 func TestStakeTxService_GetList(t *testing.T) {

@@ -3,15 +3,15 @@ package env
 import (
 	"os"
 	
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/utils/constants"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/utils/constants"
 )
 
 var (
 	ENV        string
 	DbHost     string
 	DbPort     string
-	ServerPort string
+	AddrNodeServer string
 )
 
 func init()  {
@@ -35,9 +35,9 @@ func init()  {
 		DbPort = dbPort
 	}
 	
-	serverPort, found := os.LookupEnv(constants.ENV_NAME_SERVER_PORT)
+	addrNodeServer, found := os.LookupEnv(constants.ENV_NAME_ADDR_NODE_SERVER)
 	if found {
-		ServerPort = serverPort
+		AddrNodeServer = addrNodeServer
 	}
 	
 	

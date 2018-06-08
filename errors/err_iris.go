@@ -1,7 +1,7 @@
 package errors
 
 type IrisError struct {
-	ErrCode string
+	ErrCode uint32
 	ErrMsg  string
 }
 
@@ -10,13 +10,13 @@ func (e *IrisError) Error() string {
 }
 
 func (e *IrisError) IsNotNull() bool {
-	if e.ErrCode != "" {
+	if e.ErrCode != 0 {
 		return true
 	}
 	return false
 }
 
-func (e *IrisError) New(errCode string, errMsg string) IrisError {
+func (e *IrisError) New(errCode uint32, errMsg string) IrisError {
 	return IrisError{
 		ErrCode: errCode,
 		ErrMsg:  errMsg,

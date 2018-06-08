@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/irisnet/iris-api-server/models/document"
-	"github.com/irisnet/iris-api-server/rests/errors"
+	"github.com/irisnet/irishub-server/errors"
+	"github.com/irisnet/irishub-server/models/document"
 )
 
 type DelegatorService struct {

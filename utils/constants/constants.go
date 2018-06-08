@@ -9,13 +9,14 @@ const ENV_PRO = "pro"
 const ENV_NAME_ENV  = "ENV"
 const ENV_NAME_DB_HOST  = "DB_HOST"
 const ENV_NAME_DB_PORT  = "DB_PORT"
-const ENV_NAME_SERVER_PORT = "SERVER_PORT"
+const ENV_NAME_ADDR_NODE_SERVER = "ADDR_NODE_SERVER"
 
 const PAGE_LIMIT_NUM = 20
 
 // response status
 const STATUS_CODE_OK = 200
 const STATUS_SUCCESS = "success"
+const StatusCodeBadRequest = 400
 const STATUS_FAIL = "fail"
 
 // time layout
@@ -39,5 +40,23 @@ var TxTypeFrontMapDb = map[string]string{
 	TxTypeStakeUnBond: DbTxTypeStakeUnBond,
 }
 
+// define tx status
+const TxStatusSuccess = "success"
+
 // define token denom
 const Denom  = "iris"
+
+// define success status code and fail status code
+var SuccessStatusCodes  = []int{200}
+var ErrorStatusCodes = []int{400}
+
+
+// define uri of server which expose by block chain
+const HttpUriBuildTx = "/build/send"
+const HttpUriByteTx  = "/byteTx"
+const HttpUriPostTx  = "/tx"
+const HttpUriGetSequence  = "/query/nonce/%s" // query/nonce/{{address}}
+const HttpUriGetBalance  = "/query/account/%s" // query/account/{{address}}
+
+// define http header
+const HeaderContentTypeJson = "application/json;charset=utf-8"
