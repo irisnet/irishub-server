@@ -15,6 +15,9 @@ var (
 	
 	sequenceController SequenceController
 	sequenceService services.SequenceService
+	
+	balanceController BalanceController
+	balanceService services.BalanceService
 )
 
 func Handler(ctx context.Context, req interface{}) (interface{}, error) {
@@ -32,6 +35,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 		break
 	case *chainModel.SequenceRequest:
 		res, err = sequenceController.Handler(ctx, req.(*chainModel.SequenceRequest))
+		break
+	case *chainModel.BalanceRequest:
+		res, err = balanceController.Handler(ctx, req.(*chainModel.BalanceRequest))
 		break
 	}
 	

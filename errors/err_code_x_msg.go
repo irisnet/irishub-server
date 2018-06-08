@@ -7,4 +7,4 @@ const EC40002  = 40002
 const EM40002  = "参数转化异常: "
 
 const EC50001  = 50001
-const EM50001  = ""
+const EM50001  = "系统异常: "

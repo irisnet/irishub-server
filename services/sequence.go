@@ -13,12 +13,13 @@ import (
 type SequenceService struct {
 }
 
-var (
-	resVO vo.SequenceResVO
-)
 
 func (c SequenceService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, errors.IrisError) {
 	address := reqVO.Address
+	var (
+		resVO vo.SequenceResVO
+	)
+	
 	uri := fmt.Sprintf(constants.HttpUriGetSequence, address)
 	statusCode, res := HttpClientGetData(uri)
 	

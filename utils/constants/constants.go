@@ -16,6 +16,7 @@ const PAGE_LIMIT_NUM = 20
 // response status
 const STATUS_CODE_OK = 200
 const STATUS_SUCCESS = "success"
+const StatusCodeBadRequest = 400
 const STATUS_FAIL = "fail"
 
 // time layout
@@ -51,7 +52,8 @@ var ErrorStatusCodes = []int{400}
 const HttpUriBuildTx = "/build/send"
 const HttpUriByteTx  = "/byteTx"
 const HttpUriPostTx  = "/tx"
-const HttpUriGetSequence  = "/query/nonce/%s" // /query/nonce/{{address}}
+const HttpUriGetSequence  = "/query/nonce/%s" // query/nonce/{{address}}
+const HttpUriGetBalance  = "/query/account/%s" // query/account/{{address}}
 
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"
