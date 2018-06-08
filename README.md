@@ -16,7 +16,7 @@ A gRPC server that allows light clients to interact with IRIS hub
 
 # RPC Structure
 
-please see [blockchain-rpc](https://github.com/irisnet/blockchain-rpc) and []() 
+please see [blockchain-rpc](https://github.com/irisnet/blockchain-rpc) and [irishub-rpc](https://github.com/irisnet/irishub-rpc) 
 
 # Build And Run
 
