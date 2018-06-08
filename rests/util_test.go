@@ -3,9 +3,9 @@ package rests
 import (
 	"testing"
 	
-	"github.com/irisnet/iris-api-server/errors"
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/utils/helper"
+	"github.com/irisnet/irishub-server/errors"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 func TestBuildResponse(t *testing.T) {

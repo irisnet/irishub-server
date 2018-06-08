@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	conf "github.com/irisnet/iris-api-server/configs"
-	"github.com/irisnet/iris-api-server/modules/logger"
+	conf "github.com/irisnet/irishub-server/configs"
+	"github.com/irisnet/irishub-server/modules/logger"
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"

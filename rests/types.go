@@ -1,8 +1,8 @@
 package rests
 
 import (
-	"github.com/irisnet/iris-api-server/errors"
-	"github.com/irisnet/iris-api-server/services"
+	"github.com/irisnet/irishub-server/errors"
+	"github.com/irisnet/irishub-server/services"
 )
 
 var (

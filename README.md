@@ -1,4 +1,4 @@
-# IRIS-API-SERVER
+# IRISHub Server
 IRIS API Server that supports various light clients
 
 # Structure
@@ -32,5 +32,5 @@ Example:
 
 ```
 # docker build -t iris-api:v1 .
-# docker run --name iris-api-server -v /mnt/data/iris-log:/iris-api/log -p 9080:9080 -e "DB_HOST=127.0.0.1" -e "DB_PORT=27117" -e "ENV=stage" -d iris-api:v1
+# docker run --name irishub-server -v /mnt/data/iris-log:/iris-api/log -p 9080:9080 -e "DB_HOST=127.0.0.1" -e "DB_PORT=27117" -e "ENV=stage" -d iris-api:v1
 ```

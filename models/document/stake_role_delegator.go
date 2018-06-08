@@ -3,11 +3,11 @@ package document
 import (
 	"time"
 
-	"github.com/irisnet/iris-api-server/modules/logger"
+	"github.com/irisnet/irishub-server/modules/logger"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 
-	"github.com/irisnet/iris-api-server/models"
+	"github.com/irisnet/irishub-server/models"
 )
 
 const (

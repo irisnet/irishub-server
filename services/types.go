@@ -6,11 +6,11 @@ import (
 	"net/http"
 	
 
-conf "github.com/irisnet/iris-api-server/configs"
-"github.com/irisnet/iris-api-server/errors"
-"github.com/irisnet/iris-api-server/models/document"
-"github.com/irisnet/iris-api-server/modules/logger"
-"github.com/irisnet/iris-api-server/utils/constants"
+conf "github.com/irisnet/irishub-server/configs"
+"github.com/irisnet/irishub-server/errors"
+"github.com/irisnet/irishub-server/models/document"
+"github.com/irisnet/irishub-server/modules/logger"
+"github.com/irisnet/irishub-server/utils/constants"
 
 )
 

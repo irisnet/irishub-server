@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 	
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/utils/helper"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 func TestCommonTx_GetList(t *testing.T) {

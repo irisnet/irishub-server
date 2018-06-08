@@ -1,7 +1,7 @@
 package configs
 
 import (
-	"github.com/irisnet/iris-api-server/env"
+	"github.com/irisnet/irishub-server/env"
 )
 
 type configServer struct {

@@ -3,8 +3,8 @@ package services
 import (
 	"testing"
 
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/rpc/vo"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/rpc/vo"
 )
 
 func TestPostTxService_PostTx(t *testing.T) {

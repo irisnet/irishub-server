@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 	
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/utils/constants"
-	"github.com/irisnet/iris-api-server/utils/helper"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/utils/constants"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 func TestStakeTx_GetStakeTxList(t *testing.T) {

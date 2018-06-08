@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	
-	_ "github.com/irisnet/iris-api-server/docs"
+	_ "github.com/irisnet/irishub-server/docs"
 )
 
 func main() {

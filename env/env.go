@@ -3,8 +3,8 @@ package env
 import (
 	"os"
 	
-	"github.com/irisnet/iris-api-server/modules/logger"
-	"github.com/irisnet/iris-api-server/utils/constants"
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/utils/constants"
 )
 
 var (

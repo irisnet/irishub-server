@@ -2,8 +2,8 @@ package blockchain
 
 import (
 	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
-	"github.com/irisnet/iris-api-server/rpc"
-	"github.com/irisnet/iris-api-server/rpc/vo"
+	"github.com/irisnet/irishub-server/rpc"
+	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
 )
 

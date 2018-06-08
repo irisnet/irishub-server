@@ -1,8 +1,8 @@
 package rests
 
 import (
-	"github.com/irisnet/iris-api-server/errors"
-	"github.com/irisnet/iris-api-server/utils/constants"
+	"github.com/irisnet/irishub-server/errors"
+	"github.com/irisnet/irishub-server/utils/constants"
 )
 
 var OK = constants.STATUS_CODE_OK
