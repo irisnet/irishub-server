@@ -1,19 +1,31 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"log"
+	"net"
 	
-	_ "github.com/irisnet/irishub-server/docs"
+	conf "github.com/irisnet/irishub-server/configs"
+	"github.com/irisnet/irishub-server/rpc/blockchain"
+	
+	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
+	"google.golang.org/grpc"
 )
 
 func main() {
-	// flag.Parse()
-	// lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
-	// if err != nil {
-	// 	log.Fatalf("failed to listen: %v", err)
-	// }
-	// grpcServer := grpc.NewServer()
-	// pb.RegisterRouteGuideServer(grpcServer, &routeGuideServer{})
-	// grpcServer.Serve(lis)
+	flag.Parse()
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", conf.ServerConfig.RpcServerPort))
+	if err != nil {
+		log.Fatalf("failed to listen: %v\n", err)
+	}
+	grpcServer := grpc.NewServer()
+	
+	var (
+		blockChainRPCServices blockchain.BlockChainRPCServices
+	)
+	chainModel.RegisterBlockChainServiceServer(grpcServer, blockChainRPCServices)
+	
+	grpcServer.Serve(lis)
 	fmt.Println("This is test")
 }

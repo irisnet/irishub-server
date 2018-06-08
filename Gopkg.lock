@@ -70,7 +70,7 @@
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
   packages = ["codegen/server"]
-  revision = "3cff9ccbc6ff9fb80bc99b8b78f621993404dff7"
+  revision = "5641df52b635bb1fffc4400b638d739ffc3cfcb5"
 
 [[projects]]
   name = "github.com/json-iterator/go"
@@ -194,8 +194,8 @@
     "tap",
     "transport"
   ]
-  revision = "22a49e732a507a11ac524e4ea5fd1a3e384b6fb8"
-  version = "v1.12.1"
+  revision = "7a6a684ca69eb4cae85ad0a484f2e531598c047b"
+  version = "v1.12.2"
 
 [[projects]]
   name = "gopkg.in/go-playground/validator.v8"

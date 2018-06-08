@@ -24,12 +24,12 @@ func (c SequenceService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, 
 	statusCode, res := HttpClientGetData(uri)
 	
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
-		return resVO, NewIrisErr(errors.EC40001, errors.EM40001 + string(res))
+		return resVO, NewIrisErr(errors.EC40001, errors.EM40001 + string(res), nil)
 	}
 	
 	err := json.Unmarshal(res, &resVO)
 	if err != nil {
-		return resVO, NewIrisErr(errors.EC40002, errors.EM40002 + err.Error())
+		return resVO, NewIrisErr(errors.EC40002, errors.EM40002, err)
 	}
 	
 	return resVO, irisErr

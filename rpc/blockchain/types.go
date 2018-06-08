@@ -18,6 +18,9 @@ var (
 	
 	balanceController BalanceController
 	balanceService services.BalanceService
+	
+	txListController TxListController
+	txService services.TxService
 )
 
 func Handler(ctx context.Context, req interface{}) (interface{}, error) {
@@ -39,6 +42,10 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	case *chainModel.BalanceRequest:
 		res, err = balanceController.Handler(ctx, req.(*chainModel.BalanceRequest))
 		break
+	case *chainModel.TxListRequest:
+		res, err = txListController.Handler(ctx, req.(*chainModel.TxListRequest))
+		break
+		
 	}
 	
 	return res, err

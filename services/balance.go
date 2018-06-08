@@ -28,7 +28,7 @@ func (s BalanceService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 	
 	
 	if err := json.Unmarshal(resBytes, &resVO); err != nil {
-		return resVO, NewIrisErr(errors.EC50001, errors.EM50001 + err.Error())
+		return resVO, NewIrisErr(errors.EC50001, errors.EM50001, err)
 	}
 	
 	return resVO, irisErr

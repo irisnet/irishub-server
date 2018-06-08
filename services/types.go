@@ -23,10 +23,13 @@ var (
 )
 
 func ConvertSysErr(err error) errors.IrisError  {
-	return irisErr.New(errors.EC50001, err.Error())
+	return irisErr.New(errors.EC50001, err.Error() + err.Error())
 }
 
-func NewIrisErr(errCode uint32, errMsg string) errors.IrisError  {
+func NewIrisErr(errCode uint32, errMsg string, err error) errors.IrisError  {
+	if err != nil {
+		errMsg = errMsg + err.Error()
+	}
 	return irisErr.New(errCode, errMsg)
 }
 

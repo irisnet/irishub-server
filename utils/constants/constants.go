@@ -40,6 +40,9 @@ var TxTypeFrontMapDb = map[string]string{
 	TxTypeStakeUnBond: DbTxTypeStakeUnBond,
 }
 
+// define tx status
+const TxStatusSuccess = "success"
+
 // define token denom
 const Denom  = "iris"
 

@@ -16,7 +16,7 @@ type PostTxService struct {
 func (s PostTxService) PostTx(vo vo.PostTxReqVO) ([]byte, errors.IrisError) {
 	requestBody, err := json.Marshal(vo)
 	if err != nil {
-		return nil, NewIrisErr(errors.EC40002, errors.EM40002 + err.Error())
+		return nil, NewIrisErr(errors.EC40002, errors.EM40002, err)
 	}
 	
 	reqPostTx := bytes.NewBuffer([]byte(requestBody))
@@ -24,7 +24,7 @@ func (s PostTxService) PostTx(vo vo.PostTxReqVO) ([]byte, errors.IrisError) {
 	statusCode, res := HttpClientPostJsonData(constants.HttpUriPostTx, reqPostTx)
 	
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
-		return nil, NewIrisErr(errors.EC40001, errors.EM40001 + err.Error())
+		return nil, NewIrisErr(errors.EC40001, errors.EM40001, err)
 	}
 	
 	return res, irisErr
