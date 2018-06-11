@@ -48,29 +48,12 @@ func (c TxListController) buildResponse(resVO vo.TxListResVO) *chainModel.TxList
 	
 	if len(resVO.Txs) > 0 {
 		for _, v := range resVO.Txs {
-			from := chainModel.Address{
-				Chain: "",
-				App: "",
-				Addr: v.From,
-			}
-			to := chainModel.Address{
-				Chain: "",
-				App: "",
-				Addr: v.To,
-			}
+			from := rpc.BuildResponseAddress(v.From)
+			to := rpc.BuildResponseAddress(v.To)
 			
 			
 			var modelCoins []*chainModel.Coin
-			coins := v.Amount
-			if len(coins) > 0 {
-				for _, v := range coins {
-					modelCoin := chainModel.Coin{
-						Denom: v.Denom,
-						Amount: float64(v.Amount),
-					}
-					modelCoins = append(modelCoins, &modelCoin)
-				}
-			}
+			modelCoins = rpc.BuildResponseCoins(v.Amount)
 			
 			resTxListObj := chainModel.TxListObject{
 				TxHash: v.TxHash,

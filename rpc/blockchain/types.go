@@ -21,6 +21,8 @@ var (
 	
 	txListController TxListController
 	txService services.TxService
+	
+	txDetailController TxDetailController
 )
 
 func Handler(ctx context.Context, req interface{}) (interface{}, error) {
@@ -45,7 +47,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	case *chainModel.TxListRequest:
 		res, err = txListController.Handler(ctx, req.(*chainModel.TxListRequest))
 		break
-		
+	case *chainModel.TxDetailRequest:
+		res, err = txDetailController.Handler(ctx, req.(*chainModel.TxDetailRequest))
+		break
 	}
 	
 	return res, err
