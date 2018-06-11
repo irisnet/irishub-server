@@ -18,4 +18,13 @@ type TxListResVO struct {
 	Txs []document.CommonTx
 }
 
+type TxDetailReqVO struct {
+	TxHash string `protobuf:"bytes,1,opt,name=txHash" json:"txHash,omitempty"`
+}
+
+type TxDetailResVO struct {
+	Tx document.CommonTx
+}
+
+
 

@@ -79,6 +79,41 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	return resVO, irisErr
 }
 
+func (s TxService) getTxDetail(reqVO vo.TxDetailReqVO) (vo.TxDetailResVO, errors.IrisError) {
+	var (
+		resVO vo.TxDetailResVO
+		pubKeys []string
+		candidates []document.Candidate
+	)
+	
+	// get tx detail by txHash
+	commonTx, err := commonTxModel.GetDetail(reqVO.TxHash)
+	
+	if err != nil {
+		return resVO, ConvertSysErr(err)
+	}
+	
+	if commonTx.TxHash != "" {
+		txType := commonTx.Type
+		if txType == constants.TxTypeStakeDelegate || txType == constants.TxTypeStakeUnBond {
+			pubKeys = append(pubKeys, commonTx.To)
+		}
+	}
+	
+	// get candidates by pubKeys
+	if pubKeys != nil {
+		candidates, err = candidateModel.GetCandidatesListByPubKeys(pubKeys)
+		if err != nil {
+			return resVO, ConvertSysErr(err)
+		}
+	}
+	
+	commonTx = s.buildData(commonTx, candidates, "")
+	resVO.Tx = commonTx
+	
+	return resVO, irisErr
+}
+
 func (s TxService) buildData(commonTx document.CommonTx,
 	candidates []document.Candidate, address string) document.CommonTx {
 	
@@ -104,7 +139,7 @@ func (s TxService) buildData(commonTx document.CommonTx,
 	case constants.DbTxTypeCoin:
 		if address == commonTx.From {
 			txTypeDisplay = constants.TxTypeCoinSend
-		} else {
+		} else if address == commonTx.To {
 			txTypeDisplay = constants.TxTypeCoinReceive
 		}
 		break
