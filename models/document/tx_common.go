@@ -85,3 +85,19 @@ func (d CommonTx) GetList(address string, txType string,
 	
 	return d.Query(query, fields, skip, limit, sorts...)
 }
+
+func (d CommonTx) GetDetail(txHash string) (CommonTx, error) {
+	query := bson.M{
+		"tx_hash": txHash,
+	}
+	fields := bson.M{}
+	var (
+		sorts []string
+	)
+	
+	txs, err := d.Query(query, fields, 0, 1, sorts...)
+	if err != nil || len(txs) == 0 {
+		return CommonTx{}, err
+	}
+	return txs[0], nil
+}
