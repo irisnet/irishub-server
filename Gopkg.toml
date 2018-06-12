@@ -36,6 +36,10 @@
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
 
+[[constraint]]
+  branch = "develop"
+  name = "github.com/irisnet/irishub-rpc"
+
 [prune]
   go-tests = true
   unused-packages = true

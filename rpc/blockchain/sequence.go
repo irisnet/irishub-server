@@ -1,18 +1,18 @@
 package blockchain
 
 import (
-	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
 )
 
-type SequenceController struct {
+type SequenceHandler struct {
 
 }
 
-func (c SequenceController) Handler(ctx context.Context, request *chainModel.SequenceRequest) (
-	*chainModel.SequenceResponse, error) {
+func (c SequenceHandler) Handler(ctx context.Context, request *commonProtoc.SequenceRequest) (
+	*commonProtoc.SequenceResponse, error) {
 	
 	reqVO := c.buildRequest(request)
 	resVO, err := sequenceService.GetSequence(reqVO)
@@ -24,7 +24,7 @@ func (c SequenceController) Handler(ctx context.Context, request *chainModel.Seq
 	return c.buildResponse(resVO), nil
 }
 
-func (c SequenceController) buildRequest(req *chainModel.SequenceRequest) vo.SequenceReqVO {
+func (c SequenceHandler) buildRequest(req *commonProtoc.SequenceRequest) vo.SequenceReqVO {
 	reqVO := vo.SequenceReqVO{
 		Address: req.GetAddress(),
 	}
@@ -32,8 +32,8 @@ func (c SequenceController) buildRequest(req *chainModel.SequenceRequest) vo.Seq
 	return reqVO
 }
 
-func (c SequenceController) buildResponse(resVO vo.SequenceResVO) *chainModel.SequenceResponse {
-	response := chainModel.SequenceResponse{
+func (c SequenceHandler) buildResponse(resVO vo.SequenceResVO) *commonProtoc.SequenceResponse {
+	response := commonProtoc.SequenceResponse{
 		Sequence: resVO.Sequence,
 		Height: resVO.Height,
 	}

@@ -70,7 +70,13 @@
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
   packages = ["codegen/server"]
-  revision = "5641df52b635bb1fffc4400b638d739ffc3cfcb5"
+  revision = "bfe0c74071844c9908dcfa9e64af0bd7bc6efbe5"
+
+[[projects]]
+  branch = "develop"
+  name = "github.com/irisnet/irishub-rpc"
+  packages = ["codegen/server"]
+  revision = "4cc1808e5f8130df706773f8509470f919e890e0"
 
 [[projects]]
   name = "github.com/json-iterator/go"
@@ -109,8 +115,8 @@
 [[projects]]
   name = "github.com/swaggo/swag"
   packages = ["."]
-  revision = "c6c1ad9d395477eead01b6f208cb7fcd34604141"
-  version = "v1.1.1"
+  revision = "db2ee6c14a35e4fca95b0d75054296ef2b699050"
+  version = "v1.3.2"
 
 [[projects]]
   name = "github.com/ugorji/go"
@@ -130,13 +136,13 @@
     "internal/timeseries",
     "trace"
   ]
-  revision = "1e491301e022f8f977054da4c2d852decd59571f"
+  revision = "db08ff08e8622530d9ed3a0e8ac279f6d4c02196"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "9527bec2660bd847c050fda93a0f0c6dee0800bb"
+  revision = "bff228c7b664c5fce602223a05fb708fd8654986"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -164,7 +170,7 @@
   branch = "master"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
-  revision = "81158efcc9f219c511e4d3c0d61a0e6e49c01a24"
+  revision = "32ee49c4dd805befd833990acba36cb75042378c"
 
 [[projects]]
   name = "google.golang.org/grpc"
@@ -224,6 +230,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "2b717f5f0280db12e868d104b0ebe82155f15a854f13d5f5fda29bd6cecddcb2"
+  inputs-digest = "d2f550ff3a38b7d57c740ecb57eb2dad8b8d03496aeaaa3e76c34bc101219e59"
   solver-name = "gps-cdcl"
   solver-version = 1
