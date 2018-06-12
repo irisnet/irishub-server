@@ -55,7 +55,7 @@ func (s CandidateService) List(listVo vo.CandidateListReqVO) (vo.CandidateListRe
 	return resVO, irisErr
 }
 
-// func (s CandidateService) DelegatorCandidateList(listVo vo.DelegatorCandidateListVo) ([]document.Candidate, errors.IrisError)  {
+// func (s CandidateService) DelegatorCandidateList(reqVO vo.CandidateDetailReqVO) ([]document.Candidate, errors.IrisError)  {
 // 	sort := listVo.Sort
 // 	var sorts []string
 // 	if sort != "" {
@@ -99,31 +99,40 @@ func (s CandidateService) List(listVo vo.CandidateListReqVO) (vo.CandidateListRe
 // 	return candidates, irisErr
 // }
 
-func (s CandidateService) Detail(pubKey string, address string) (document.Candidate, errors.IrisError) {
+func (s CandidateService) Detail(reqVO vo.CandidateDetailReqVO) (
+	vo.CandidateDetailResVO, errors.IrisError) {
+	
+	var (
+		resVO vo.CandidateDetailResVO
+	)
 
 	// query detail info of candidate
-	candidate, err := candidateModel.GetCandidateDetail(pubKey)
+	candidate, err := candidateModel.GetCandidateDetail(reqVO.PubKey)
 	if err != nil {
-		return candidate, ConvertSysErr(err)
+		return resVO, ConvertSysErr(err)
 	}
 
 	// get total shares
 	totalShares, err := candidateModel.GetTotalShares()
 	if err != nil {
-		return document.Candidate{}, ConvertSysErr(err)
+		return resVO, ConvertSysErr(err)
 	}
 
 	// query detail of candidate which i have delegated
 	var (
 		pubKeys = []string{candidate.PubKey}
 	)
-	delegator, err := delegatorModel.GetDelegatorListByAddressAndPubKeys(address, pubKeys)
+	delegator, err := delegatorModel.GetDelegatorListByAddressAndPubKeys(reqVO.Address, pubKeys)
 	if err != nil {
-		return document.Candidate{}, ConvertSysErr(err)
+		return resVO, ConvertSysErr(err)
 	}
 	candidate = s.buildCandidates(candidate, delegator, totalShares)
+	
+	resVO = vo.CandidateDetailResVO{
+		Candidate: candidate,
+	}
 
-	return candidate, irisErr
+	return resVO, irisErr
 }
 
 // build data

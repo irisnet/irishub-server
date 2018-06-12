@@ -14,3 +14,12 @@ type CandidateListResVO struct {
 	Candidates []document.Candidate
 }
 
+type CandidateDetailReqVO struct {
+	Address              string   `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
+	PubKey               string   `protobuf:"bytes,2,opt,name=pubKey" json:"pubKey,omitempty"`
+}
+
+type CandidateDetailResVO struct {
+	Candidate document.Candidate
+}
+

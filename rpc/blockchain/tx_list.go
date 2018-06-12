@@ -1,19 +1,19 @@
 package blockchain
 
 import (
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/constants"
 	"golang.org/x/net/context"
-	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
 )
 
-type TxListController struct {
+type TxListHandler struct {
 
 }
 
-func (c TxListController) Handler(ctx context.Context, req *chainModel.TxListRequest) (
-	*chainModel.TxListResponse, error) {
+func (c TxListHandler) Handler(ctx context.Context, req *commonProtoc.TxListRequest) (
+	*commonProtoc.TxListResponse, error) {
 	
 	reqVO := c.buildRequest(req)
 	resVO, err := txService.GetTxList(reqVO)
@@ -25,7 +25,7 @@ func (c TxListController) Handler(ctx context.Context, req *chainModel.TxListReq
 	return c.buildResponse(resVO), nil
 }
 
-func (c TxListController) buildRequest(req *chainModel.TxListRequest) vo.TxListReqVO {
+func (c TxListHandler) buildRequest(req *commonProtoc.TxListRequest) vo.TxListReqVO {
 	
 	reqVO := vo.TxListReqVO{
 		Address: req.GetAddress(),
@@ -42,9 +42,9 @@ func (c TxListController) buildRequest(req *chainModel.TxListRequest) vo.TxListR
 	return reqVO
 }
 
-func (c TxListController) buildResponse(resVO vo.TxListResVO) *chainModel.TxListResponse {
-	response := chainModel.TxListResponse{}
-	var resTxs []*chainModel.TxListObject
+func (c TxListHandler) buildResponse(resVO vo.TxListResVO) *commonProtoc.TxListResponse {
+	response := commonProtoc.TxListResponse{}
+	var resTxs []*commonProtoc.TxListObject
 	
 	if len(resVO.Txs) > 0 {
 		for _, v := range resVO.Txs {
@@ -52,10 +52,10 @@ func (c TxListController) buildResponse(resVO vo.TxListResVO) *chainModel.TxList
 			to := rpc.BuildResponseAddress(v.To)
 			
 			
-			var modelCoins []*chainModel.Coin
+			var modelCoins []*commonProtoc.Coin
 			modelCoins = rpc.BuildResponseCoins(v.Amount)
 			
-			resTxListObj := chainModel.TxListObject{
+			resTxListObj := commonProtoc.TxListObject{
 				TxHash: v.TxHash,
 				Time: v.Time.String(),
 				Height: uint64(v.Height),

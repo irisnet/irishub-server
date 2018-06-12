@@ -1,18 +1,18 @@
 package blockchain
 
 import (
-	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
 )
 
-type BalanceController struct {
+type BalanceHandler struct {
 
 }
 
-func (c BalanceController) Handler(ctx context.Context, req *chainModel.BalanceRequest) (
-	*chainModel.BalanceResponse, error) {
+func (c BalanceHandler) Handler(ctx context.Context, req *commonProtoc.BalanceRequest) (
+	*commonProtoc.BalanceResponse, error) {
 	
 	reqVO := c.buildRequest(req)
 	resVO, err := balanceService.GetBalance(reqVO)
@@ -24,7 +24,7 @@ func (c BalanceController) Handler(ctx context.Context, req *chainModel.BalanceR
 	return c.buildResponse(resVO), nil
 }
 
-func (c BalanceController) buildRequest(req *chainModel.BalanceRequest) vo.BalanceReqVO  {
+func (c BalanceHandler) buildRequest(req *commonProtoc.BalanceRequest) vo.BalanceReqVO  {
 	
 	reqVO := vo.BalanceReqVO{
 		Address: req.GetAddress(),
@@ -33,14 +33,14 @@ func (c BalanceController) buildRequest(req *chainModel.BalanceRequest) vo.Balan
 	return reqVO
 }
 
-func (c BalanceController) buildResponse(resVO vo.BalanceResVO) *chainModel.BalanceResponse {
+func (c BalanceHandler) buildResponse(resVO vo.BalanceResVO) *commonProtoc.BalanceResponse {
 	
 	coins := resVO.Data.Coins
-	var modelCoins []*chainModel.Coin
+	var modelCoins []*commonProtoc.Coin
 	
 	if len(coins) > 0 {
 		for _, v := range coins {
-			modelCoin := chainModel.Coin{
+			modelCoin := commonProtoc.Coin{
 				Denom: v.Denom,
 				Amount: float64(v.Amount),
 			}
@@ -48,7 +48,7 @@ func (c BalanceController) buildResponse(resVO vo.BalanceResVO) *chainModel.Bala
 		}
 	}
 	
-	response := chainModel.BalanceResponse{
+	response := commonProtoc.BalanceResponse{
 		Coins: modelCoins,
 	}
 	
