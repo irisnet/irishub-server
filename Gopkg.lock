@@ -73,6 +73,12 @@
   revision = "5641df52b635bb1fffc4400b638d739ffc3cfcb5"
 
 [[projects]]
+  branch = "develop"
+  name = "github.com/irisnet/irishub-rpc"
+  packages = ["codegen/server"]
+  revision = "e5dccef0c83e8e2c6867808426b66bd96486d7fb"
+
+[[projects]]
   name = "github.com/json-iterator/go"
   packages = ["."]
   revision = "ca39e5af3ece67bbcda3d0f4f56a8e24d9f2dad4"
@@ -224,6 +230,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "2b717f5f0280db12e868d104b0ebe82155f15a854f13d5f5fda29bd6cecddcb2"
+  inputs-digest = "d2f550ff3a38b7d57c740ecb57eb2dad8b8d03496aeaaa3e76c34bc101219e59"
   solver-name = "gps-cdcl"
   solver-version = 1
