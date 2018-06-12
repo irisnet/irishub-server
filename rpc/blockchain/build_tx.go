@@ -1,18 +1,18 @@
 package blockchain
 
 import (
-	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
 	"github.com/irisnet/irishub-server/rpc"
 	vo "github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
 )
 
-type BuildTxController struct {
+type BuildTxHandler struct {
 }
 
 
-func (c BuildTxController) Handler(ctx context.Context, request *chainModel.BuildTxRequest) (
-	*chainModel.BuildTxResponse, error) {
+func (c BuildTxHandler) Handler(ctx context.Context, request *commonProtoc.BuildTxRequest) (
+	*commonProtoc.BuildTxResponse, error) {
 	
 	buildTxVO := c.buildRequest(request)
 	res, err := buildTxService.BuildTx(buildTxVO)
@@ -27,7 +27,7 @@ func (c BuildTxController) Handler(ctx context.Context, request *chainModel.Buil
 //
 // buildTxRequest is common model,
 // every api server of chain may need transform them before handle these data
-func (c BuildTxController) buildRequest(request *chainModel.BuildTxRequest) (vo.BuildTxReqVO) {
+func (c BuildTxHandler) buildRequest(request *commonProtoc.BuildTxRequest) (vo.BuildTxReqVO) {
 	var coins []vo.Coin
 	for _, amount := range request.Amount {
 		coin := vo.Coin{
@@ -66,8 +66,8 @@ func (c BuildTxController) buildRequest(request *chainModel.BuildTxRequest) (vo.
 }
 
 // transform service result to common response
-func (c BuildTxController) buildResponse(res []byte) (*chainModel.BuildTxResponse) {
-	return &chainModel.BuildTxResponse{
+func (c BuildTxHandler) buildResponse(res []byte) (*commonProtoc.BuildTxResponse) {
+	return &commonProtoc.BuildTxResponse{
 		Data: res,
 	}
 }

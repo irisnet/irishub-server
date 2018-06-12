@@ -1,17 +1,19 @@
 package irishub
 
 import (
-	irisModel "github.com/irisnet/irishub-rpc/codegen/server"
+	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server"
 	"github.com/irisnet/irishub-server/services"
 	"golang.org/x/net/context"
 )
 
 var (
-	shareController ShareController
+	shareHandler ShareHandler
 	shareService services.ShareService
 	
-	candidateListController CandidateListController
-	candidateService services.CandidateService
+	candidateListHandler CandidateListHandler
+	candidateService     services.CandidateService
+	
+	candidateDetailHandler CandidateDetailHandler
 )
 
 
@@ -22,12 +24,16 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	)
 	
 	switch req.(type) {
-	case *irisModel.TotalShareRequest:
-		res, err = shareController.Handler(ctx, req.(*irisModel.TotalShareRequest))
+	case *irisProtoc.TotalShareRequest:
+		res, err = shareHandler.Handler(ctx, req.(*irisProtoc.TotalShareRequest))
 		break
-	case *irisModel.CandidateListRequest:
-		res, err = candidateListController.Handler(ctx, req.(*irisModel.CandidateListRequest))
+	case *irisProtoc.CandidateListRequest:
+		res, err = candidateListHandler.Handler(ctx, req.(*irisProtoc.CandidateListRequest))
 		break
+	case *irisProtoc.CandidateDetailRequest:
+		res, err = candidateDetailHandler.Handler(ctx, req.(*irisProtoc.CandidateDetailRequest))
+		break
+		
 	}
 	
 	return res, err

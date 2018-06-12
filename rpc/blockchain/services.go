@@ -1,7 +1,7 @@
 package blockchain
 
 import (
-	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
 	"golang.org/x/net/context"
 )
 
@@ -9,52 +9,52 @@ type BlockChainRPCServices struct {
 }
 
 // get sequence
-func (s BlockChainRPCServices) GetSequence(ctx context.Context, req *chainModel.SequenceRequest) (
-	*chainModel.SequenceResponse, error) {
+func (s BlockChainRPCServices) GetSequence(ctx context.Context, req *commonProtoc.SequenceRequest) (
+	*commonProtoc.SequenceResponse, error) {
 	
 	res, err := Handler(ctx, req)
-	return res.(*chainModel.SequenceResponse), err
+	return res.(*commonProtoc.SequenceResponse), err
 }
 
 // build tx
-func (s BlockChainRPCServices) BuildTx(ctx context.Context, req *chainModel.BuildTxRequest) (
-	*chainModel.BuildTxResponse, error) {
+func (s BlockChainRPCServices) BuildTx(ctx context.Context, req *commonProtoc.BuildTxRequest) (
+	*commonProtoc.BuildTxResponse, error) {
 	
 	res, err := Handler(ctx, req)
-	return res.(*chainModel.BuildTxResponse), err
+	return res.(*commonProtoc.BuildTxResponse), err
 }
 
 // post tx
-func (s BlockChainRPCServices) PostTx(ctx context.Context, req *chainModel.PostTxRequest) (
-	*chainModel.PostTxResponse, error) {
+func (s BlockChainRPCServices) PostTx(ctx context.Context, req *commonProtoc.PostTxRequest) (
+	*commonProtoc.PostTxResponse, error) {
 	
 	res, err := Handler(ctx, req)
-	return res.(*chainModel.PostTxResponse), err
+	return res.(*commonProtoc.PostTxResponse), err
 }
 
 // get balance
-func (s BlockChainRPCServices) GetBalance(ctx context.Context, req *chainModel.BalanceRequest) (
-	*chainModel.BalanceResponse, error) {
+func (s BlockChainRPCServices) GetBalance(ctx context.Context, req *commonProtoc.BalanceRequest) (
+	*commonProtoc.BalanceResponse, error) {
 	
 	res, err := Handler(ctx, req)
-	return res.(*chainModel.BalanceResponse), err
+	return res.(*commonProtoc.BalanceResponse), err
 }
 
 // get tx list
-func (s BlockChainRPCServices) GetTxList(ctx context.Context, req *chainModel.TxListRequest) (
-	*chainModel.TxListResponse, error) {
+func (s BlockChainRPCServices) GetTxList(ctx context.Context, req *commonProtoc.TxListRequest) (
+	*commonProtoc.TxListResponse, error) {
 	
 	res, err := Handler(ctx, req)
-	return res.(*chainModel.TxListResponse), err
+	return res.(*commonProtoc.TxListResponse), err
 }
 
 
 // get tx detail
-func (s BlockChainRPCServices) GetTxDetail(ctx context.Context, req *chainModel.TxDetailRequest) (
-	*chainModel.TxDetailResponse, error) {
+func (s BlockChainRPCServices) GetTxDetail(ctx context.Context, req *commonProtoc.TxDetailRequest) (
+	*commonProtoc.TxDetailResponse, error) {
 	
 	res, err := Handler(ctx, req)
-	return res.(*chainModel.TxDetailResponse), err
+	return res.(*commonProtoc.TxDetailResponse), err
 }
 
 

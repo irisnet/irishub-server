@@ -1,19 +1,18 @@
 package irishub
 
 import (
-	
-	irisModel "github.com/irisnet/irishub-rpc/codegen/server"
+	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
 )
 
-type ShareController struct {
+type ShareHandler struct {
 
 }
 
-func (c ShareController) Handler(ctx context.Context, req *irisModel.TotalShareRequest) (
-	*irisModel.TotalShareResponse, error) {
+func (c ShareHandler) Handler(ctx context.Context, req *irisProtoc.TotalShareRequest) (
+	*irisProtoc.TotalShareResponse, error) {
 	
 	reqVO := c.BuildRequest(req)
 	
@@ -25,7 +24,7 @@ func (c ShareController) Handler(ctx context.Context, req *irisModel.TotalShareR
 	return c.BuildResponse(resVO), nil
 }
 
-func (c ShareController) BuildRequest(req *irisModel.TotalShareRequest) vo.ShareReqVO  {
+func (c ShareHandler) BuildRequest(req *irisProtoc.TotalShareRequest) vo.ShareReqVO  {
 	
 	reqVO := vo.ShareReqVO{
 		Address: req.GetAddress(),
@@ -34,9 +33,9 @@ func (c ShareController) BuildRequest(req *irisModel.TotalShareRequest) vo.Share
 	return reqVO
 }
 
-func (c ShareController) BuildResponse(resVO vo.ShareResVO) *irisModel.TotalShareResponse {
+func (c ShareHandler) BuildResponse(resVO vo.ShareResVO) *irisProtoc.TotalShareResponse {
 	
-	response := irisModel.TotalShareResponse{
+	response := irisProtoc.TotalShareResponse{
 		TotalShares: resVO.TotalShare,
 	}
 	

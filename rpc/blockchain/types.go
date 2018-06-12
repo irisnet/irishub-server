@@ -1,28 +1,28 @@
 package blockchain
 
 import (
-	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
 	"github.com/irisnet/irishub-server/services"
 	"golang.org/x/net/context"
 )
 
 var (
-	buildTxController  BuildTxController
+	buildTxHandler BuildTxHandler
 	buildTxService services.BuildTxService
 	
-	postTxController   PostTxController
-	postTxService  services.PostTxService
+	postTxHandler PostTxHandler
+	postTxService services.PostTxService
 	
-	sequenceController SequenceController
+	sequenceHandler SequenceHandler
 	sequenceService services.SequenceService
 	
-	balanceController BalanceController
+	balanceHandler BalanceHandler
 	balanceService services.BalanceService
 	
-	txListController TxListController
-	txService services.TxService
+	txListHandler TxListHandler
+	txService     services.TxService
 	
-	txDetailController TxDetailController
+	txDetailHandler TxDetailHandler
 )
 
 func Handler(ctx context.Context, req interface{}) (interface{}, error) {
@@ -32,23 +32,23 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	)
 	
 	switch req.(type) {
-	case *chainModel.BuildTxRequest:
-		res, err = buildTxController.Handler(ctx, req.(*chainModel.BuildTxRequest))
+	case *commonProtoc.BuildTxRequest:
+		res, err = buildTxHandler.Handler(ctx, req.(*commonProtoc.BuildTxRequest))
 		break
-	case *chainModel.PostTxRequest:
-		res, err = postTxController.Handler(ctx, req.(*chainModel.PostTxRequest))
+	case *commonProtoc.PostTxRequest:
+		res, err = postTxHandler.Handler(ctx, req.(*commonProtoc.PostTxRequest))
 		break
-	case *chainModel.SequenceRequest:
-		res, err = sequenceController.Handler(ctx, req.(*chainModel.SequenceRequest))
+	case *commonProtoc.SequenceRequest:
+		res, err = sequenceHandler.Handler(ctx, req.(*commonProtoc.SequenceRequest))
 		break
-	case *chainModel.BalanceRequest:
-		res, err = balanceController.Handler(ctx, req.(*chainModel.BalanceRequest))
+	case *commonProtoc.BalanceRequest:
+		res, err = balanceHandler.Handler(ctx, req.(*commonProtoc.BalanceRequest))
 		break
-	case *chainModel.TxListRequest:
-		res, err = txListController.Handler(ctx, req.(*chainModel.TxListRequest))
+	case *commonProtoc.TxListRequest:
+		res, err = txListHandler.Handler(ctx, req.(*commonProtoc.TxListRequest))
 		break
-	case *chainModel.TxDetailRequest:
-		res, err = txDetailController.Handler(ctx, req.(*chainModel.TxDetailRequest))
+	case *commonProtoc.TxDetailRequest:
+		res, err = txDetailHandler.Handler(ctx, req.(*commonProtoc.TxDetailRequest))
 		break
 	}
 	
