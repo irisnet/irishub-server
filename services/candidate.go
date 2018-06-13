@@ -55,50 +55,6 @@ func (s CandidateService) List(listVo vo.CandidateListReqVO) (vo.CandidateListRe
 	return resVO, irisErr
 }
 
-// func (s CandidateService) DelegatorCandidateList(reqVO vo.CandidateDetailReqVO) ([]document.Candidate, errors.IrisError)  {
-// 	sort := listVo.Sort
-// 	var sorts []string
-// 	if sort != "" {
-// 		sorts = strings.Split(sort, ",")
-// 	} else {
-// 		sorts = []string{"-update_time"}
-// 	}
-//
-// 	skip := (listVo.Page - 1) * listVo.PerPage
-// 	limit := listVo.PerPage
-// 	address := listVo.Address
-//
-// 	// query delegator list by address
-// 	delegator, err := delegatorModel.GetDelegatorListByAddress(address, skip, limit, sorts)
-// 	if err != nil {
-// 		return nil, ConvertSysErr(err)
-// 	}
-//
-// 	// get total shares
-// 	totalShares, err := s.getTotalShares()
-// 	if err != nil {
-// 		return nil, ConvertSysErr(err)
-// 	}
-//
-// 	// query all candidate which delegator have delegated
-// 	var (
-// 		pubKeys []string
-// 	)
-// 	for _, de := range delegator {
-// 		pubKeys = append(pubKeys, de.PubKey)
-// 	}
-// 	candidates, err := candidateModel.GetCandidatesListByPubKeys(pubKeys)
-// 	if err != nil {
-// 		return nil, ConvertSysErr(err)
-// 	}
-//
-// 	for i, cd := range candidates {
-// 		candidates[i] = s.buildCandidates(cd, delegator, totalShares)
-// 	}
-//
-// 	return candidates, irisErr
-// }
-
 func (s CandidateService) Detail(reqVO vo.CandidateDetailReqVO) (
 	vo.CandidateDetailResVO, errors.IrisError) {
 	
@@ -130,6 +86,52 @@ func (s CandidateService) Detail(reqVO vo.CandidateDetailReqVO) (
 	
 	resVO = vo.CandidateDetailResVO{
 		Candidate: candidate,
+	}
+
+	return resVO, irisErr
+}
+
+func (s CandidateService) DelegatorCandidateList(reqVO vo.DelegatorCandidateListReqVO) (vo.DelegatorCandidateListResVO, errors.IrisError)  {
+	
+	var (
+		resVO vo.DelegatorCandidateListResVO
+	)
+	
+	sorts := helper.ParseParamSort(reqVO.Sort)
+	skip, limit := helper.ParseParamPage(int(reqVO.Page), int(reqVO.PerPage))
+	
+	address := reqVO.Address
+
+	// query delegator list by address
+	delegator, err := delegatorModel.GetDelegatorListByAddress(address, skip, limit, sorts)
+	if err != nil {
+		return resVO, ConvertSysErr(err)
+	}
+
+	// get total shares
+	totalShares, err := s.getTotalShares()
+	if err != nil {
+		return resVO, ConvertSysErr(err)
+	}
+
+	// query all candidate which delegator have delegated
+	var (
+		pubKeys []string
+	)
+	for _, de := range delegator {
+		pubKeys = append(pubKeys, de.PubKey)
+	}
+	candidates, err := candidateModel.GetCandidatesListByPubKeys(pubKeys)
+	if err != nil {
+		return resVO, ConvertSysErr(err)
+	}
+
+	for i, cd := range candidates {
+		candidates[i] = s.buildCandidates(cd, delegator, totalShares)
+	}
+	
+	resVO = vo.DelegatorCandidateListResVO{
+		Candidates: candidates,
 	}
 
 	return resVO, irisErr

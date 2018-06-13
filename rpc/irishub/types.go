@@ -14,6 +14,7 @@ var (
 	candidateService     services.CandidateService
 	
 	candidateDetailHandler CandidateDetailHandler
+	delegatorCandidateListHandler DelegatorCandidateListHandler
 )
 
 
@@ -33,7 +34,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	case *irisProtoc.CandidateDetailRequest:
 		res, err = candidateDetailHandler.Handler(ctx, req.(*irisProtoc.CandidateDetailRequest))
 		break
-		
+	case *irisProtoc.DelegatorCandidateListRequest:
+		res, err = delegatorCandidateListHandler.Handler(ctx, req.(*irisProtoc.DelegatorCandidateListRequest))
+		break
 	}
 	
 	return res, err
