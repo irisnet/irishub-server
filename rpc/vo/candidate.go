@@ -4,8 +4,8 @@ import "github.com/irisnet/irishub-server/models/document"
 
 type CandidateListReqVO struct {
 	Address              string   `json:"address,omitempty"`
-	Page                 int64   `json:"page,omitempty"`
-	PerPage              int64   `json:"perPage,omitempty"`
+	Page                 int16   `json:"page,omitempty"`
+	PerPage              int16   `json:"perPage,omitempty"`
 	Sort                 string   `json:"sort,omitempty"`
 	Q                    string   `json:"q,omitempty"`
 }
@@ -25,8 +25,8 @@ type CandidateDetailResVO struct {
 
 type DelegatorCandidateListReqVO struct {
 	Address              string   `json:"address,omitempty"`
-	Page                 int64   `json:"page,omitempty"`
-	PerPage              int64   `json:"perPage,omitempty"`
+	Page                 int16   `json:"page,omitempty"`
+	PerPage              int16   `json:"perPage,omitempty"`
 	Sort                 string   `json:"sort,omitempty"`
 	Q                    string   `json:"q,omitempty"`
 }

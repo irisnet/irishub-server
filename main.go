@@ -5,10 +5,12 @@ import (
 	"net/http"
 	
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/irisnet/blockchain-rpc/codegen/server/model"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
+	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server/model"
 	conf "github.com/irisnet/irishub-server/configs"
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc/blockchain"
+	"github.com/irisnet/irishub-server/rpc/irishub"
 )
 
 func main() {
@@ -24,8 +26,7 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 		bodyContent []byte
 	)
 	
-	bodyLen, err := req.Body.Read(bodyContent)
-	logger.Info.Println(bodyLen)
+	_, err := req.Body.Read(bodyContent)
 	if err != nil {
 		logger.Error.Println(err)
 	}
@@ -67,12 +68,15 @@ func thriftRequest(input []byte, uri string) []byte {
 			var (
 				service blockchain.BlockChainRPCServices
 			)
-			process := model.NewBlockChainServiceProcessor(service)
+			process := commonProtoc.NewBlockChainServiceProcessor(service)
 			process.Process(context.Background(), inProtocol, outProtocol)
 			break
 		case "irishub":
 			var (
+				service irishub.IRISHubRPCSERVICES
 			)
+			process := irisProtoc.NewIRISHubServiceProcessor(service)
+			process.Process(context.Background(), inProtocol, outProtocol)
 			break
 		}
 	}

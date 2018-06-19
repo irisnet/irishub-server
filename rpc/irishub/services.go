@@ -1,7 +1,7 @@
 package irishub
 
 import (
-	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server"
+	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server/model"
 	"golang.org/x/net/context"
 )
 
