@@ -17,7 +17,7 @@ type Coin struct {
 }
 
 type Memo struct {
-	Id uint64   `json:"id,omitempty"`
+	Id int64   `json:"id,omitempty"`
 	Text []byte   `json:"text,omitempty"`
 }
 

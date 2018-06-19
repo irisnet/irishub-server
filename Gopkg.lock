@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "git.apache.org/thrift.git"
+  packages = ["lib/go/thrift"]
+  revision = "327ebb6c2b6df8bf075da02ef45a2a034e9b79ba"
+  version = "0.11.0"
+
+[[projects]]
   name = "github.com/PuerkitoBio/purell"
   packages = ["."]
   revision = "0bcb03f4b4d0a9428594752bd2a3b9aa0a9d4bd4"
@@ -69,8 +75,8 @@
 [[projects]]
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
-  packages = ["codegen/server"]
-  revision = "bfe0c74071844c9908dcfa9e64af0bd7bc6efbe5"
+  packages = ["codegen/server/model"]
+  revision = "615d1ddeafdc0d6412d77139fd46dcc17aeca612"
 
 [[projects]]
   branch = "develop"
@@ -142,7 +148,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "bff228c7b664c5fce602223a05fb708fd8654986"
+  revision = "6c888cc515d3ed83fc103cf1d84468aad274b0a7"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -230,6 +236,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "d2f550ff3a38b7d57c740ecb57eb2dad8b8d03496aeaaa3e76c34bc101219e59"
+  inputs-digest = "4ce20c07bb2cafe2268a0c0a0cc5bb7871a3391b9351cdce13b74dd7753a20c9"
   solver-name = "gps-cdcl"
   solver-version = 1

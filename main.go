@@ -1,31 +1,84 @@
 package main
 
 import (
-	"flag"
-	"fmt"
-	"log"
-	"net"
+	"context"
+	"net/http"
 	
+	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/irisnet/blockchain-rpc/codegen/server/model"
 	conf "github.com/irisnet/irishub-server/configs"
+	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc/blockchain"
-	
-	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
-	"google.golang.org/grpc"
 )
 
 func main() {
-	flag.Parse()
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", conf.ServerConfig.RpcServerPort))
+	http.HandleFunc("/", Handler)
+	err := http.ListenAndServe(":" + string(conf.ServerConfig.RpcServerPort), nil)
 	if err != nil {
-		log.Fatalf("failed to listen: %v\n", err)
+		logger.Error.Fatalln("ListenAndServe: ", err)
 	}
-	grpcServer := grpc.NewServer()
-	
+}
+
+func Handler(w http.ResponseWriter, req *http.Request) {
 	var (
-		blockChainRPCServices blockchain.BlockChainRPCServices
+		bodyContent []byte
 	)
-	chainModel.RegisterBlockChainServiceServer(grpcServer, blockChainRPCServices)
 	
-	grpcServer.Serve(lis)
-	fmt.Println("This is test")
+	bodyLen, err := req.Body.Read(bodyContent)
+	logger.Info.Println(bodyLen)
+	if err != nil {
+		logger.Error.Println(err)
+	}
+	
+	uri := req.RequestURI
+	
+	out := thriftRequest(bodyContent, uri)
+	println(string(out))
+	w.WriteHeader(200)
+	w.Write(out)
+}
+
+func thriftRequest(input []byte, uri string) []byte {
+	var (
+		inProtocol *thrift.TJSONProtocol
+		outProtocol *thrift.TJSONProtocol
+		inBuffer thrift.TTransport
+		outBuffer thrift.TTransport
+	)
+	
+	
+	inBuffer = thrift.NewTMemoryBuffer()
+	inBuffer.Write(input)
+	if inBuffer != nil {
+		defer inBuffer.Close()
+	}
+	
+	outBuffer = thrift.NewTMemoryBuffer()
+	if outBuffer != nil {
+		defer outBuffer.Close()
+	}
+	
+	inProtocol = thrift.NewTJSONProtocol(inBuffer)
+	outProtocol = thrift.NewTJSONProtocol(outBuffer)
+	
+	if uri != "" {
+		switch uri {
+		case "blockchain":
+			var (
+				service blockchain.BlockChainRPCServices
+			)
+			process := model.NewBlockChainServiceProcessor(service)
+			process.Process(context.Background(), inProtocol, outProtocol)
+			break
+		case "irishub":
+			var (
+			)
+			break
+		}
+	}
+	
+	out := make([]byte, outBuffer.RemainingBytes())
+	outBuffer.Read(out)
+	return out
+	
 }

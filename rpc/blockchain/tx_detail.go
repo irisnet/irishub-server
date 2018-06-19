@@ -1,7 +1,7 @@
 package blockchain
 
 import (
-	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/constants"
@@ -32,16 +32,15 @@ func (c TxDetailHandler) BuildResponse(resVO vo.TxDetailResVO) *commonProtoc.TxD
 	from := rpc.BuildResponseAddress(resTx.From)
 	to := rpc.BuildResponseAddress(resTx.To)
 	coins := rpc.BuildResponseCoins(resTx.Amount)
-	fee := commonProtoc.TxDetailResponse_Fee{
-	
+	fee := commonProtoc.FeeUsed{
 	}
 	
 	response := commonProtoc.TxDetailResponse{
 		TxHash: resTx.TxHash,
 		Time: resTx.Time.String(),
-		Height: uint64(resTx.Height),
-		From: &from,
-		To: &to,
+		Height: resTx.Height,
+		Sender: &from,
+		Receiver: &to,
 		Amount: coins,
 		Type: resTx.Type,
 		Status: constants.TxStatusSuccess,

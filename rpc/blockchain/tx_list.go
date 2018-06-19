@@ -1,7 +1,7 @@
 package blockchain
 
 import (
-	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/constants"
@@ -58,9 +58,9 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) *commonProtoc.TxListR
 			resTxListObj := commonProtoc.TxListObject{
 				TxHash: v.TxHash,
 				Time: v.Time.String(),
-				Height: uint64(v.Height),
-				From: &from,
-				To: &to,
+				Height: v.Height,
+				Sender: &from,
+				Receiver: &to,
 				Amount: modelCoins,
 				Type: v.Type,
 				Status: constants.TxStatusSuccess,

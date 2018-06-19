@@ -1,7 +1,7 @@
 package blockchain
 
 import (
-	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc"
 	vo "github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
@@ -23,10 +23,6 @@ func (c BuildTxHandler) Handler(ctx context.Context, request *commonProtoc.Build
 	return c.buildResponse(res), nil
 }
 
-// transform common request to suitable request
-//
-// buildTxRequest is common model,
-// every api server of chain may need transform them before handle these data
 func (c BuildTxHandler) buildRequest(request *commonProtoc.BuildTxRequest) (vo.BuildTxReqVO) {
 	var coins []vo.Coin
 	for _, amount := range request.Amount {
@@ -44,20 +40,20 @@ func (c BuildTxHandler) buildRequest(request *commonProtoc.BuildTxRequest) (vo.B
 			Amount: int64(request.Fee.Amount),
 		},
 		Multi: false,
-		Sequence: request.Nonce,
+		Sequence: request.Sequence,
 		From: vo.Address{
-			Chain: request.From.GetChain(),
-			App: request.From.GetApp(),
-			Addr: request.From.GetAddr(),
+			Chain: request.Sender.GetChain(),
+			App: request.Sender.GetApp(),
+			Addr: request.Sender.GetAddr(),
 		},
 		To: vo.Address{
-			Chain: request.To.GetChain(),
-			App: request.To.GetApp(),
-			Addr: request.To.GetAddr(),
+			Chain: request.Receiver.GetChain(),
+			App: request.Receiver.GetApp(),
+			Addr: request.Receiver.GetAddr(),
 		},
 		Amount: coins,
 		Memo:vo.Memo{
-			Id: request.Memo.Id,
+			Id: request.Memo.ID,
 			Text: request.Memo.GetText(),
 		},
 	}

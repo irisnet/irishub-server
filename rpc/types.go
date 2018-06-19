@@ -1,7 +1,7 @@
 package rpc
 
 import (
-	chainModel "github.com/irisnet/blockchain-rpc/codegen/server"
+	chainModel "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/errors"
 	"github.com/irisnet/irishub-server/models/document"
 	"google.golang.org/grpc/codes"
