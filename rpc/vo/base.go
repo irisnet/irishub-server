@@ -21,6 +21,12 @@ type Memo struct {
 	Text []byte   `json:"text,omitempty"`
 }
 
+type PubKey struct {
+	Type string `json:"type"`
+	Data string `json:"data"`
+}
+
+
 
 
 

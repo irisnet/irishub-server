@@ -34,7 +34,7 @@
     "json",
     "render"
   ]
-  revision = "caf3e350a548af1add9def68087ac53d1d000caa"
+  revision = "737d2fb7ab4ad358c5fa01b7a08ce346dcaebd79"
 
 [[projects]]
   branch = "master"
@@ -76,13 +76,13 @@
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
   packages = ["codegen/server/model"]
-  revision = "26f186374d196eb1d64b6da11f8f4d7b83f6027c"
+  revision = "b010168fda9a078f07ab333345fac04866a42185"
 
 [[projects]]
   branch = "develop"
   name = "github.com/irisnet/irishub-rpc"
   packages = ["codegen/server/model"]
-  revision = "a1b76ce5b1b0a62852b45eca44d12dead9ebf483"
+  revision = "eda0b3af1a66963fe2620d4c2db9bf4bd9798ad8"
 
 [[projects]]
   name = "github.com/json-iterator/go"
@@ -119,6 +119,12 @@
   version = "1.0.0"
 
 [[projects]]
+  name = "github.com/rs/cors"
+  packages = ["."]
+  revision = "ca016a06a5753f8ba03029c0aa5e54afb1bf713f"
+  version = "v1.4.0"
+
+[[projects]]
   name = "github.com/swaggo/swag"
   packages = ["."]
   revision = "db2ee6c14a35e4fca95b0d75054296ef2b699050"
@@ -137,13 +143,13 @@
     "context",
     "idna"
   ]
-  revision = "db08ff08e8622530d9ed3a0e8ac279f6d4c02196"
+  revision = "afe8f62b1d6bbd81f31868121a50b06d8188e1f9"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "6c888cc515d3ed83fc103cf1d84468aad274b0a7"
+  revision = "ad87a3a340fa7f3bed189293fbfa7a9b7e021ae1"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -171,7 +177,7 @@
   branch = "master"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
-  revision = "32ee49c4dd805befd833990acba36cb75042378c"
+  revision = "80063a038e333bbe006c878e4c5ce4c74d055498"
 
 [[projects]]
   name = "google.golang.org/grpc"
@@ -179,8 +185,8 @@
     "codes",
     "status"
   ]
-  revision = "7a6a684ca69eb4cae85ad0a484f2e531598c047b"
-  version = "v1.12.2"
+  revision = "168a6198bcb0ef175f7dacec0b8691fc141dc9b8"
+  version = "v1.13.0"
 
 [[projects]]
   name = "gopkg.in/go-playground/validator.v8"
@@ -209,6 +215,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "5044e2aa83a777fb4ac4a5b31fe6e9131e233eb3b3cea69896aa287400a03fd5"
+  inputs-digest = "b7189f9f83ff18de24b16a1c2ae1b0d9f5970b562e9b3a2f7d92fd856cce5a7a"
   solver-name = "gps-cdcl"
   solver-version = 1

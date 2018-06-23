@@ -46,13 +46,18 @@ const TxStatusSuccess = "success"
 // define token denom
 const Denom  = "iris"
 
+// define blockchainRPC uri
+const UriBlockChainRPC = "/blockchain"
+const UriIrisHubRpc = "/irishub"
+
 // define success status code and fail status code
 var SuccessStatusCodes  = []int{200}
 var ErrorStatusCodes = []int{400}
 
-
 // define uri of server which expose by block chain
-const HttpUriBuildTx = "/build/send"
+const HttpUriBuildCoinTx = "/build/send"
+const HttpUriBuildDelegateTx = "/build/stake/delegate"
+const HttpUriBuildUnBondTx = "/build/stake/unbond"
 const HttpUriByteTx  = "/byteTx"
 const HttpUriPostTx  = "/tx"
 const HttpUriGetSequence  = "/query/nonce/%s" // query/nonce/{{address}}
@@ -60,3 +65,4 @@ const HttpUriGetBalance  = "/query/account/%s" // query/account/{{address}}
 
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"
+

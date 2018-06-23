@@ -26,9 +26,9 @@ func TestTxService_GetTxList(t *testing.T) {
 					Page:      1,
 					PerPage:   20,
 					Status:    "",
-					Type:      "receive",
+					Type:      "",
 					StartTime: "",
-					EndTime:   "2018-06-07 00:00:00",
+					EndTime:   "",
 					Sort:      "-time",
 					Q:         "",
 				},
@@ -62,7 +62,7 @@ func TestTxService_getTxDetail(t *testing.T) {
 			s: TxService{},
 			args: args{
 				reqVO: vo.TxDetailReqVO{
-					TxHash: "5848A17B29899EC574C812165CA4F3255D556249",
+					TxHash: "5289539FE1FE03E5B427F9ACADB0FC185B66EB54",
 				},
 			},
 			

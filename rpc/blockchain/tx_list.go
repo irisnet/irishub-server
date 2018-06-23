@@ -70,5 +70,7 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) *commonProtoc.TxListR
 		}
 	}
 	
+	response.Txs = resTxs
+	
 	return &response
 }

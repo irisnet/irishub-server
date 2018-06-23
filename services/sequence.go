@@ -23,6 +23,7 @@ func (c SequenceService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, 
 	uri := fmt.Sprintf(constants.HttpUriGetSequence, address)
 	statusCode, res := HttpClientGetData(uri)
 	
+	// TODO: httpCode is 400 when nonce is null
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
 		return resVO, NewIrisErr(errors.EC40001, errors.EM40001 + string(res), nil)
 	}

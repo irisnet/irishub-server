@@ -15,7 +15,15 @@ type TxDetailHandler struct {
 func (c TxDetailHandler) Handler(ctx context.Context, req *commonProtoc.TxDetailRequest) (
 	*commonProtoc.TxDetailResponse, error) {
 	
-	return nil, nil
+	reqVO := c.BuildRequest(req)
+	
+	resVO, err := txService.GetTxDetail(reqVO)
+	
+	if err.IsNotNull() {
+		return nil, rpc.ConvertIrisErrToGRPCErr(err)
+	}
+	
+	return c.BuildResponse(resVO), nil
 }
 
 func (c TxDetailHandler) BuildRequest(req *commonProtoc.TxDetailRequest) vo.TxDetailReqVO {
