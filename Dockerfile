@@ -1,5 +1,5 @@
 # docker usage
-# docker build -t irishub-server:v1 .
+# docker build -t irishub-server:develop .
 # docker run --name irishub-server -v /mnt/data/iris-log:/irishub-server/log -p 9080:9080 -e "DB_HOST=127.0.0.1" -e "DB_PORT=27117" -e "ENV=stage" -d irishub-server:v1
 
 FROM alpine:edge
