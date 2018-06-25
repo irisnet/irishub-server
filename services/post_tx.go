@@ -2,7 +2,6 @@ package services
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	
 	"github.com/irisnet/irishub-server/errors"
@@ -15,12 +14,7 @@ type PostTxService struct {
 }
 
 func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) ([]byte, errors.IrisError) {
-	requestBody, err := json.Marshal(reqVO)
-	if err != nil {
-		return nil, NewIrisErr(errors.EC40002, errors.EM40002, err)
-	}
-	
-	reqPostTx := bytes.NewBuffer([]byte(requestBody))
+	reqPostTx := bytes.NewBuffer(reqVO.Tx)
 	
 	statusCode, res := HttpClientPostJsonData(constants.HttpUriPostTx, reqPostTx)
 	

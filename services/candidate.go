@@ -11,18 +11,19 @@ import (
 type CandidateService struct {
 }
 
-func (s CandidateService) List(listVo vo.CandidateListReqVO) (vo.CandidateListResVO, errors.IrisError)  {
-	sorts := helper.ParseParamSort(listVo.Sort)
+func (s CandidateService) List(reqVO vo.CandidateListReqVO) (vo.CandidateListResVO, errors.IrisError)  {
+	sorts := helper.ParseParamSort(reqVO.Sort)
 	
 	var (
 		resVO vo.CandidateListResVO
 	)
 	
-	skip, limit := helper.ParseParamPage(int(listVo.Page), int(listVo.PerPage))
-	address := listVo.Address
+	skip, limit := helper.ParseParamPage(int(reqVO.Page), int(reqVO.PerPage))
+	address := reqVO.Address
+	q := reqVO.Q
 
 	// query all candidates
-	candidates, err := candidateModel.GetCandidatesList(sorts, skip, limit)
+	candidates, err := candidateModel.GetCandidatesList(q, sorts, skip, limit)
 	if err != nil {
 		return resVO, ConvertSysErr(err)
 	}

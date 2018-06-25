@@ -39,15 +39,19 @@ func (h DelegatorCandidateListHandler) BuildRequest(req *irisProtoc.DelegatorCan
 func (h DelegatorCandidateListHandler) BuildResponse(resVO vo.DelegatorCandidateListResVO) *irisProtoc.DelegatorCandidateListResponse {
 	var (
 		response irisProtoc.DelegatorCandidateListResponse
-		resCandidateDescription irisProtoc.CandidateDescription
-		resCandidateDelegator irisProtoc.Delegator
-		resCandidate irisProtoc.Candidate
 		resCandidates []*irisProtoc.Candidate
 	)
 	
 	candidates := resVO.Candidates
 	if len(candidates) > 0 {
 		for _, v := range candidates {
+			var (
+				resCandidate irisProtoc.Candidate
+				resCandidateDescription irisProtoc.CandidateDescription
+				resCandidateDelegator irisProtoc.Delegator
+				resCandidateDelegators []*irisProtoc.Delegator
+			)
+			
 			// description
 			resCandidateDescription = irisProtoc.CandidateDescription{
 				Details: v.Description.Details,
@@ -57,8 +61,6 @@ func (h DelegatorCandidateListHandler) BuildResponse(resVO vo.DelegatorCandidate
 			}
 			
 			// delegator
-			var resCandidateDelegators []*irisProtoc.Delegator
-			
 			if len(v.Delegators) > 0 {
 				delegator := v.Delegators[0]
 				resCandidateDelegator = irisProtoc.Delegator{

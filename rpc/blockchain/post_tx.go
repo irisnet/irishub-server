@@ -2,7 +2,6 @@ package blockchain
 
 import (
 	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
-	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
@@ -15,7 +14,6 @@ func (c PostTxHandler) Handler(ctx context.Context, req *commonProtoc.PostTxRequ
 	*commonProtoc.PostTxResponse, error) {
 	
 	reqVO := c.buildRequest(req)
-	logger.Info.Println(string(reqVO.Tx))
 	res, err := postTxService.PostTx(reqVO)
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)

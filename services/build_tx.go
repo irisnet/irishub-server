@@ -88,7 +88,6 @@ func (s BuildTxService) BuildTx(reqVO vo.BuildTxReqVO) (vo.BuildTxResVO, errors.
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
 		return resVO, NewIrisErr(errors.EC40001, errors.EM40001 + string(resBuildTx), nil)
 	}
-	logger.Info.Println(string(resByteTx))
 	resVO.Data = resByteTx
 	resVO.Ext = resBuildTx
 	return resVO, irisErr

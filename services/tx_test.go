@@ -71,7 +71,7 @@ func TestTxService_getTxDetail(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := TxService{}
-			res, err := s.getTxDetail(tt.args.reqVO)
+			res, err := s.GetTxDetail(tt.args.reqVO)
 			if err.IsNotNull() {
 				logger.Error.Fatalln(err)
 			}

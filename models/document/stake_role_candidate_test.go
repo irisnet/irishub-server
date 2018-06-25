@@ -12,6 +12,7 @@ import (
 func TestCandidate_GetCandidatesList(t *testing.T) {
 
 	type args struct {
+		q string
 		skip  int
 		limit int
 		sorts []string
@@ -23,6 +24,7 @@ func TestCandidate_GetCandidatesList(t *testing.T) {
 		{
 			name: "test get candidate list",
 			args: args{
+				q: "4",
 				skip:  0,
 				limit: 10,
 				sorts: []string{"-voting_power"},
@@ -32,7 +34,7 @@ func TestCandidate_GetCandidatesList(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			d := Candidate{}
-			candidates, err := d.GetCandidatesList(tt.args.sorts, tt.args.skip, tt.args.limit)
+			candidates, err := d.GetCandidatesList(tt.args.q, tt.args.sorts, tt.args.skip, tt.args.limit)
 			if err != nil {
 				logger.Error.Panicln(err)
 			}
