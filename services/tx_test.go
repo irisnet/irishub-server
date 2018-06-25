@@ -26,9 +26,9 @@ func TestTxService_GetTxList(t *testing.T) {
 					Page:      1,
 					PerPage:   20,
 					Status:    "",
-					Type:      "receive",
+					Type:      "",
 					StartTime: "",
-					EndTime:   "2018-06-07 00:00:00",
+					EndTime:   "",
 					Sort:      "-time",
 					Q:         "",
 				},
@@ -62,7 +62,7 @@ func TestTxService_getTxDetail(t *testing.T) {
 			s: TxService{},
 			args: args{
 				reqVO: vo.TxDetailReqVO{
-					TxHash: "5848A17B29899EC574C812165CA4F3255D556249",
+					TxHash: "5289539FE1FE03E5B427F9ACADB0FC185B66EB54",
 				},
 			},
 			
@@ -71,7 +71,7 @@ func TestTxService_getTxDetail(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := TxService{}
-			res, err := s.getTxDetail(tt.args.reqVO)
+			res, err := s.GetTxDetail(tt.args.reqVO)
 			if err.IsNotNull() {
 				logger.Error.Fatalln(err)
 			}

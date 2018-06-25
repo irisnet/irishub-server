@@ -79,7 +79,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	return resVO, irisErr
 }
 
-func (s TxService) getTxDetail(reqVO vo.TxDetailReqVO) (vo.TxDetailResVO, errors.IrisError) {
+func (s TxService) GetTxDetail(reqVO vo.TxDetailReqVO) (vo.TxDetailResVO, errors.IrisError) {
 	var (
 		resVO vo.TxDetailResVO
 		pubKeys []string

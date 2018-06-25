@@ -5,8 +5,8 @@ type SequenceReqVO struct {
 }
 
 type SequenceResVO struct {
-	Sequence uint64 `json:"data"`
-	Height uint64 `json:"height"`
+	Sequence int64 `json:"data"`
+	Height int64 `json:"height"`
 }
 
 

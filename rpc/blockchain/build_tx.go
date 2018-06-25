@@ -1,7 +1,7 @@
 package blockchain
 
 import (
-	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc"
 	vo "github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
@@ -15,21 +15,17 @@ func (c BuildTxHandler) Handler(ctx context.Context, request *commonProtoc.Build
 	*commonProtoc.BuildTxResponse, error) {
 	
 	buildTxVO := c.buildRequest(request)
-	res, err := buildTxService.BuildTx(buildTxVO)
+	resVO, err := buildTxService.BuildTx(buildTxVO)
 	
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)
 	}
-	return c.buildResponse(res), nil
+	return c.buildResponse(resVO), nil
 }
 
-// transform common request to suitable request
-//
-// buildTxRequest is common model,
-// every api server of chain may need transform them before handle these data
-func (c BuildTxHandler) buildRequest(request *commonProtoc.BuildTxRequest) (vo.BuildTxReqVO) {
+func (c BuildTxHandler) buildRequest(req *commonProtoc.BuildTxRequest) (vo.BuildTxReqVO) {
 	var coins []vo.Coin
-	for _, amount := range request.Amount {
+	for _, amount := range req.Amount {
 		coin := vo.Coin{
 			Denom: amount.GetDenom(),
 			Amount: int64(amount.GetAmount()),
@@ -38,36 +34,40 @@ func (c BuildTxHandler) buildRequest(request *commonProtoc.BuildTxRequest) (vo.B
 	}
 	
 	
-	buildTxVO := vo.BuildTxReqVO{
+	reqVO := vo.BuildTxReqVO{
 		Fees: vo.Fee{
-			Denom: request.Fee.Denom,
-			Amount: int64(request.Fee.Amount),
+			Denom:  req.Fee.Denom,
+			Amount: int64(req.Fee.Amount),
 		},
-		Multi: false,
-		Sequence: request.Nonce,
+		Multi:    false,
+		Sequence: req.Sequence,
 		From: vo.Address{
-			Chain: request.From.GetChain(),
-			App: request.From.GetApp(),
-			Addr: request.From.GetAddr(),
+			Chain: req.Sender.GetChain(),
+			App:   req.Sender.GetApp(),
+			Addr:  req.Sender.GetAddr(),
 		},
 		To: vo.Address{
-			Chain: request.To.GetChain(),
-			App: request.To.GetApp(),
-			Addr: request.To.GetAddr(),
+			Chain: req.Receiver.GetChain(),
+			App:   req.Receiver.GetApp(),
+			Addr:  req.Receiver.GetAddr(),
 		},
 		Amount: coins,
-		Memo:vo.Memo{
-			Id: request.Memo.Id,
-			Text: request.Memo.GetText(),
-		},
+		TxType: req.TxType,
 	}
 	
-	return buildTxVO
+	if req.Memo != nil {
+		reqVO.Memo = vo.Memo{
+			Id: req.Memo.ID,
+			Text: req.Memo.Text,
+		}
+	}
+	
+	return reqVO
 }
 
-// transform service result to common response
-func (c BuildTxHandler) buildResponse(res []byte) (*commonProtoc.BuildTxResponse) {
+func (c BuildTxHandler) buildResponse(resVO vo.BuildTxResVO) (*commonProtoc.BuildTxResponse) {
 	return &commonProtoc.BuildTxResponse{
-		Data: res,
+		Data: resVO.Data,
+		Ext: resVO.Ext,
 	}
 }

@@ -1,11 +1,11 @@
 package vo
 
 type BalanceReqVO struct {
-	Address string `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
+	Address string `json:"address,omitempty"`
 }
 
 type BalanceResVO struct {
-	Height uint64 `json:"height"`
+	Height int64 `json:"height"`
 	Data BalanceResDataVO `json:"data"`
 	
 }

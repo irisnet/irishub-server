@@ -1,7 +1,7 @@
 package irishub
 
 import (
-	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server"
+	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
@@ -36,7 +36,7 @@ func (c ShareHandler) BuildRequest(req *irisProtoc.TotalShareRequest) vo.ShareRe
 func (c ShareHandler) BuildResponse(resVO vo.ShareResVO) *irisProtoc.TotalShareResponse {
 	
 	response := irisProtoc.TotalShareResponse{
-		TotalShares: resVO.TotalShare,
+		TotalShares: int64(resVO.TotalShare),
 	}
 	
 	return &response

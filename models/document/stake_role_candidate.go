@@ -43,11 +43,17 @@ func (d Candidate) Query(
 }
 
 
-func (d Candidate) GetCandidatesList(sorts []string, skip int, limit int) ([]Candidate, error)  {
+func (d Candidate) GetCandidatesList(q string, sorts []string, skip int, limit int) ([]Candidate, error)  {
 	query := bson.M{
 		"shares": &bson.M{
 			"$ne": 0,
 		},
+	}
+	if q != "" {
+		query["description.moniker"] = &bson.M{
+			"$regex": q,
+			"$options": "$i",
+		}
 	}
 	candidates, err := d.Query(query, skip, limit, sorts...)
 

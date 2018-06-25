@@ -1,7 +1,7 @@
 package blockchain
 
 import (
-	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
@@ -35,7 +35,6 @@ func (c SequenceHandler) buildRequest(req *commonProtoc.SequenceRequest) vo.Sequ
 func (c SequenceHandler) buildResponse(resVO vo.SequenceResVO) *commonProtoc.SequenceResponse {
 	response := commonProtoc.SequenceResponse{
 		Sequence: resVO.Sequence,
-		Height: resVO.Height,
 	}
 	
 	return &response

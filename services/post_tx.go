@@ -2,7 +2,7 @@ package services
 
 import (
 	"bytes"
-	"encoding/json"
+	"fmt"
 	
 	"github.com/irisnet/irishub-server/errors"
 	"github.com/irisnet/irishub-server/rpc/vo"
@@ -13,18 +13,13 @@ import (
 type PostTxService struct {
 }
 
-func (s PostTxService) PostTx(vo vo.PostTxReqVO) ([]byte, errors.IrisError) {
-	requestBody, err := json.Marshal(vo)
-	if err != nil {
-		return nil, NewIrisErr(errors.EC40002, errors.EM40002, err)
-	}
-	
-	reqPostTx := bytes.NewBuffer([]byte(requestBody))
+func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) ([]byte, errors.IrisError) {
+	reqPostTx := bytes.NewBuffer(reqVO.Tx)
 	
 	statusCode, res := HttpClientPostJsonData(constants.HttpUriPostTx, reqPostTx)
 	
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
-		return nil, NewIrisErr(errors.EC40001, errors.EM40001, err)
+		return nil, NewIrisErr(errors.EC40001, errors.EM40001, fmt.Errorf(string(res)))
 	}
 	
 	return res, irisErr

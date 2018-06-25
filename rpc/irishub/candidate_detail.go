@@ -1,7 +1,7 @@
 package irishub
 
 import (
-	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server"
+	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
@@ -39,7 +39,7 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 	var (
 		response irisProtoc.CandidateDetailResponse
 		resCandidate irisProtoc.Candidate
-		resCandidateDescription irisProtoc.Candidate_Description
+		resCandidateDescription irisProtoc.CandidateDescription
 		resCandidateDelegator irisProtoc.Delegator
 		
 		resCandidateDelegators []*irisProtoc.Delegator
@@ -48,7 +48,7 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 	candidate := resVO.Candidate
 	
 	// description
-	resCandidateDescription = irisProtoc.Candidate_Description{
+	resCandidateDescription = irisProtoc.CandidateDescription{
 		Details: candidate.Description.Details,
 		Identity: candidate.Description.Identity,
 		Moniker: candidate.Description.Moniker,
@@ -61,7 +61,7 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 		resCandidateDelegator = irisProtoc.Delegator{
 			Address: delegator.Address,
 			PubKey: delegator.PubKey,
-			Shares: uint64(delegator.Shares),
+			Shares: delegator.Shares,
 		}
 		resCandidateDelegators = append(resCandidateDelegators, &resCandidateDelegator)
 	}
@@ -70,7 +70,7 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 	resCandidate = irisProtoc.Candidate{
 		Address: candidate.Address,
 		PubKey: candidate.PubKey,
-		Shares: uint64(candidate.Shares),
+		Shares: candidate.Shares,
 		VotingPower: candidate.VotingPower,
 		Description: &resCandidateDescription,
 		Delegators: resCandidateDelegators,

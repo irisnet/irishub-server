@@ -3,11 +3,11 @@ package vo
 import "github.com/irisnet/irishub-server/models/document"
 
 type CandidateListReqVO struct {
-	Address              string   `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
-	Page                 uint64   `protobuf:"varint,2,opt,name=page" json:"page,omitempty"`
-	PerPage              uint64   `protobuf:"varint,3,opt,name=perPage" json:"perPage,omitempty"`
-	Sort                 string   `protobuf:"bytes,4,opt,name=sort" json:"sort,omitempty"`
-	Q                    string   `protobuf:"bytes,5,opt,name=q" json:"q,omitempty"`
+	Address              string   `json:"address,omitempty"`
+	Page                 int16   `json:"page,omitempty"`
+	PerPage              int16   `json:"perPage,omitempty"`
+	Sort                 string   `json:"sort,omitempty"`
+	Q                    string   `json:"q,omitempty"`
 }
 
 type CandidateListResVO struct {
@@ -15,8 +15,8 @@ type CandidateListResVO struct {
 }
 
 type CandidateDetailReqVO struct {
-	Address              string   `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
-	PubKey               string   `protobuf:"bytes,2,opt,name=pubKey" json:"pubKey,omitempty"`
+	Address              string   `json:"address,omitempty"`
+	PubKey               string   `json:"pubKey,omitempty"`
 }
 
 type CandidateDetailResVO struct {
@@ -24,11 +24,11 @@ type CandidateDetailResVO struct {
 }
 
 type DelegatorCandidateListReqVO struct {
-	Address              string   `protobuf:"bytes,1,opt,name=address" json:"address,omitempty"`
-	Page                 uint64   `protobuf:"varint,2,opt,name=page" json:"page,omitempty"`
-	PerPage              uint64   `protobuf:"varint,3,opt,name=perPage" json:"perPage,omitempty"`
-	Sort                 string   `protobuf:"bytes,4,opt,name=sort" json:"sort,omitempty"`
-	Q                    string   `protobuf:"bytes,5,opt,name=q" json:"q,omitempty"`
+	Address              string   `json:"address,omitempty"`
+	Page                 int16   `json:"page,omitempty"`
+	PerPage              int16   `json:"perPage,omitempty"`
+	Sort                 string   `json:"sort,omitempty"`
+	Q                    string   `json:"q,omitempty"`
 }
 
 type DelegatorCandidateListResVO struct {

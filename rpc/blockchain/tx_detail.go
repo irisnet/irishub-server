@@ -1,7 +1,7 @@
 package blockchain
 
 import (
-	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/constants"
@@ -15,7 +15,15 @@ type TxDetailHandler struct {
 func (c TxDetailHandler) Handler(ctx context.Context, req *commonProtoc.TxDetailRequest) (
 	*commonProtoc.TxDetailResponse, error) {
 	
-	return nil, nil
+	reqVO := c.BuildRequest(req)
+	
+	resVO, err := txService.GetTxDetail(reqVO)
+	
+	if err.IsNotNull() {
+		return nil, rpc.ConvertIrisErrToGRPCErr(err)
+	}
+	
+	return c.BuildResponse(resVO), nil
 }
 
 func (c TxDetailHandler) BuildRequest(req *commonProtoc.TxDetailRequest) vo.TxDetailReqVO {
@@ -32,16 +40,15 @@ func (c TxDetailHandler) BuildResponse(resVO vo.TxDetailResVO) *commonProtoc.TxD
 	from := rpc.BuildResponseAddress(resTx.From)
 	to := rpc.BuildResponseAddress(resTx.To)
 	coins := rpc.BuildResponseCoins(resTx.Amount)
-	fee := commonProtoc.TxDetailResponse_Fee{
-	
+	fee := commonProtoc.FeeUsed{
 	}
 	
 	response := commonProtoc.TxDetailResponse{
 		TxHash: resTx.TxHash,
 		Time: resTx.Time.String(),
-		Height: uint64(resTx.Height),
-		From: &from,
-		To: &to,
+		Height: resTx.Height,
+		Sender: &from,
+		Receiver: &to,
 		Amount: coins,
 		Type: resTx.Type,
 		Status: constants.TxStatusSuccess,
