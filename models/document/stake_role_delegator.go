@@ -52,6 +52,9 @@ func (d Delegator) GetDelegatorListByAddressAndPubKeys(address string, pubKeys [
 		"pub_key": &bson.M{
 			"$in": pubKeys,
 		},
+		"shares": &bson.M{
+			"$gt": 0,
+		},
 	}
 	sorts := make([]string, 0)
 
@@ -69,6 +72,9 @@ func (d Delegator) GetDelegatorListByAddress(address string, skip int,
 
 	query := bson.M{
 		"address": address,
+		"shares": &bson.M{
+			"$gt": 0,
+		},
 	}
 
 	delegator, err := d.Query(query, skip, limit, sorts...)
