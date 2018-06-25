@@ -52,7 +52,7 @@ func TestDelegator_GetTotalTokenByAddress(t *testing.T) {
 		{
 			name: "test get total token by address",
 			args: args{
-				address: "3F9BB6D8A3938CD8E3A52584CC1F066027C522FE",
+				address: "E7113444CC960FD64D289CD3BD8A7FC123607ECE",
 			},
 		},
 	}

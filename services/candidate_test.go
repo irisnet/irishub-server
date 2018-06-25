@@ -89,7 +89,7 @@ func TestCandidateService_DelegatorCandidateList(t *testing.T) {
 			s: CandidateService{},
 			args:args{
 				reqVO: vo.DelegatorCandidateListReqVO{
-					Address: "BED890EB9DB1309E0884DF8BDD41B16461D8E194",
+					Address: "0A69DE4C3E9296EFA9E99F00405BE6B8D38CDD21",
 					Page: 1,
 					PerPage: 20,
 					Sort: "-time",

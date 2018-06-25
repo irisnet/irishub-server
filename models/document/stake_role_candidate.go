@@ -46,7 +46,7 @@ func (d Candidate) Query(
 func (d Candidate) GetCandidatesList(q string, sorts []string, skip int, limit int) ([]Candidate, error)  {
 	query := bson.M{
 		"shares": &bson.M{
-			"$ne": 0,
+			"$gt": 0,
 		},
 	}
 	if q != "" {
