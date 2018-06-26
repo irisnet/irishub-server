@@ -34,7 +34,7 @@
     "json",
     "render"
   ]
-  revision = "737d2fb7ab4ad358c5fa01b7a08ce346dcaebd79"
+  revision = "1f59bad84b577735b27a1ee855f01ed2f50cd88b"
 
 [[projects]]
   branch = "master"
@@ -76,13 +76,13 @@
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
   packages = ["codegen/server/model"]
-  revision = "b010168fda9a078f07ab333345fac04866a42185"
+  revision = "03c329b3ef5f2bc463022d00ff49fff917030723"
 
 [[projects]]
   branch = "develop"
   name = "github.com/irisnet/irishub-rpc"
   packages = ["codegen/server/model"]
-  revision = "eda0b3af1a66963fe2620d4c2db9bf4bd9798ad8"
+  revision = "35ab9ab8242a255928895dcc3224952d94456cc6"
 
 [[projects]]
   name = "github.com/json-iterator/go"
@@ -149,7 +149,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "ad87a3a340fa7f3bed189293fbfa7a9b7e021ae1"
+  revision = "a200a19cb90b19de298170992778b1fda7217bd6"
 
 [[projects]]
   name = "golang.org/x/text"

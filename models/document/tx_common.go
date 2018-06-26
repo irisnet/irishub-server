@@ -63,12 +63,22 @@ func (d CommonTx) GetList(address string, txType string,
 		switch txType {
 		case constants.TxTypeCoinReceive:
 			query["to"] = address
+			query["type"] = constants.TxTypeFrontMapDb[txType]
 			break
 		case constants.TxTypeCoinSend, constants.TxTypeStakeDelegate, constants.TxTypeStakeUnBond:
 			query["from"] = address
+			query["type"] = constants.TxTypeFrontMapDb[txType]
 			break
+		case constants.TxTypeStake:
+			query["from"] = address
+			query["type"] = bson.M{
+				"$in": []string{
+					constants.TxTypeStakeDelegate,
+					constants.TxTypeStakeUnBond,
+				},
+			}
 		}
-		query["type"] = constants.TxTypeFrontMapDb[txType]
+		
 	}
 	
 	if startTime.IsZero() {

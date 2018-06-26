@@ -12,7 +12,7 @@ type DelegatorCandidateListHandler struct {
 }
 
 func (h DelegatorCandidateListHandler) Handler(ctx context.Context, req *irisProtoc.DelegatorCandidateListRequest) (
-	*irisProtoc.DelegatorCandidateListResponse, error) {
+	[]*irisProtoc.Candidate, error) {
 	
 	reqVO := h.BuildRequest(req)
 	
@@ -36,10 +36,9 @@ func (h DelegatorCandidateListHandler) BuildRequest(req *irisProtoc.DelegatorCan
 	return reqVO
 }
 
-func (h DelegatorCandidateListHandler) BuildResponse(resVO vo.DelegatorCandidateListResVO) *irisProtoc.DelegatorCandidateListResponse {
+func (h DelegatorCandidateListHandler) BuildResponse(resVO vo.DelegatorCandidateListResVO) []*irisProtoc.Candidate {
 	var (
-		response irisProtoc.DelegatorCandidateListResponse
-		resCandidates []*irisProtoc.Candidate
+		response []*irisProtoc.Candidate
 	)
 	
 	candidates := resVO.Candidates
@@ -81,13 +80,9 @@ func (h DelegatorCandidateListHandler) BuildResponse(resVO vo.DelegatorCandidate
 				Delegators: resCandidateDelegators,
 			}
 			
-			resCandidates = append(resCandidates, &resCandidate)
+			response = append(response, &resCandidate)
 		}
 	}
 	
-	response = irisProtoc.DelegatorCandidateListResponse{
-		Candidates: resCandidates,
-	}
-	
-	return &response
+	return response
 }
