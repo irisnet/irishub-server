@@ -13,7 +13,7 @@ type TxListHandler struct {
 }
 
 func (c TxListHandler) Handler(ctx context.Context, req *commonProtoc.TxListRequest) (
-	*commonProtoc.TxListResponse, error) {
+	[]*commonProtoc.Tx, error) {
 	
 	reqVO := c.buildRequest(req)
 	resVO, err := txService.GetTxList(reqVO)
@@ -42,9 +42,8 @@ func (c TxListHandler) buildRequest(req *commonProtoc.TxListRequest) vo.TxListRe
 	return reqVO
 }
 
-func (c TxListHandler) buildResponse(resVO vo.TxListResVO) *commonProtoc.TxListResponse {
-	response := commonProtoc.TxListResponse{}
-	var resTxs []*commonProtoc.TxListObject
+func (c TxListHandler) buildResponse(resVO vo.TxListResVO) []*commonProtoc.Tx {
+	var resTxs []*commonProtoc.Tx
 	
 	if len(resVO.Txs) > 0 {
 		for _, v := range resVO.Txs {
@@ -55,7 +54,7 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) *commonProtoc.TxListR
 			var modelCoins []*commonProtoc.Coin
 			modelCoins = rpc.BuildResponseCoins(v.Amount)
 			
-			resTxListObj := commonProtoc.TxListObject{
+			resTxListObj := commonProtoc.Tx{
 				TxHash: v.TxHash,
 				Time: v.Time.String(),
 				Height: v.Height,
@@ -64,13 +63,11 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) *commonProtoc.TxListR
 				Amount: modelCoins,
 				Type: v.Type,
 				Status: constants.TxStatusSuccess,
-				Ext: "",
+				Ext: []byte{},
 			}
 			resTxs = append(resTxs, &resTxListObj)
 		}
 	}
 	
-	response.Txs = resTxs
-	
-	return &response
+	return resTxs
 }

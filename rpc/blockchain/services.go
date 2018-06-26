@@ -43,19 +43,19 @@ func (s BlockChainRPCServices) GetBalance(ctx context.Context, req *commonProtoc
 
 // get tx list
 func (s BlockChainRPCServices) GetTxList(ctx context.Context, req *commonProtoc.TxListRequest) (
-	*commonProtoc.TxListResponse, error) {
+	[]*commonProtoc.Tx, error) {
 	
 	res, err := Handler(ctx, req)
-	return res.(*commonProtoc.TxListResponse), err
+	return res.([]*commonProtoc.Tx), err
 }
 
 
 // get tx detail
 func (s BlockChainRPCServices) GetTxDetail(ctx context.Context, req *commonProtoc.TxDetailRequest) (
-	*commonProtoc.TxDetailResponse, error) {
+	*commonProtoc.Tx, error) {
 	
 	res, err := Handler(ctx, req)
-	return res.(*commonProtoc.TxDetailResponse), err
+	return res.(*commonProtoc.Tx), err
 }
 
 

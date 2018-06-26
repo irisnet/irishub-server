@@ -24,8 +24,9 @@ func (c BuildTxHandler) Handler(ctx context.Context, request *commonProtoc.Build
 }
 
 func (c BuildTxHandler) buildRequest(req *commonProtoc.BuildTxRequest) (vo.BuildTxReqVO) {
+	reqTx := req.GetTx()
 	var coins []vo.Coin
-	for _, amount := range req.Amount {
+	for _, amount := range reqTx.Amount {
 		coin := vo.Coin{
 			Denom: amount.GetDenom(),
 			Amount: int64(amount.GetAmount()),
@@ -36,29 +37,29 @@ func (c BuildTxHandler) buildRequest(req *commonProtoc.BuildTxRequest) (vo.Build
 	
 	reqVO := vo.BuildTxReqVO{
 		Fees: vo.Fee{
-			Denom:  req.Fee.Denom,
-			Amount: int64(req.Fee.Amount),
+			Denom:  reqTx.Fee.Denom,
+			Amount: int64(reqTx.Fee.Amount),
 		},
 		Multi:    false,
-		Sequence: req.Sequence,
+		Sequence: reqTx.Sequence,
 		From: vo.Address{
-			Chain: req.Sender.GetChain(),
-			App:   req.Sender.GetApp(),
-			Addr:  req.Sender.GetAddr(),
+			Chain: reqTx.Sender.GetChain(),
+			App:   reqTx.Sender.GetApp(),
+			Addr:  reqTx.Sender.GetAddr(),
 		},
 		To: vo.Address{
-			Chain: req.Receiver.GetChain(),
-			App:   req.Receiver.GetApp(),
-			Addr:  req.Receiver.GetAddr(),
+			Chain: reqTx.Receiver.GetChain(),
+			App:   reqTx.Receiver.GetApp(),
+			Addr:  reqTx.Receiver.GetAddr(),
 		},
 		Amount: coins,
-		TxType: req.TxType,
+		TxType: reqTx.Type,
 	}
 	
-	if req.Memo != nil {
+	if reqTx.Memo != nil {
 		reqVO.Memo = vo.Memo{
-			Id: req.Memo.ID,
-			Text: req.Memo.Text,
+			Id: reqTx.Memo.ID,
+			Text: reqTx.Memo.Text,
 		}
 	}
 	

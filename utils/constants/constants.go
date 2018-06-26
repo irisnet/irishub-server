@@ -26,6 +26,7 @@ const TIME_LAYOUT_FULL = "2006-01-02 15:04:05"
 // define tx type
 const TxTypeCoinReceive  = "receive"
 const TxTypeCoinSend  = "send"
+const TxTypeStake = "stake"
 const TxTypeStakeDelegate  = "delegate"
 const TxTypeStakeUnBond  = "unbond"
 

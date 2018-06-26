@@ -13,7 +13,7 @@ type TxDetailHandler struct {
 }
 
 func (c TxDetailHandler) Handler(ctx context.Context, req *commonProtoc.TxDetailRequest) (
-	*commonProtoc.TxDetailResponse, error) {
+	*commonProtoc.Tx, error) {
 	
 	reqVO := c.BuildRequest(req)
 	
@@ -35,15 +35,15 @@ func (c TxDetailHandler) BuildRequest(req *commonProtoc.TxDetailRequest) vo.TxDe
 	return reqVO
 }
 
-func (c TxDetailHandler) BuildResponse(resVO vo.TxDetailResVO) *commonProtoc.TxDetailResponse {
+func (c TxDetailHandler) BuildResponse(resVO vo.TxDetailResVO) *commonProtoc.Tx {
 	resTx := resVO.Tx
 	from := rpc.BuildResponseAddress(resTx.From)
 	to := rpc.BuildResponseAddress(resTx.To)
 	coins := rpc.BuildResponseCoins(resTx.Amount)
-	fee := commonProtoc.FeeUsed{
+	fee := commonProtoc.Fee{
 	}
 	
-	response := commonProtoc.TxDetailResponse{
+	response := commonProtoc.Tx{
 		TxHash: resTx.TxHash,
 		Time: resTx.Time.String(),
 		Height: resTx.Height,

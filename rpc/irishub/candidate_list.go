@@ -12,7 +12,7 @@ type CandidateListHandler struct {
 }
 
 func (c CandidateListHandler) Handler(ctx context.Context, req *irisProtoc.CandidateListRequest) (
-	*irisProtoc.CandidateListResponse, error) {
+	[]*irisProtoc.Candidate, error) {
 	
 	reqVO := c.BuildRequest(req)
 	resVO, err := candidateService.List(reqVO)
@@ -36,10 +36,9 @@ func (c CandidateListHandler) BuildRequest(req *irisProtoc.CandidateListRequest)
 	return reqVO
 }
 
-func (c CandidateListHandler) BuildResponse(resVO vo.CandidateListResVO) *irisProtoc.CandidateListResponse  {
+func (c CandidateListHandler) BuildResponse(resVO vo.CandidateListResVO) []*irisProtoc.Candidate  {
 	var (
-		response                irisProtoc.CandidateListResponse
-		resCandidates           []*irisProtoc.Candidate
+		response           []*irisProtoc.Candidate
 	)
 
 	candidates := resVO.Candidates
@@ -81,13 +80,8 @@ func (c CandidateListHandler) BuildResponse(resVO vo.CandidateListResVO) *irisPr
 				Delegators: resCandidateDelegators,
 			}
 			
-			resCandidates = append(resCandidates, &resCandidate)
+			response = append(response, &resCandidate)
 		}
 	}
-	
-	response = irisProtoc.CandidateListResponse{
-		Candidates: resCandidates,
-	}
-	
-	return &response
+	return response
 }

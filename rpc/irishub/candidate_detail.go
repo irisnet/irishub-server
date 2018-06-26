@@ -12,7 +12,7 @@ type CandidateDetailHandler struct {
 }
 
 func (h CandidateDetailHandler) Handler(ctx context.Context, req *irisProtoc.CandidateDetailRequest) (
-	*irisProtoc.CandidateDetailResponse, error) {
+	*irisProtoc.Candidate, error) {
 	
 	reqVO := h.BuildRequest(req)
 	
@@ -35,10 +35,9 @@ func (h CandidateDetailHandler) BuildRequest(req *irisProtoc.CandidateDetailRequ
 	return reqVO
 }
 
-func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *irisProtoc.CandidateDetailResponse {
+func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *irisProtoc.Candidate {
 	var (
-		response irisProtoc.CandidateDetailResponse
-		resCandidate irisProtoc.Candidate
+		response irisProtoc.Candidate
 		resCandidateDescription irisProtoc.CandidateDescription
 		resCandidateDelegator irisProtoc.Delegator
 		
@@ -67,7 +66,7 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 	}
 	
 	
-	resCandidate = irisProtoc.Candidate{
+	response = irisProtoc.Candidate{
 		Address: candidate.Address,
 		PubKey: candidate.PubKey,
 		Shares: candidate.Shares,
@@ -75,10 +74,6 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 		Description: &resCandidateDescription,
 		Delegators: resCandidateDelegators,
 		
-	}
-	
-	response = irisProtoc.CandidateDetailResponse{
-		Candidate: &resCandidate,
 	}
 	
 	return &response
