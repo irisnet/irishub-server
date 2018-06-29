@@ -16,6 +16,7 @@ import (
 	"github.com/irisnet/irishub-server/utils/constants"
 	
 	"github.com/rs/cors"
+	"regexp"
 )
 
 func main() {
@@ -34,6 +35,16 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 		bodyContent []byte
 	)
 	bodyContent, err := ioutil.ReadAll(req.Body)
+	reg := regexp.MustCompile("\\\\\"")
+	reg1 := regexp.MustCompile("\"\"")
+	reg2 := regexp.MustCompile("\"{")
+	reg3 := regexp.MustCompile("}\"")
+	for reg.Find(bodyContent) != nil {
+		bodyContent = reg.ReplaceAll(bodyContent, []byte("\""))
+		bodyContent = reg1.ReplaceAll(bodyContent, []byte("\""))
+	}
+	bodyContent = reg2.ReplaceAll(bodyContent, []byte("{"))
+	bodyContent = reg3.ReplaceAll(bodyContent, []byte("}"))
 	if err != nil {
 		// TODO: Handle exception
 		logger.Error.Println(err)
