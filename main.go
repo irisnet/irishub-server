@@ -34,24 +34,27 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 	var (
 		bodyContent []byte
 	)
+	uri := req.RequestURI
 	bodyContent, err := ioutil.ReadAll(req.Body)
-	reg := regexp.MustCompile("\\\\\"")
-	reg1 := regexp.MustCompile("\"\"")
-	reg2 := regexp.MustCompile("\"{")
-	reg3 := regexp.MustCompile("}\"")
-	for reg.Find(bodyContent) != nil {
-		bodyContent = reg.ReplaceAll(bodyContent, []byte("\""))
+	reg1 := regexp.MustCompile("\\\\\"")
+	reg2 := regexp.MustCompile("\"\"")
+	reg3 := regexp.MustCompile("\"{")
+	reg4 := regexp.MustCompile("}\"")
+	reg5 := regexp.MustCompile("\"\\[")
+	reg6 := regexp.MustCompile("]\"")
+	for reg1.Find(bodyContent) != nil {
 		bodyContent = reg1.ReplaceAll(bodyContent, []byte("\""))
+		bodyContent = reg2.ReplaceAll(bodyContent, []byte("\""))
 	}
-	bodyContent = reg2.ReplaceAll(bodyContent, []byte("{"))
-	bodyContent = reg3.ReplaceAll(bodyContent, []byte("}"))
+	bodyContent = reg3.ReplaceAll(bodyContent, []byte("{"))
+	bodyContent = reg4.ReplaceAll(bodyContent, []byte("}"))
+	bodyContent = reg5.ReplaceAll(bodyContent, []byte("["))
+	bodyContent = reg6.ReplaceAll(bodyContent, []byte("]"))
 	if err != nil {
 		// TODO: Handle exception
 		logger.Error.Println(err)
 		return
 	}
-	uri := req.RequestURI
-	logger.Info.Println(uri)
 	
 	out := thriftRequest(bodyContent, uri)
 	w.WriteHeader(constants.STATUS_CODE_OK)
