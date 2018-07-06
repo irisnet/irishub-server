@@ -15,8 +15,8 @@ type CandidateListResVO struct {
 }
 
 type CandidateDetailReqVO struct {
-	Address              string   `json:"address,omitempty"`
-	PubKey               string   `json:"pubKey,omitempty"`
+	Address string `json:"address,omitempty"`
+	ValAddr string `json:"pubKey,omitempty"`
 }
 
 type CandidateDetailResVO struct {

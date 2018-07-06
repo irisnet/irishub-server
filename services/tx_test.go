@@ -22,7 +22,7 @@ func TestTxService_GetTxList(t *testing.T) {
 			s:    TxService{},
 			args: args{
 				reqVO: vo.TxListReqVO{
-					Address:   "BED890EB9DB1309E0884DF8BDD41B16461D8E194",
+					Address:   "EEE8513C1980DAEB737FB56CEA2CA355C05CA9E5",
 					Page:      1,
 					PerPage:   20,
 					Status:    "",

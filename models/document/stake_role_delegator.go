@@ -15,10 +15,10 @@ const (
 )
 
 type Delegator struct {
-	Address string `json:"address" bson:"address"`
-	PubKey  string `json:"pub_key" bson:"pub_key"`
-	Shares  int64  `json:"shares" bson:"shares"`
-	UpdateTime  time.Time   `json:"update_time" bson:"update_time"`
+	Address       string    `json:"address" bson:"address"`
+	ValidatorAddr string    `json:"pub_key" bson:"pub_key"` // validator Address
+	Shares        int64     `json:"shares" bson:"shares"`
+	UpdateTime    time.Time `json:"update_time" bson:"update_time"`
 }
 
 type DelegatorShares struct {
@@ -31,7 +31,7 @@ func (d Delegator) Name() string {
 }
 
 func (d Delegator) PkKvPair() map[string]interface{} {
-	return bson.M{"address": d.Address, "pub_key": d.PubKey}
+	return bson.M{"address": d.Address, "pub_key": d.ValidatorAddr}
 }
 
 func (d Delegator) Query(
@@ -44,13 +44,13 @@ func (d Delegator) Query(
 	return results, models.ExecCollection(d.Name(), exop)
 }
 
-func (d Delegator) GetDelegatorListByAddressAndPubKeys(address string, pubKeys []string,
+func (d Delegator) GetDelegatorListByAddressAndValidatorAddrs(address string, valAddrs []string,
 	) ([]Delegator, error) {
 
 	query := bson.M{
 		"address": address,
 		"pub_key": &bson.M{
-			"$in": pubKeys,
+			"$in": valAddrs,
 		},
 		"shares": &bson.M{
 			"$gt": 0,
@@ -58,7 +58,7 @@ func (d Delegator) GetDelegatorListByAddressAndPubKeys(address string, pubKeys [
 	}
 	sorts := make([]string, 0)
 
-	delegator, err := d.Query(query, 0, len(pubKeys), sorts...)
+	delegator, err := d.Query(query, 0, len(valAddrs), sorts...)
 
 	if err != nil {
 		logger.Error.Println(err)

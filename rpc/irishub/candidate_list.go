@@ -64,7 +64,7 @@ func (c CandidateListHandler) BuildResponse(resVO vo.CandidateListResVO) []*iris
 				delegator := v.Delegators[0]
 				resCandidateDelegator = irisProtoc.Delegator{
 					Address: delegator.Address,
-					PubKey: delegator.PubKey,
+					PubKey: delegator.ValidatorAddr,
 					Shares: delegator.Shares,
 				}
 				resCandidateDelegators = append(resCandidateDelegators, &resCandidateDelegator)

@@ -15,6 +15,9 @@ var (
 	
 	candidateDetailHandler CandidateDetailHandler
 	delegatorCandidateListHandler DelegatorCandidateListHandler
+
+	accountNumberHandler AccountNumberHandler
+	accountService services.AccountService
 )
 
 
@@ -36,6 +39,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 		break
 	case *irisProtoc.DelegatorCandidateListRequest:
 		res, err = delegatorCandidateListHandler.Handler(ctx, req.(*irisProtoc.DelegatorCandidateListRequest))
+		break
+	case *irisProtoc.AccountNumRequest:
+		res, err = accountNumberHandler.Handler(ctx, req.(*irisProtoc.AccountNumRequest))
 		break
 	}
 	

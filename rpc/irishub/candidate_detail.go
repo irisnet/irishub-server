@@ -29,7 +29,7 @@ func (h CandidateDetailHandler) BuildRequest(req *irisProtoc.CandidateDetailRequ
 	
 	reqVO := vo.CandidateDetailReqVO{
 		Address: req.GetAddress(),
-		PubKey: req.GetPubKey(),
+		ValAddr: req.GetPubKey(),
 	}
 	
 	return reqVO
@@ -59,7 +59,7 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 		delegator := candidate.Delegators[0]
 		resCandidateDelegator = irisProtoc.Delegator{
 			Address: delegator.Address,
-			PubKey: delegator.PubKey,
+			PubKey: delegator.ValidatorAddr,
 			Shares: delegator.Shares,
 		}
 		resCandidateDelegators = append(resCandidateDelegators, &resCandidateDelegator)

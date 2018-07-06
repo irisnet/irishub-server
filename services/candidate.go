@@ -36,12 +36,12 @@ func (s CandidateService) List(reqVO vo.CandidateListReqVO) (vo.CandidateListRes
 
 	// query detail of candidate which i have delegated
 	var (
-		pubKeys []string
+		validatorAddrs []string
 	)
 	for _, candidate := range candidates {
-		pubKeys = append(pubKeys, candidate.PubKey)
+		validatorAddrs = append(validatorAddrs, candidate.Address)
 	}
-	delegator, err := delegatorModel.GetDelegatorListByAddressAndPubKeys(address, pubKeys)
+	delegator, err := delegatorModel.GetDelegatorListByAddressAndValidatorAddrs(address, validatorAddrs)
 	if err != nil {
 		return resVO, ConvertSysErr(err)
 	}
@@ -64,7 +64,7 @@ func (s CandidateService) Detail(reqVO vo.CandidateDetailReqVO) (
 	)
 
 	// query detail info of candidate
-	candidate, err := candidateModel.GetCandidateDetail(reqVO.PubKey)
+	candidate, err := candidateModel.GetCandidateDetail(reqVO.ValAddr)
 	if err != nil {
 		return resVO, ConvertSysErr(err)
 	}
@@ -77,9 +77,9 @@ func (s CandidateService) Detail(reqVO vo.CandidateDetailReqVO) (
 
 	// query detail of candidate which i have delegated
 	var (
-		pubKeys = []string{candidate.PubKey}
+		validatorAddrs = []string{candidate.Address}
 	)
-	delegator, err := delegatorModel.GetDelegatorListByAddressAndPubKeys(reqVO.Address, pubKeys)
+	delegator, err := delegatorModel.GetDelegatorListByAddressAndValidatorAddrs(reqVO.Address, validatorAddrs)
 	if err != nil {
 		return resVO, ConvertSysErr(err)
 	}
@@ -117,12 +117,12 @@ func (s CandidateService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 
 	// query all candidate which delegator have delegated
 	var (
-		pubKeys []string
+		valAddrs []string
 	)
 	for _, de := range delegator {
-		pubKeys = append(pubKeys, de.PubKey)
+		valAddrs = append(valAddrs, de.ValidatorAddr)
 	}
-	candidates, err := candidateModel.GetCandidatesListByPubKeys(pubKeys)
+	candidates, err := candidateModel.GetCandidatesListByValidatorAddrs(valAddrs)
 	if err != nil {
 		return resVO, ConvertSysErr(err)
 	}
@@ -147,7 +147,7 @@ func (s CandidateService) buildCandidates(
 
 	delegators := make([]document.Delegator, 0)
 	for _, de := range delegator {
-		if cd.PubKey == de.PubKey {
+		if cd.Address == de.ValidatorAddr {
 			delegators = append(delegators, de)
 			cd.Delegators = delegators
 			break

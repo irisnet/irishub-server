@@ -12,13 +12,11 @@ var (
 	
 	postTxHandler PostTxHandler
 	postTxService services.PostTxService
-	
+
+	accountService  services.AccountService
 	sequenceHandler SequenceHandler
-	sequenceService services.SequenceService
-	
 	balanceHandler BalanceHandler
-	balanceService services.BalanceService
-	
+
 	txListHandler TxListHandler
 	txService     services.TxService
 	
