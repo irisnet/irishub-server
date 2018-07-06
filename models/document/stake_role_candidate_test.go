@@ -24,7 +24,7 @@ func TestCandidate_GetCandidatesList(t *testing.T) {
 		{
 			name: "test get candidate list",
 			args: args{
-				q: "4",
+				q: "",
 				skip:  0,
 				limit: 10,
 				sorts: []string{"-voting_power"},

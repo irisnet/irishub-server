@@ -61,9 +61,9 @@ const HttpUriBuildDelegateTx = "/build/stake/delegate"
 const HttpUriBuildUnBondTx = "/build/stake/unbond"
 const HttpUriByteTx  = "/byteTx"
 const HttpUriPostTx  = "/tx"
-const HttpUriGetSequence  = "/query/nonce/%s" // query/nonce/{{address}}
-const HttpUriGetBalance  = "/query/account/%s" // query/account/{{address}}
-
+const HttpUriGetSequence  = "/accounts/%s" // accounts/{{address}}
+const HttpUriGetBalance  = "/accounts/%s" // accounts/{{address}}
+const HttpUriGetAccountNum  = "/accounts/%s" // accounts/{{address}}
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"
 

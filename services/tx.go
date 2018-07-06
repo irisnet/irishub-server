@@ -17,12 +17,12 @@ type TxService struct {
 
 func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisError) {
 	var (
-		startTime time.Time
-		endTime time.Time
-		err error
-		pubKeys []string
+		startTime  time.Time
+		endTime    time.Time
+		err        error
+		valAddrs   []string
 		candidates []document.Candidate
-		resVO vo.TxListResVO
+		resVO      vo.TxListResVO
 	)
 	
 	address := reqVO.Address
@@ -54,16 +54,16 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	for _, commonTx := range commonTxs {
 		txType := commonTx.Type
 		if txType == constants.TxTypeStakeDelegate || txType == constants.TxTypeStakeUnBond {
-			pubKeys = append(pubKeys, commonTx.To)
+			valAddrs = append(valAddrs, commonTx.To)
 		}
 	}
 	
 	// remove repetition value in slice
-	pubKeys = RemoveRepetitionStrValueFromSlice(pubKeys)
+	valAddrs = RemoveRepetitionStrValueFromSlice(valAddrs)
 	
-	// get candidates by pubKeys
-	if pubKeys != nil {
-		candidates, err = candidateModel.GetCandidatesListByPubKeys(pubKeys)
+	// get candidates by valAddrs
+	if valAddrs != nil {
+		candidates, err = candidateModel.GetCandidatesListByValidatorAddrs(valAddrs)
 		if err != nil {
 			return resVO, ConvertSysErr(err)
 		}
@@ -102,7 +102,7 @@ func (s TxService) GetTxDetail(reqVO vo.TxDetailReqVO) (vo.TxDetailResVO, errors
 	
 	// get candidates by pubKeys
 	if pubKeys != nil {
-		candidates, err = candidateModel.GetCandidatesListByPubKeys(pubKeys)
+		candidates, err = candidateModel.GetCandidatesListByValidatorAddrs(pubKeys)
 		if err != nil {
 			return resVO, ConvertSysErr(err)
 		}

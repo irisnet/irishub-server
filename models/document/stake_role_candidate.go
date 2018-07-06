@@ -64,15 +64,15 @@ func (d Candidate) GetCandidatesList(q string, sorts []string, skip int, limit i
 	return candidates, err
 }
 
-func (d Candidate) GetCandidatesListByPubKeys(pubKeys []string) ([]Candidate, error)  {
+func (d Candidate) GetCandidatesListByValidatorAddrs(valAddrs []string) ([]Candidate, error)  {
 	query := bson.M{
 		"pub_key": &bson.M{
-			"$in": pubKeys,
+			"$in": valAddrs,
 		},
 	}
 	sorts := make([]string, 0)
 
-	candidates, err := d.Query(query, 0, len(pubKeys), sorts...)
+	candidates, err := d.Query(query, 0, len(valAddrs), sorts...)
 
 	if err != nil {
 		logger.Error.Println(err)
@@ -103,9 +103,9 @@ func (d Candidate) GetTotalShares() (uint64, error)  {
 	return value.TotalShares, nil
 }
 
-func (d Candidate) GetCandidateDetail(pubKey string) (Candidate, error) {
+func (d Candidate) GetCandidateDetail(valAddr string) (Candidate, error) {
 	query := bson.M{
-		"pub_key": pubKey,
+		"address": valAddr,
 	}
 	sorts := make([]string, 0)
 

@@ -15,7 +15,7 @@ func (c BalanceHandler) Handler(ctx context.Context, req *commonProtoc.BalanceRe
 	*commonProtoc.BalanceResponse, error) {
 	
 	reqVO := c.buildRequest(req)
-	resVO, err := balanceService.GetBalance(reqVO)
+	resVO, err := accountService.GetBalance(reqVO)
 	
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)

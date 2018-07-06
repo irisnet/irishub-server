@@ -32,36 +32,25 @@ func main() {
 
 func Handler(w http.ResponseWriter, req *http.Request) {
 	var (
-		bodyContent []byte
+		uri  string
+		body []byte
 	)
-	uri := req.RequestURI
-	bodyContent, err := ioutil.ReadAll(req.Body)
-	reg1 := regexp.MustCompile("\\\\\"")
-	reg2 := regexp.MustCompile("\"\"")
-	reg3 := regexp.MustCompile("\"{")
-	reg4 := regexp.MustCompile("}\"")
-	reg5 := regexp.MustCompile("\"\\[")
-	reg6 := regexp.MustCompile("]\"")
-	for reg1.Find(bodyContent) != nil {
-		bodyContent = reg1.ReplaceAll(bodyContent, []byte("\""))
-		bodyContent = reg2.ReplaceAll(bodyContent, []byte("\""))
-	}
-	bodyContent = reg3.ReplaceAll(bodyContent, []byte("{"))
-	bodyContent = reg4.ReplaceAll(bodyContent, []byte("}"))
-	bodyContent = reg5.ReplaceAll(bodyContent, []byte("["))
-	bodyContent = reg6.ReplaceAll(bodyContent, []byte("]"))
+	uri = req.RequestURI
+
+	body, err := ioutil.ReadAll(req.Body)
+	body = convertReqBody(body)
+
 	if err != nil {
-		// TODO: Handle exception
 		logger.Error.Println(err)
 		return
 	}
 	
-	out := thriftRequest(bodyContent, uri)
+	out := process(body, uri)
 	w.WriteHeader(constants.STATUS_CODE_OK)
 	w.Write(out)
 }
 
-func thriftRequest(input []byte, uri string) []byte {
+func process(input []byte, uri string) []byte {
 	var (
 		inProtocol *thrift.TJSONProtocol
 		outProtocol *thrift.TJSONProtocol
@@ -103,4 +92,23 @@ func thriftRequest(input []byte, uri string) []byte {
 	out := make([]byte, outBuffer.RemainingBytes())
 	outBuffer.Read(out)
 	return out
+}
+
+func convertReqBody(body []byte) []byte {
+	reg1 := regexp.MustCompile("\\\\\"")
+	reg2 := regexp.MustCompile("\"\"")
+	reg3 := regexp.MustCompile("\"{")
+	reg4 := regexp.MustCompile("}\"")
+	reg5 := regexp.MustCompile("\"\\[")
+	reg6 := regexp.MustCompile("]\"")
+	for reg1.Find(body) != nil {
+		body = reg1.ReplaceAll(body, []byte("\""))
+		body = reg2.ReplaceAll(body, []byte("\""))
+	}
+	body = reg3.ReplaceAll(body, []byte("{"))
+	body = reg4.ReplaceAll(body, []byte("}"))
+	body = reg5.ReplaceAll(body, []byte("["))
+	body = reg6.ReplaceAll(body, []byte("]"))
+
+	return body
 }

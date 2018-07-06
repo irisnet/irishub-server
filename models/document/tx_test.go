@@ -28,8 +28,8 @@ func TestCommonTx_GetList(t *testing.T) {
 		{
 			name: "test get list",
 			args: args{
-				address:   "BED890EB9DB1309E0884DF8BDD41B16461D8E194",
-				txType:    "stake",
+				address:   "D770D45DEA7548076F8A27F9C9749B200934F1B4",
+				txType:    "",
 				startTime: startTime,
 				endTime:   endTime,
 				skip:      0,

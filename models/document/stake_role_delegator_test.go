@@ -31,7 +31,7 @@ func TestDelegator_GetDelegatorList(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			d := Delegator{}
-			delegator, err := d.GetDelegatorListByAddressAndPubKeys(tt.args.address, tt.args.pubKey)
+			delegator, err := d.GetDelegatorListByAddressAndValidatorAddrs(tt.args.address, tt.args.pubKey)
 			if err != nil {
 				logger.Error.Fatalln(err)
 			}

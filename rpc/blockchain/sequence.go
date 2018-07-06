@@ -15,7 +15,7 @@ func (c SequenceHandler) Handler(ctx context.Context, request *commonProtoc.Sequ
 	*commonProtoc.SequenceResponse, error) {
 	
 	reqVO := c.buildRequest(request)
-	resVO, err := sequenceService.GetSequence(reqVO)
+	resVO, err := accountService.GetSequence(reqVO)
 	
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)
