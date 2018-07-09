@@ -16,7 +16,7 @@ const (
 
 type Delegator struct {
 	Address       string    `json:"address" bson:"address"`
-	ValidatorAddr string    `json:"pub_key" bson:"pub_key"` // validator Address
+	ValidatorAddr string    `json:"pub_key" bson:"validator_addr"` // validator Address
 	Shares        int64     `json:"shares" bson:"shares"`
 	UpdateTime    time.Time `json:"update_time" bson:"update_time"`
 }
@@ -31,7 +31,7 @@ func (d Delegator) Name() string {
 }
 
 func (d Delegator) PkKvPair() map[string]interface{} {
-	return bson.M{"address": d.Address, "pub_key": d.ValidatorAddr}
+	return bson.M{"address": d.Address, "validator_addr": d.ValidatorAddr}
 }
 
 func (d Delegator) Query(
@@ -49,7 +49,7 @@ func (d Delegator) GetDelegatorListByAddressAndValidatorAddrs(address string, va
 
 	query := bson.M{
 		"address": address,
-		"pub_key": &bson.M{
+		"validator_addr": &bson.M{
 			"$in": valAddrs,
 		},
 		"shares": &bson.M{
