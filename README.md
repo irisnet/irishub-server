@@ -1,10 +1,8 @@
 # IRISHub Server
-A gRPC server that allows light clients to interact with IRIS hub
-
+A Thrift RPC server that allows light clients to interact with IRIS hub
 # Structure
 
 - `config`: config of project
-- `docs`: api documents written by swagger
 - `env`: environment of project
 - `errors`: define customer errors
 - `models`: database model which defined
