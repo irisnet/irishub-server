@@ -44,7 +44,7 @@ func init() {
 			}
 		} 
 		
-		dbName = "sync_iris"
+		dbName = "sync-iris-dev"
 		break
 	case constants.ENV_STAGE:
 		host = "127.0.0.1"
