@@ -11,13 +11,10 @@ const ENV_NAME_DB_HOST  = "DB_HOST"
 const ENV_NAME_DB_PORT  = "DB_PORT"
 const ENV_NAME_ADDR_NODE_SERVER = "ADDR_NODE_SERVER"
 
-const PAGE_LIMIT_NUM = 20
 
 // response status
 const STATUS_CODE_OK = 200
-const STATUS_SUCCESS = "success"
 const StatusCodeBadRequest = 400
-const STATUS_FAIL = "fail"
 
 // time layout
 const TIME_START  = "1970-01-01 00:00:00"
@@ -60,7 +57,7 @@ const HttpUriBuildCoinTx = "/build/send"
 const HttpUriBuildDelegateTx = "/build/stake/delegate"
 const HttpUriBuildUnBondTx = "/build/stake/unbond"
 const HttpUriByteTx  = "/byteTx"
-const HttpUriPostTx  = "/tx"
+const HttpUriPostTx  = "/tx/send"
 const HttpUriGetSequence  = "/accounts/%s" // accounts/{{address}}
 const HttpUriGetBalance  = "/accounts/%s" // accounts/{{address}}
 const HttpUriGetAccountNum  = "/accounts/%s" // accounts/{{address}}

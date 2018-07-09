@@ -14,7 +14,9 @@ type PostTxService struct {
 }
 
 func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) ([]byte, errors.IrisError) {
-	reqPostTx := bytes.NewBuffer(reqVO.Tx)
+	tx := reqVO.Tx
+
+	reqPostTx := bytes.NewBuffer(tx)
 	
 	statusCode, res := HttpClientPostJsonData(constants.HttpUriPostTx, reqPostTx)
 	
