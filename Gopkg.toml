@@ -29,10 +29,6 @@
   name = "gopkg.in/mgo.v2"
 
 [[constraint]]
-  branch = "master"
-  name = "github.com/gin-gonic/gin"
-
-[[constraint]]
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
 

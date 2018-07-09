@@ -47,7 +47,7 @@
   branch = "master"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
-  revision = "ff3583edef7de132f219f0efc00e097cabcc0ec0"
+  revision = "8b2cc369ab52e0003a878865c9372afdd6ca5c5a"
 
 [[projects]]
   name = "google.golang.org/grpc"
