@@ -18,35 +18,28 @@ var (
 )
 
 func init() {
-	if session == nil {
-		url := fmt.Sprintf("mongodb://%s:%s", conf.ConfMongodb.Host, fmt.Sprint(conf.ConfMongodb.Port))
-
-		logger.Info.Printf("Mgo start on %s\n", url)
-
-		var err error
-		session, err = mgo.Dial(url)
-		if err != nil {
-			logger.Error.Fatalln(err)
-		}
-		session.SetMode(mgo.Monotonic, true)
-	}
+	InitWithAuth()
 }
 
-func InitWithAuth(addrs []string, username, password string) {
+func InitWithAuth() {
+	addr := fmt.Sprintf("%s:%s", conf.ConfMongodb.Host, conf.ConfMongodb.Port)
+	addrs := []string{addr}
+
 	dialInfo := &mgo.DialInfo{
-		Addrs:     addrs, //[]string{"192.168.6.122"}
-		Direct:    false,
-		Timeout:   time.Second * 1,
+		Addrs:     addrs,
 		Database:  conf.ConfMongodb.DbName,
-		Username:  username,
-		Password:  password,
+		Username:  conf.ConfMongodb.User,
+		Password:  conf.ConfMongodb.Password,
+		Direct:    false,
+		Timeout:   time.Second * 10,
 		PoolLimit: 4096, // Session.SetPoolLimit
 	}
 
-	session, err := mgo.DialWithInfo(dialInfo)
+	var err error
+	session, err = mgo.DialWithInfo(dialInfo)
 	session.SetMode(mgo.Monotonic, true)
-	if nil != err {
-		panic(err)
+	if err != nil {
+		logger.Error.Panicln(err)
 	}
 }
 
@@ -72,7 +65,6 @@ func Find(collection string, query interface{}) *mgo.Query {
 
 func Save(doc Document) error {
 	save := func(c *mgo.Collection) error {
-		//先按照关键字查询，如果存在，直接返回
 		n, _ := c.Find(doc.PkKvPair()).Count()
 		if n >= 1 {
 			logger.Info.Println("db: record existed while save data")
@@ -87,7 +79,6 @@ func Save(doc Document) error {
 
 func SaveOrUpdate(h Document) error {
 	save := func(c *mgo.Collection) error {
-		//先按照关键字查询，如果存在，直接返回
 		n, err := c.Find(h.PkKvPair()).Count()
 		logger.Info.Printf("Count:%d err:%+v\n", n, err)
 		if n >= 1 {
@@ -109,16 +100,6 @@ func Update(h Document) error {
 	return ExecCollection(h.Name(), update)
 }
 
-/**
- *
- * [SearchPerson description]
- * @param {[type]} collectionName string [description]
- * @param {[type]} query          bson.M [description]
- * @param {[type]} fields         bson.M [description]
- * @param {[type]} skip           int    [description]
- * @param {[type]} sort           bson.M [description]
- * @param {[type]} limit          int)   (results      []interface{}, err error [description]
- */
 func Query(collectionName string, query bson.M, fields bson.M, skip int, limit int, sorts ...string) (results []interface{}, err error) {
 	exop := func(c *mgo.Collection) error {
 		return c.Find(query).Select(fields).Sort(sorts...).Skip(skip).Limit(limit).All(&results)

@@ -10,10 +10,10 @@ import (
 
 type configMongodb struct {
 	Host     string
-	User     string
 	Port     int
-	DbName   string
+	User     string
 	Password string
+	DbName   string
 }
 
 var ConfMongodb configMongodb
@@ -21,73 +21,47 @@ var ConfMongodb configMongodb
 func init() {
 	var (
 		host     string
-		user     string
 		port     int
-		dbName   string
+		user     string
 		password string
+		dbName   string
 	)
 
-	switch env.ENV {
-	case constants.ENV_DEV:
-		host = "116.62.62.39"
-		if env.DbHost != "" {
-			host = env.DbHost
+	host = "127.0.0.1"
+	if env.DbHost != "" {
+		host = env.DbHost
+	}
+
+	port = 27217
+	if env.DbPort != "" {
+		var err error
+		port, err = strconv.Atoi(env.DbPort)
+		if err != nil {
+			logger.Error.Printf("can't convert %v to int",
+				constants.ENV_NAME_DB_PORT)
 		}
-		
-		port = 27117
-		if env.DbPort != "" {
-			var err error
-			port, err = strconv.Atoi(env.DbPort)
-			if err != nil {
-				logger.Error.Printf("can't convert %v to int",
-					constants.ENV_NAME_DB_PORT)
-			}
-		} 
-		
-		dbName = "sync-iris-dev"
-		break
-	case constants.ENV_STAGE:
-		host = "127.0.0.1"
-		if env.DbHost != "" {
-			host = env.DbHost
-		}
-		
-		port = 27117
-		if env.DbPort != "" {
-			var err error
-			port, err = strconv.Atoi(env.DbPort)
-			if err != nil {
-				logger.Error.Printf("can't convert %v to int",
-					constants.ENV_NAME_DB_PORT)
-			}
-		} 
-		
-		dbName = "sync_iris"
-		break
-	case constants.ENV_PRO:
-		host = "127.0.0.1"
-		if env.DbHost != "" {
-			host = env.DbHost
-		}
-		
-		port = 27117
-		if env.DbPort != "" {
-			var err error
-			port, err = strconv.Atoi(env.DbPort)
-			if err != nil {
-				logger.Error.Printf("can't convert %v to int",
-					constants.ENV_NAME_DB_PORT)
-			}
-		}
-		dbName = "sync_iris"
-		break
+	}
+
+	user = "user"
+	if env.DbUser != "" {
+		user = env.DbUser
+	}
+
+	password = "passwd"
+	if env.DbPasswd != "" {
+		password = env.DbPasswd
+	}
+
+	dbName = "sync_irishub"
+	if env.DbDatabase != "" {
+		dbName = env.DbDatabase
 	}
 
 	ConfMongodb = configMongodb{
 		Host:     host,
-		User:     user,
 		Port:     port,
-		DbName:   dbName,
+		User:     user,
 		Password: password,
+		DbName:   dbName,
 	}
 }

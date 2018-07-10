@@ -9,6 +9,9 @@ const ENV_PRO = "pro"
 const ENV_NAME_ENV  = "ENV"
 const ENV_NAME_DB_HOST  = "DB_HOST"
 const ENV_NAME_DB_PORT  = "DB_PORT"
+const ENV_NAME_DB_User  = "DB_USER"
+const ENV_NAME_DB_Passwd  = "DB_PASSWD"
+const ENV_NAME_DB_DATABASE  = "DB_DATABASE"
 const ENV_NAME_ADDR_NODE_SERVER = "ADDR_NODE_SERVER"
 
 
