@@ -11,6 +11,9 @@ var (
 	ENV        string
 	DbHost     string
 	DbPort     string
+	DbUser     string
+	DbPasswd   string
+	DbDatabase string
 	AddrNodeServer string
 )
 
@@ -33,6 +36,21 @@ func init()  {
 	dbPort, found := os.LookupEnv(constants.ENV_NAME_DB_PORT)
 	if found {
 		DbPort = dbPort
+	}
+
+	dbUser, found := os.LookupEnv(constants.ENV_NAME_DB_User)
+	if found {
+		DbUser = dbUser
+	}
+
+	dbPasswd, found := os.LookupEnv(constants.ENV_NAME_DB_Passwd)
+	if found {
+		DbPasswd = dbPasswd
+	}
+
+	dbDatabase, found := os.LookupEnv(constants.ENV_NAME_DB_DATABASE)
+	if found {
+		DbDatabase = dbDatabase
 	}
 	
 	addrNodeServer, found := os.LookupEnv(constants.ENV_NAME_ADDR_NODE_SERVER)
