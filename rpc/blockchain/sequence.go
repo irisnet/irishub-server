@@ -35,6 +35,7 @@ func (c SequenceHandler) buildRequest(req *commonProtoc.SequenceRequest) vo.Sequ
 func (c SequenceHandler) buildResponse(resVO vo.SequenceResVO) *commonProtoc.SequenceResponse {
 	response := commonProtoc.SequenceResponse{
 		Sequence: resVO.Sequence,
+		Ext: resVO.Ext,
 	}
 	
 	return &response

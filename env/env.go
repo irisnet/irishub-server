@@ -21,7 +21,7 @@ func init()  {
 	env, found := os.LookupEnv(constants.ENV_NAME_ENV)
 	if !found {
 		ENV = constants.ENV_DEV
-		logger.Error.Printf("Environment variable %v is not set, default set to %v\n",
+		logger.Info.Printf("Environment variable %v is not set, default set to %v\n",
 			constants.ENV_NAME_ENV, ENV)
 	} else {
 		ENV = env

@@ -28,6 +28,10 @@ func (s CandidateService) List(reqVO vo.CandidateListReqVO) (vo.CandidateListRes
 		return resVO, ConvertSysErr(err)
 	}
 
+	if candidates == nil {
+		return resVO, irisErr
+	}
+
 	// get total shares
 	totalShares, err := s.getTotalShares()
 	if err != nil {
@@ -69,6 +73,11 @@ func (s CandidateService) Detail(reqVO vo.CandidateDetailReqVO) (
 		return resVO, ConvertSysErr(err)
 	}
 
+	// not found
+	if candidate.Address == "" {
+		return resVO, irisErr
+	}
+
 	// get total shares
 	totalShares, err := candidateModel.GetTotalShares()
 	if err != nil {
@@ -107,6 +116,10 @@ func (s CandidateService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	delegator, err := delegatorModel.GetDelegatorListByAddress(address, skip, limit, sorts)
 	if err != nil {
 		return resVO, ConvertSysErr(err)
+	}
+
+	if delegator == nil {
+		return resVO, irisErr
 	}
 
 	// get total shares

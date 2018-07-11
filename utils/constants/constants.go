@@ -17,6 +17,7 @@ const ENV_NAME_ADDR_NODE_SERVER = "ADDR_NODE_SERVER"
 
 // response status
 const STATUS_CODE_OK = 200
+const StatusCodeNotContent  = 204
 const StatusCodeBadRequest = 400
 
 // time layout
