@@ -26,6 +26,10 @@ func ConvertSysErr(err error) errors.IrisError  {
 	return irisErr.New(errors.EC50001, err.Error() + err.Error())
 }
 
+func ConvertBadRequestErr(err error) errors.IrisError {
+	return irisErr.New(errors.EC40001, errors.EM40001 + err.Error())
+}
+
 func NewIrisErr(errCode uint32, errMsg string, err error) errors.IrisError  {
 	if err != nil {
 		errMsg = errMsg + err.Error()

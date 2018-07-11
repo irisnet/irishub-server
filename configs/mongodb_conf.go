@@ -1,16 +1,12 @@
 package configs
 
 import (
-	"strconv"
-	
 	"github.com/irisnet/irishub-server/env"
-	"github.com/irisnet/irishub-server/modules/logger"
-	"github.com/irisnet/irishub-server/utils/constants"
 )
 
 type configMongodb struct {
 	Host     string
-	Port     int
+	Port     string
 	User     string
 	Password string
 	DbName   string
@@ -21,33 +17,28 @@ var ConfMongodb configMongodb
 func init() {
 	var (
 		host     string
-		port     int
+		port     string
 		user     string
 		password string
 		dbName   string
 	)
 
-	host = "127.0.0.1"
+	host = "116.62.62.39"
 	if env.DbHost != "" {
 		host = env.DbHost
 	}
 
-	port = 27217
+	port = "27217"
 	if env.DbPort != "" {
-		var err error
-		port, err = strconv.Atoi(env.DbPort)
-		if err != nil {
-			logger.Error.Printf("can't convert %v to int",
-				constants.ENV_NAME_DB_PORT)
-		}
+		port = env.DbPort
 	}
 
-	user = "user"
+	user = "irishub"
 	if env.DbUser != "" {
 		user = env.DbUser
 	}
 
-	password = "passwd"
+	password = "bianjie.ai"
 	if env.DbPasswd != "" {
 		password = env.DbPasswd
 	}

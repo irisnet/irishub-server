@@ -14,7 +14,7 @@ type SequenceReqVO struct {
 
 type SequenceResVO struct {
 	Sequence int64 `json:"data"`
-	Height int64 `json:"height"`
+	Ext []byte
 }
 
 type BalanceReqVO struct {

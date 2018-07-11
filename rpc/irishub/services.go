@@ -37,12 +37,5 @@ func (s IRISHubRPCSERVICES) GetDelegatorTotalShares(ctx context.Context, req *ir
 	return res.(*irisProtoc.TotalShareResponse), err
 }
 
-func (s IRISHubRPCSERVICES) GetAccountNum(ctx context.Context, req *irisProtoc.AccountNumRequest) (
-	r *irisProtoc.AccountNumResponse, err error) {
-
-	res, err := Handler(ctx, req)
-	return res.(*irisProtoc.AccountNumResponse), err
-}
-
 
 
