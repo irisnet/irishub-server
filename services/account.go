@@ -74,6 +74,7 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 	// handle nonce is empty
 	if statusCode == constants.StatusCodeNotContent {
 		resVO.Sequence = 0
+		resVO.Ext = []byte(strconv.Itoa(int(0)))
 		return resVO, irisErr
 	}
 
