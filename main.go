@@ -88,6 +88,8 @@ func process(input []byte, uri string) []byte {
 		process := irisProtoc.NewIRISHubServiceProcessor(service)
 		process.Process(context.Background(), inProtocol, outProtocol)
 		break
+	default:
+		return []byte("unsupported uri")
 	}
 	
 	out := make([]byte, outBuffer.RemainingBytes())

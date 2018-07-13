@@ -23,27 +23,27 @@ func init() {
 		dbName   string
 	)
 
-	host = "116.62.62.39"
+	host = "192.168.150.7"
 	if env.DbHost != "" {
 		host = env.DbHost
 	}
 
-	port = "27217"
+	port = "27017"
 	if env.DbPort != "" {
 		port = env.DbPort
 	}
 
-	user = "irishub"
+	user = "iris"
 	if env.DbUser != "" {
 		user = env.DbUser
 	}
 
-	password = "bianjie.ai"
+	password = "irispassword"
 	if env.DbPasswd != "" {
 		password = env.DbPasswd
 	}
 
-	dbName = "sync_irishub"
+	dbName = "sync-iris-dev"
 	if env.DbDatabase != "" {
 		dbName = env.DbDatabase
 	}
