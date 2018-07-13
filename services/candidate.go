@@ -166,7 +166,10 @@ func (s CandidateService) buildCandidates(
 			break
 		}
 	}
-	cd.VotingPower = float64(cd.Shares) / float64(totalShares)
+	if totalShares != 0 {
+		cd.VotingPower = float64(cd.Shares) / float64(totalShares)
+	}
+
 
 	return cd
 }

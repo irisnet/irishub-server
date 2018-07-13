@@ -30,7 +30,7 @@ func (d Candidate) Name() string {
 }
 
 func (d Candidate) PkKvPair() map[string]interface{} {
-	return bson.M{"pub_key": d.PubKey}
+	return bson.M{"address": d.Address}
 }
 
 func (d Candidate) Query(
@@ -45,9 +45,9 @@ func (d Candidate) Query(
 
 func (d Candidate) GetCandidatesList(q string, sorts []string, skip int, limit int) ([]Candidate, error)  {
 	query := bson.M{
-		"shares": &bson.M{
-			"$gt": 0,
-		},
+		//"shares": &bson.M{
+		//	"$gt": 0,
+		//},
 	}
 	if q != "" {
 		query["description.moniker"] = &bson.M{
@@ -66,7 +66,7 @@ func (d Candidate) GetCandidatesList(q string, sorts []string, skip int, limit i
 
 func (d Candidate) GetCandidatesListByValidatorAddrs(valAddrs []string) ([]Candidate, error)  {
 	query := bson.M{
-		"pub_key": &bson.M{
+		"address": &bson.M{
 			"$in": valAddrs,
 		},
 	}
