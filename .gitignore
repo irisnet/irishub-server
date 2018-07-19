@@ -1,0 +1,8 @@
+.idea
+*.bak
+*.DS_Store
+vendor/
+*.log
+iris-api
+iris-api-unix
+docker/
