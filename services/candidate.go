@@ -6,6 +6,10 @@ import (
 	"github.com/irisnet/irishub-server/models/document"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/helper"
+	"github.com/irisnet/irishub-server/modules/bech32"
+	"fmt"
+	"github.com/irisnet/irishub-server/utils/constants"
+	"encoding/json"
 )
 
 type CandidateService struct {
@@ -151,11 +155,40 @@ func (s CandidateService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	return resVO, irisErr
 }
 
+func (s CandidateService) GetExRate(reqVO vo.ExRateReqVO) (
+	vo.ExRateResVO, errors.IrisError)  {
+
+	var (
+		resVO vo.ExRateResVO
+	)
+
+	address, err := bech32.ConvertHexToBech32(reqVO.ValidatorAddress)
+	if err != nil {
+		return resVO, ConvertBadRequestErr(err)
+	}
+
+	uri := fmt.Sprintf(constants.HttpUriGetExRate, address)
+
+	statusCode, resBytes := HttpClientGetData(uri)
+
+	// statusCode != 200
+	if !helper.SliceContains(constants.SuccessStatusCodes, statusCode) {
+		return resVO, ConvertSysErr(fmt.Errorf(string(resBytes)))
+	}
+
+
+	if err := json.Unmarshal(resBytes, &resVO); err != nil {
+		return resVO, ConvertSysErr(err)
+	}
+
+	return resVO, irisErr
+}
+
 // build data
 func (s CandidateService) buildCandidates(
 	cd document.Candidate,
 	delegator []document.Delegator,
-	totalShares uint64,
+	totalShares float64,
 ) document.Candidate {
 
 	delegators := make([]document.Delegator, 0)
@@ -167,7 +200,7 @@ func (s CandidateService) buildCandidates(
 		}
 	}
 	if totalShares != 0 {
-		cd.VotingPower = float64(cd.Shares) / float64(totalShares)
+		cd.VotingPower = float64(cd.Shares) / totalShares
 	}
 
 
@@ -175,6 +208,6 @@ func (s CandidateService) buildCandidates(
 }
 
 // get total shares
-func (s CandidateService) getTotalShares() (uint64, error) {
+func (s CandidateService) getTotalShares() (float64, error) {
 	return candidateModel.GetTotalShares()
 }

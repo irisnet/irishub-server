@@ -74,7 +74,7 @@ func (c CandidateListHandler) BuildResponse(resVO vo.CandidateListResVO) []*iris
 			resCandidate = irisProtoc.Candidate{
 				Address: v.Address,
 				PubKey: v.PubKey,
-				Shares: v.Shares,
+				//Shares: v.Shares,
 				VotingPower: v.VotingPower,
 				Description: &resCandidateDescription,
 				Delegators: resCandidateDelegators,

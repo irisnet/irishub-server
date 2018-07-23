@@ -46,7 +46,7 @@ func (d CommonTx) Query(
 
 func (d CommonTx) GetList(address string, txType string,
 	startTime time.Time, endTime time.Time,
-	skip int, limit int, sorts []string) (
+	skip int, limit int, sorts []string, ext string) (
 	[]CommonTx, error) {
 	
 	query := bson.M{
@@ -76,6 +76,9 @@ func (d CommonTx) GetList(address string, txType string,
 		case constants.TxTypeCoinSend, constants.TxTypeStakeDelegate, constants.TxTypeStakeUnBond:
 			query["from"] = address
 			query["type"] = constants.TxTypeFrontMapDb[txType]
+			if ext != "" && txType != constants.TxTypeCoinSend {
+				query["to"] = ext
+			}
 			break
 		case constants.TxTypeStake:
 			query["from"] = address
@@ -84,6 +87,9 @@ func (d CommonTx) GetList(address string, txType string,
 					constants.TxTypeStakeDelegate,
 					constants.TxTypeStakeUnBond,
 				},
+			}
+			if ext != "" {
+				query["to"] = ext
 			}
 		}
 		
