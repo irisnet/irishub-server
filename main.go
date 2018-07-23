@@ -83,7 +83,7 @@ func process(input []byte, uri string) []byte {
 		break
 	case constants.UriIrisHubRpc:
 		var (
-			service irishub.IRISHubRPCSERVICES
+			service irishub.IRISHubRPCServices
 		)
 		process := irisProtoc.NewIRISHubServiceProcessor(service)
 		process.Process(context.Background(), inProtocol, outProtocol)

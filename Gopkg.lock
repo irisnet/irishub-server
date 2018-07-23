@@ -29,13 +29,13 @@
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
   packages = ["codegen/server/model"]
-  revision = "75e47a19ae1ab9b1ffa835cc4c3fb9d89900f12a"
+  revision = "ce3121e4d0e1e91659e28fbadfb8c41ffaee7c69"
 
 [[projects]]
   branch = "develop"
   name = "github.com/irisnet/irishub-rpc"
   packages = ["codegen/server/model"]
-  revision = "09131c46e3c3e7554224cf34c61aebc268314588"
+  revision = "e1c5c9893ad950e6a870847fc05dd27904f9f75c"
 
 [[projects]]
   name = "github.com/rs/cors"
@@ -47,13 +47,13 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context"]
-  revision = "039a4258aec0ad3c79b905677cceeab13b296a77"
+  revision = "a680a1efc54dd51c040b3b5ce4939ea3cf2ea0d1"
 
 [[projects]]
   branch = "master"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
-  revision = "e92b116572682a5b432ddd840aeaba2a559eeff1"
+  revision = "02b4e95473316948020af0b7a4f0f22c73929b0e"
 
 [[projects]]
   name = "google.golang.org/grpc"
