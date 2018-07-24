@@ -60,7 +60,7 @@ func CalculateUnBondToken(coin document.Coin) document.Coin {
 }
 
 // get ratio of share/token
-func GetShareTokenRatio() int64 {
+func GetShareTokenRatio() float64 {
 	return 1
 }
 

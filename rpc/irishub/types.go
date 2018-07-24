@@ -11,12 +11,13 @@ var (
 	shareService services.ShareService
 	
 	candidateListHandler CandidateListHandler
-	candidateService     services.CandidateService
 	
 	candidateDetailHandler CandidateDetailHandler
 	delegatorCandidateListHandler DelegatorCandidateListHandler
 
-	accountService services.AccountService
+	exRateHandle ExRateHandler
+
+	candidateService services.CandidateService
 )
 
 
@@ -39,6 +40,10 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	case *irisProtoc.DelegatorCandidateListRequest:
 		res, err = delegatorCandidateListHandler.Handler(ctx, req.(*irisProtoc.DelegatorCandidateListRequest))
 		break
+	case *irisProtoc.ExRateRequest:
+		res, err = exRateHandle.Handle(ctx, req.(*irisProtoc.ExRateRequest))
+		break
+
 	}
 	
 	return res, err

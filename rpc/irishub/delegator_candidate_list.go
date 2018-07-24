@@ -74,7 +74,7 @@ func (h DelegatorCandidateListHandler) BuildResponse(resVO vo.DelegatorCandidate
 			resCandidate = irisProtoc.Candidate{
 				Address: v.Address,
 				PubKey: v.PubKey,
-				Shares: v.Shares,
+				//Shares: v.Shares,
 				VotingPower: v.VotingPower,
 				Description: &resCandidateDescription,
 				Delegators: resCandidateDelegators,

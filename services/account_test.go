@@ -22,7 +22,7 @@ func TestAccountService_GetBalance(t *testing.T) {
 			s: AccountService{},
 			args: args{
 				reqVO: vo.BalanceReqVO{
-					Address: "8F9BECAF5099AA56333D9C73C8F37E5B6F127B27",
+					Address: "39F8BDAAFA6DF322313B60333317E9D4F18E70A6",
 				},
 			},
 		},

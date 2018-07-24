@@ -29,7 +29,8 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	txType := reqVO.Type
 	skip, limit := helper.ParseParamPage(int(reqVO.Page), int(reqVO.PerPage))
 	sorts := helper.ParseParamSort(reqVO.Sort)
-	
+	ext := string(reqVO.Ext)
+
 	if reqVO.StartTime != "" {
 		startTime, err = helper.ParseFullTime(reqVO.StartTime)
 		if err != nil {
@@ -45,7 +46,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	}
 	
 	commonTxs, err := commonTxModel.GetList(address, txType, startTime, endTime,
-		skip, limit, sorts)
+		skip, limit, sorts, ext)
 	if err != nil {
 		return resVO, ConvertSysErr(err)
 	}
@@ -126,9 +127,8 @@ func (s TxService) buildData(commonTx document.CommonTx,
 	if txType == constants.DbTxTypeStakeDelegate ||
 		txType == constants.DbTxTypeStakeUnBond {
 		
-		pubKey := commonTx.To
 		for _, candidate := range candidates {
-			if pubKey == candidate.PubKey {
+			if commonTx.To == candidate.Address {
 				commonTx.Candidate = candidate
 				break
 			}

@@ -57,7 +57,7 @@ func TestCandidateService_Detail(t *testing.T) {
 			args: args{
 				reqVO: vo.CandidateDetailReqVO{
 					Address: "BED890EB9DB1309E0884DF8BDD41B16461D8E194",
-					ValAddr:  "EFF0C056C8F1602DC6F61F87C6EE8ACCF1855BEFD8AFD8B4B2C90397312D768AB",
+					ValAddr: "EFF0C056C8F1602DC6F61F87C6EE8ACCF1855BEFD8AFD8B4B2C90397312D768AB",
 				},
 			},
 		},
@@ -80,19 +80,19 @@ func TestCandidateService_DelegatorCandidateList(t *testing.T) {
 		reqVO vo.DelegatorCandidateListReqVO
 	}
 	tests := []struct {
-		name  string
-		s     CandidateService
-		args  args
+		name string
+		s    CandidateService
+		args args
 	}{
 		{
 			name: "test get delegator candidate list",
-			s: CandidateService{},
-			args:args{
+			s:    CandidateService{},
+			args: args{
 				reqVO: vo.DelegatorCandidateListReqVO{
 					Address: "0A69DE4C3E9296EFA9E99F00405BE6B8D38CDD21",
-					Page: 1,
+					Page:    1,
 					PerPage: 20,
-					Sort: "-time",
+					Sort:    "-time",
 				},
 			},
 		},
@@ -104,6 +104,39 @@ func TestCandidateService_DelegatorCandidateList(t *testing.T) {
 			if err.IsNotNull() {
 				logger.Error.Fatalln(err)
 			}
+			logger.Info.Println(helper.ToJson(res))
+		})
+	}
+}
+
+func TestCandidateService_GetExRate(t *testing.T) {
+	type args struct {
+		reqVO vo.ExRateReqVO
+	}
+	tests := []struct {
+		name  string
+		s     CandidateService
+		args  args
+	}{
+		{
+			name: "test get exRate",
+			s: CandidateService{},
+			args: args{
+				reqVO: vo.ExRateReqVO{
+					ValidatorAddress: "39F8BDAAFA6DF322313B60333317E9D4F18E70A6",
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := CandidateService{}
+			res, err := s.GetExRate(tt.args.reqVO)
+
+			if err.IsNotNull() {
+				logger.Error.Fatalln(err)
+			}
+
 			logger.Info.Println(helper.ToJson(res))
 		})
 	}

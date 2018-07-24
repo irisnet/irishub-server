@@ -16,7 +16,7 @@ const (
 
 type Delegator struct {
 	Address       string    `json:"address" bson:"address"`
-	ValidatorAddr string    `json:"pub_key" bson:"validator_addr"` // validator Address
+	ValidatorAddr string    `json:"pub_key" bson:"validator_addr"` // validator ValidatorAddress
 	Shares        int64     `json:"shares" bson:"shares"`
 	UpdateTime    time.Time `json:"update_time" bson:"update_time"`
 }

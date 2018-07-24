@@ -69,7 +69,7 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 	response = irisProtoc.Candidate{
 		Address: candidate.Address,
 		PubKey: candidate.PubKey,
-		Shares: candidate.Shares,
+		//Shares: candidate.Shares,
 		VotingPower: candidate.VotingPower,
 		Description: &resCandidateDescription,
 		Delegators: resCandidateDelegators,
