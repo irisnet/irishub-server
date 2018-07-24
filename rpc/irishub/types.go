@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	exRateHandle ExRateHandler
 	shareHandler ShareHandler
 	shareService services.ShareService
 	
@@ -14,8 +15,6 @@ var (
 	
 	candidateDetailHandler CandidateDetailHandler
 	delegatorCandidateListHandler DelegatorCandidateListHandler
-
-	exRateHandle ExRateHandler
 
 	candidateService services.CandidateService
 )

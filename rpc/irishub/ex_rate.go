@@ -16,7 +16,7 @@ func (h ExRateHandler) Handle(ctx context.Context, req *irisProtoc.ExRateRequest
 
 	reqVO := h.BuildRequest(req)
 
-	resVO, err := candidateService.GetExRate(reqVO)
+	resVO, err := shareService.GetExRate(reqVO)
 
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)

@@ -22,7 +22,8 @@ type Delegator struct {
 }
 
 type DelegatorShares struct {
-	TotalShares uint64 `json:"total_shares" bson:"total_shares"`
+	ValidatorAddr string `bson:"_id"`
+	TotalShares float64 `json:"total_shares" bson:"total_shares"`
 }
 
 
@@ -86,17 +87,11 @@ func (d Delegator) GetDelegatorListByAddress(address string, skip int,
 	return delegator, err
 }
 
-func (d Delegator) GetTotalSharesByAddress(address string) (DelegatorShares, error)  {
-	var value DelegatorShares
+func (d Delegator) GetTotalSharesByAddress(address string) ([]DelegatorShares, error)  {
+	var value []DelegatorShares
 	
 	q := func(c *mgo.Collection) error {
 		m := []bson.M{
-			{
-				"$project": bson.M{
-					"_id": 0,
-				},
-				
-			},
 			{
 				"$match": bson.M{
 					"address": address,
@@ -104,18 +99,18 @@ func (d Delegator) GetTotalSharesByAddress(address string) (DelegatorShares, err
 			},
 			{
 				"$group": bson.M{
-					"_id": "$address",
+					"_id" : "$validator_addr",
 					"total_shares": bson.M{"$sum": "$shares"},
 				},
 			},
 		}
-		return c.Pipe(m).One(&value)
+		return c.Pipe(m).All(&value)
 	}
 	
 	err := models.ExecCollection(d.Name(), q)
 	
 	if err !=  nil {
-		return DelegatorShares{}, err
+		return nil, err
 	}
 	return value, nil
 

@@ -22,7 +22,7 @@ func TestShareService_GetDelegatorTotalShare(t *testing.T) {
 			s: ShareService{},
 			args: args{
 				reqVO: vo.ShareReqVO{
-					Address: "BED890EB9DB1309E0884DF8BDD41B16461D8E194",
+					Address: "461B0D58301072D68EB95C54DDFCFBFF7D67DA7C",
 				},
 			},
 		},
