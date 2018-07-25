@@ -37,6 +37,7 @@ func (c TxListHandler) buildRequest(req *commonProtoc.TxListRequest) vo.TxListRe
 		EndTime: req.EndTime,
 		Sort: req.Sort,
 		Q: req.Q,
+		Ext: req.GetExt(),
 	}
 	
 	return reqVO

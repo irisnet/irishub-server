@@ -41,7 +41,7 @@ func TestCommonTx_GetList(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			d := CommonTx{}
-			got, err := d.GetList(tt.args.address, tt.args.txType, tt.args.startTime, tt.args.endTime, tt.args.skip, tt.args.limit, tt.args.sorts)
+			got, err := d.GetList(tt.args.address, tt.args.txType, tt.args.startTime, tt.args.endTime, tt.args.skip, tt.args.limit, tt.args.sorts, "")
 			if err != nil {
 				logger.Error.Fatalln(err.Error())
 			}
