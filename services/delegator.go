@@ -65,10 +65,10 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	return resVO, irisErr
 }
 
-func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.TotalShareReqVO) (vo.TotalShareResVO, errors.IrisError) {
+func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReqVO) (vo.DelegatorTotalShareResVO, errors.IrisError) {
 
 	var (
-		resVO       vo.TotalShareResVO
+		resVO       vo.DelegatorTotalShareResVO
 		totalTokens float64
 	)
 
@@ -95,7 +95,7 @@ func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.TotalShareReqVO) (vo.T
 		}
 	}
 
-	resVO = vo.TotalShareResVO{
+	resVO = vo.DelegatorTotalShareResVO{
 		// TODO: set value of shares equal tokens,
 		// next version will change correct
 		TotalShare: totalTokens,

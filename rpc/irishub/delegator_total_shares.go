@@ -25,16 +25,16 @@ func (c DelegatorTotalSharesHandler) Handler(ctx context.Context, req *irisProto
 	return c.BuildResponse(resVO), nil
 }
 
-func (c DelegatorTotalSharesHandler) BuildRequest(req *irisProtoc.TotalShareRequest) vo.TotalShareReqVO {
+func (c DelegatorTotalSharesHandler) BuildRequest(req *irisProtoc.TotalShareRequest) vo.DelegatorTotalShareReqVO {
 	
-	reqVO := vo.TotalShareReqVO{
+	reqVO := vo.DelegatorTotalShareReqVO{
 		Address: req.GetAddress(),
 	}
 	
 	return reqVO
 }
 
-func (c DelegatorTotalSharesHandler) BuildResponse(resVO vo.TotalShareResVO) *irisProtoc.TotalShareResponse {
+func (c DelegatorTotalSharesHandler) BuildResponse(resVO vo.DelegatorTotalShareResVO) *irisProtoc.TotalShareResponse {
 	
 	response := irisProtoc.TotalShareResponse{
 		TotalShares: helper.ConvertFloatToInt(resVO.TotalShare),

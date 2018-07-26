@@ -24,10 +24,10 @@ type DelegatorCandidateListResVO struct {
 // request of getDelegatorTotalShares
 // =============================================
 
-type TotalShareReqVO struct {
+type DelegatorTotalShareReqVO struct {
 	Address string `json:"address,omitempty"`
 }
 
-type TotalShareResVO struct {
+type DelegatorTotalShareResVO struct {
 	TotalShare float64
 }

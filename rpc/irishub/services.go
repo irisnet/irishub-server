@@ -37,18 +37,11 @@ func (s IRISHubRPCServices) GetDelegatorTotalShares(ctx context.Context, req *ir
 	return res.(*irisProtoc.TotalShareResponse), err
 }
 
-func (s IRISHubRPCServices)GetExRate(ctx context.Context, req *irisProtoc.ExRateRequest) (
-	r *irisProtoc.ExRateResponse, err error) {
+func (s IRISHubRPCServices)GetExRate(ctx context.Context, req *irisProtoc.ValidatorExRateRequest) (
+	r *irisProtoc.ValidatorExRateResponse, err error) {
 
 	res, err := Handler(ctx, req)
-	return res.(*irisProtoc.ExRateResponse), err
-}
-
-func (s IRISHubRPCServices)SaveDelegatorStakeActionExRate(ctx context.Context, req *irisProtoc.DelegatorStakeActionExRateRequest) (
-	err error) {
-
-	//res, err := Handler(ctx, req)
-	return err
+	return res.(*irisProtoc.ValidatorExRateResponse), err
 }
 
 

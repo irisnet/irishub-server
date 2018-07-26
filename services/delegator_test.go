@@ -44,7 +44,7 @@ func TestDelegatorService_DelegatorCandidateList(t *testing.T) {
 
 func TestDelegatorService_GetDelegatorTotalShare(t *testing.T) {
 	type args struct {
-		reqVO vo.TotalShareReqVO
+		reqVO vo.DelegatorTotalShareReqVO
 	}
 	tests := []struct {
 		name  string
@@ -53,7 +53,7 @@ func TestDelegatorService_GetDelegatorTotalShare(t *testing.T) {
 		{
 			name: "test get delegator total share",
 			args: args{
-				reqVO: vo.TotalShareReqVO{
+				reqVO: vo.DelegatorTotalShareReqVO{
 					Address: "461B0D58301072D68EB95C54DDFCFBFF7D67DA7C",
 				},
 			},

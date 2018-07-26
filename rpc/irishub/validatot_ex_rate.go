@@ -11,8 +11,8 @@ type ValidatorExRateHandler struct {
 	
 }
 
-func (h ValidatorExRateHandler) Handle(ctx context.Context, req *irisProtoc.ExRateRequest) (
-	*irisProtoc.ExRateResponse, error) {
+func (h ValidatorExRateHandler) Handle(ctx context.Context, req *irisProtoc.ValidatorExRateRequest) (
+	*irisProtoc.ValidatorExRateResponse, error) {
 
 	reqVO := h.BuildRequest(req)
 
@@ -25,7 +25,7 @@ func (h ValidatorExRateHandler) Handle(ctx context.Context, req *irisProtoc.ExRa
 	return h.BuildResponse(resVO), nil
 }
 
-func (h ValidatorExRateHandler) BuildRequest(req *irisProtoc.ExRateRequest) vo.ValidatorExRateReqVO {
+func (h ValidatorExRateHandler) BuildRequest(req *irisProtoc.ValidatorExRateRequest) vo.ValidatorExRateReqVO {
 	
 	reqVO := vo.ValidatorExRateReqVO{
 		ValidatorAddress: req.GetValidatorAddress(),
@@ -34,12 +34,12 @@ func (h ValidatorExRateHandler) BuildRequest(req *irisProtoc.ExRateRequest) vo.V
 	return reqVO
 }
 
-func (h ValidatorExRateHandler) BuildResponse(resVO vo.ValidatorExRateResVO) *irisProtoc.ExRateResponse {
+func (h ValidatorExRateHandler) BuildResponse(resVO vo.ValidatorExRateResVO) *irisProtoc.ValidatorExRateResponse {
 	var (
-		res irisProtoc.ExRateResponse
+		res irisProtoc.ValidatorExRateResponse
 	)
 
-	res = irisProtoc.ExRateResponse{
+	res = irisProtoc.ValidatorExRateResponse{
 		TokenSharesRate: resVO.ExRate,
 	}
 
