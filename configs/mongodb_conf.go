@@ -28,7 +28,7 @@ func init() {
 		host = env.DbHost
 	}
 
-	port = "27017"
+	port = "30000"
 	if env.DbPort != "" {
 		port = env.DbPort
 	}

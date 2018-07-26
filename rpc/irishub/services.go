@@ -44,5 +44,12 @@ func (s IRISHubRPCServices)GetExRate(ctx context.Context, req *irisProtoc.ExRate
 	return res.(*irisProtoc.ExRateResponse), err
 }
 
+func (s IRISHubRPCServices)SaveDelegatorStakeActionExRate(ctx context.Context, req *irisProtoc.DelegatorStakeActionExRateRequest) (
+	err error) {
+
+	//res, err := Handler(ctx, req)
+	return err
+}
+
 
 

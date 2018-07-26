@@ -29,13 +29,13 @@
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
   packages = ["codegen/server/model"]
-  revision = "ce3121e4d0e1e91659e28fbadfb8c41ffaee7c69"
+  revision = "df7ef08b5508ee156359ee09a22e3661cf784630"
 
 [[projects]]
   branch = "develop"
   name = "github.com/irisnet/irishub-rpc"
   packages = ["codegen/server/model"]
-  revision = "e1c5c9893ad950e6a870847fc05dd27904f9f75c"
+  revision = "9b8832d41a2a41982ddd08fb87d08d44f83abcfa"
 
 [[projects]]
   name = "github.com/rs/cors"
@@ -47,7 +47,7 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context"]
-  revision = "a680a1efc54dd51c040b3b5ce4939ea3cf2ea0d1"
+  revision = "3673e40ba22529d22c3fd7c93e97b0ce50fa7bdd"
 
 [[projects]]
   branch = "master"

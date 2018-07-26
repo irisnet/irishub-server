@@ -7,16 +7,16 @@ import (
 	"github.com/irisnet/irishub-server/rpc"
 )
 
-type ExRateHandler struct {
+type ValidatorExRateHandler struct {
 	
 }
 
-func (h ExRateHandler) Handle(ctx context.Context, req *irisProtoc.ExRateRequest) (
+func (h ValidatorExRateHandler) Handle(ctx context.Context, req *irisProtoc.ExRateRequest) (
 	*irisProtoc.ExRateResponse, error) {
 
 	reqVO := h.BuildRequest(req)
 
-	resVO, err := shareService.GetExRate(reqVO)
+	resVO, err := validatorService.GetValidatorExRate(reqVO)
 
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)
@@ -25,16 +25,16 @@ func (h ExRateHandler) Handle(ctx context.Context, req *irisProtoc.ExRateRequest
 	return h.BuildResponse(resVO), nil
 }
 
-func (h ExRateHandler) BuildRequest(req *irisProtoc.ExRateRequest) vo.ExRateReqVO {
+func (h ValidatorExRateHandler) BuildRequest(req *irisProtoc.ExRateRequest) vo.ValidatorExRateReqVO {
 	
-	reqVO := vo.ExRateReqVO{
+	reqVO := vo.ValidatorExRateReqVO{
 		ValidatorAddress: req.GetValidatorAddress(),
 	}
 	
 	return reqVO
 }
 
-func (h ExRateHandler) BuildResponse(resVO vo.ExRateResVO) *irisProtoc.ExRateResponse {
+func (h ValidatorExRateHandler) BuildResponse(resVO vo.ValidatorExRateResVO) *irisProtoc.ExRateResponse {
 	var (
 		res irisProtoc.ExRateResponse
 	)
