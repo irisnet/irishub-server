@@ -30,8 +30,8 @@ func (c PostTxHandler) buildRequest(request *commonProtoc.PostTxRequest) vo.Post
 	return reqVO
 }
 
-func (c PostTxHandler) buildResponse(res []byte) (*commonProtoc.PostTxResponse) {
+func (c PostTxHandler) buildResponse(resVO vo.PostTxResVO) (*commonProtoc.PostTxResponse) {
 	return &commonProtoc.PostTxResponse{
-		TxHash: string(res),
+		TxHash: resVO.TxHash,
 	}
 }

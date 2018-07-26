@@ -37,7 +37,7 @@ func (s IRISHubRPCServices) GetDelegatorTotalShares(ctx context.Context, req *ir
 	return res.(*irisProtoc.TotalShareResponse), err
 }
 
-func (s IRISHubRPCServices)GetExRate(ctx context.Context, req *irisProtoc.ValidatorExRateRequest) (
+func (s IRISHubRPCServices)GetValidatorExRate(ctx context.Context, req *irisProtoc.ValidatorExRateRequest) (
 	r *irisProtoc.ValidatorExRateResponse, err error) {
 
 	res, err := Handler(ctx, req)

@@ -46,9 +46,7 @@ func (d Candidate) Query(
 
 func (d Candidate) GetCandidatesList(q string, sorts []string, skip int, limit int) ([]Candidate, error)  {
 	query := bson.M{
-		//"shares": &bson.M{
-		//	"$gt": 0,
-		//},
+		"revoked": false,
 	}
 	if q != "" {
 		query["description.moniker"] = &bson.M{
@@ -70,6 +68,7 @@ func (d Candidate) GetCandidatesListByValidatorAddrs(valAddrs []string) ([]Candi
 		"address": &bson.M{
 			"$in": valAddrs,
 		},
+		"revoked": false,
 	}
 	sorts := make([]string, 0)
 
@@ -91,7 +90,17 @@ func (d Candidate) GetTotalShares() (float64, error)  {
 
 	q := func(c *mgo.Collection) error {
 		m := []bson.M{
-			{"$group": bson.M{"_id": "test", "total_shares": bson.M{"$sum": "$shares"}}},
+			{
+				"$match": bson.M{
+					"revoked": false,
+				},
+			},
+			{
+				"$group": bson.M{
+					"_id":          "test",
+					"total_shares": bson.M{"$sum": "$shares"},
+				},
+			},
 		}
 		return c.Pipe(m).One(&value)
 	}

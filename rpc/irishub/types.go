@@ -32,8 +32,8 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	case *irisProtoc.CandidateDetailRequest:
 		res, err = validatorDetailHandler.Handler(ctx, req.(*irisProtoc.CandidateDetailRequest))
 		break
-	case *irisProtoc.ExRateRequest:
-		res, err = validatorExRateHandle.Handle(ctx, req.(*irisProtoc.ExRateRequest))
+	case *irisProtoc.ValidatorExRateRequest:
+		res, err = validatorExRateHandle.Handle(ctx, req.(*irisProtoc.ValidatorExRateRequest))
 		break
 
 	case *irisProtoc.DelegatorCandidateListRequest:
