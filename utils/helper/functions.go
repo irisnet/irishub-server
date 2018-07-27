@@ -9,6 +9,7 @@ import (
 	"github.com/irisnet/irishub-server/utils/constants"
 	"fmt"
 	"strconv"
+	"math"
 )
 
 // convert object to json
@@ -80,5 +81,9 @@ func ConvertRatStrToFloat(rat string) (float64, error)  {
 		return float64(0), err
 	}
 	return numerator/denominator, nil
+}
+
+func ConvertFloatToInt(f float64) int64 {
+	return int64(math.Floor(f + 0.5))
 }
 

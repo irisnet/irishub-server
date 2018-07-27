@@ -7,16 +7,15 @@ import (
 )
 
 var (
-	exRateHandle ExRateHandler
-	shareHandler ShareHandler
-	shareService services.ShareService
-	
-	candidateListHandler CandidateListHandler
-	
-	candidateDetailHandler CandidateDetailHandler
-	delegatorCandidateListHandler DelegatorCandidateListHandler
+	validatorListHandler ValidatorListHandler
+	validatorDetailHandler        ValidatorDetailHandler
+	validatorExRateHandle       ValidatorExRateHandler
 
-	candidateService services.CandidateService
+	delegatorCandidateListHandler DelegatorCandidateListHandler
+	delegatorTotalSharesHandler DelegatorTotalSharesHandler
+
+	validatorService services.ValidatorService
+	delegatorService services.DelegatorService
 )
 
 
@@ -27,22 +26,22 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	)
 	
 	switch req.(type) {
-	case *irisProtoc.TotalShareRequest:
-		res, err = shareHandler.Handler(ctx, req.(*irisProtoc.TotalShareRequest))
-		break
 	case *irisProtoc.CandidateListRequest:
-		res, err = candidateListHandler.Handler(ctx, req.(*irisProtoc.CandidateListRequest))
+		res, err = validatorListHandler.Handler(ctx, req.(*irisProtoc.CandidateListRequest))
 		break
 	case *irisProtoc.CandidateDetailRequest:
-		res, err = candidateDetailHandler.Handler(ctx, req.(*irisProtoc.CandidateDetailRequest))
+		res, err = validatorDetailHandler.Handler(ctx, req.(*irisProtoc.CandidateDetailRequest))
 		break
+	case *irisProtoc.ValidatorExRateRequest:
+		res, err = validatorExRateHandle.Handle(ctx, req.(*irisProtoc.ValidatorExRateRequest))
+		break
+
 	case *irisProtoc.DelegatorCandidateListRequest:
 		res, err = delegatorCandidateListHandler.Handler(ctx, req.(*irisProtoc.DelegatorCandidateListRequest))
 		break
-	case *irisProtoc.ExRateRequest:
-		res, err = exRateHandle.Handle(ctx, req.(*irisProtoc.ExRateRequest))
+	case *irisProtoc.TotalShareRequest:
+		res, err = delegatorTotalSharesHandler.Handler(ctx, req.(*irisProtoc.TotalShareRequest))
 		break
-
 	}
 	
 	return res, err
