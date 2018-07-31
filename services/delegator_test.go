@@ -3,34 +3,71 @@ package services
 import (
 	"testing"
 
+	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/utils/helper"
 )
 
-func TestDelegatorService_GetTotalShares(t *testing.T) {
+func TestDelegatorService_DelegatorCandidateList(t *testing.T) {
 	type args struct {
-		address string
+		reqVO vo.DelegatorCandidateListReqVO
 	}
 	tests := []struct {
 		name  string
-		s     DelegatorService
 		args  args
 	}{
 		{
-			name: "test get total token",
+			name: "test get delegator candidate list",
 			args: args{
-				address: "3F9BB6D8A3938CD8E3A52584CC1F066027C522FE",
+				reqVO: vo.DelegatorCandidateListReqVO{
+					Address: "461B0D58301072D68EB95C54DDFCFBFF7D67DA7C",
+
+					Page: 1,
+					PerPage: 10,
+					Sort: "-time",
+					Q: "",
+				},
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			s := DelegatorService{}
-			got, err := s.GetTotalShares(tt.args.address)
+			res, err := s.DelegatorCandidateList(tt.args.reqVO)
 			if err.IsNotNull() {
 				logger.Error.Fatalln(err)
 			}
-			logger.Info.Println(helper.ToJson(got))
+			logger.Info.Println(helper.ToJson(res))
+		})
+	}
+}
+
+func TestDelegatorService_GetDelegatorTotalShare(t *testing.T) {
+	type args struct {
+		reqVO vo.DelegatorTotalShareReqVO
+	}
+	tests := []struct {
+		name  string
+		args  args
+	}{
+		{
+			name: "test get delegator total share",
+			args: args{
+				reqVO: vo.DelegatorTotalShareReqVO{
+					Address: "461B0D58301072D68EB95C54DDFCFBFF7D67DA7C",
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := DelegatorService{}
+			res, err := s.GetDelegatorTotalShare(tt.args.reqVO)
+			if err.IsNotNull() {
+				logger.Error.Fatalln(err)
+			}
+			logger.Info.Println(helper.ToJson(res))
+
 		})
 	}
 }

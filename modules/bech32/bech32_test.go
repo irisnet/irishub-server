@@ -7,7 +7,7 @@ import (
 
 func TestConvertHexToBech32(t *testing.T) {
 	var (
-		addr = "8F9BECAF5099AA56333D9C73C8F37E5B6F127B27"
+		addr = "7B78EB54E6551680D9FAAF0E681AADB9D6368F77"
 		//addrBech32 = "cosmosaccaddr1xesgljj8yumjtf3s94tnttlkpe4xp2kzhf3rnr"
 	)
 	type args struct {

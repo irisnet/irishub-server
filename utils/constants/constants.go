@@ -64,7 +64,7 @@ const HttpUriByteTx  = "/byteTx"
 const HttpUriPostTx  = "/tx/send"
 const HttpUriGetSequence  = "/accounts/%s" // accounts/{{address}}
 const HttpUriGetBalance  = "/accounts/%s" // accounts/{{address}}
-const HttpUriGetAccountNum  = "/accounts/%s" // accounts/{{address}}
+const HttpUriGetExRate  = "/stake/validator/%s/exRate" // /stake/validator/{address}/exRate
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"
 
