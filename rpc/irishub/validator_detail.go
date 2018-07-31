@@ -5,18 +5,19 @@ import (
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
-type CandidateDetailHandler struct {
+type ValidatorDetailHandler struct {
 
 }
 
-func (h CandidateDetailHandler) Handler(ctx context.Context, req *irisProtoc.CandidateDetailRequest) (
+func (h ValidatorDetailHandler) Handler(ctx context.Context, req *irisProtoc.CandidateDetailRequest) (
 	*irisProtoc.Candidate, error) {
 	
 	reqVO := h.BuildRequest(req)
 	
-	resVO, err := candidateService.Detail(reqVO)
+	resVO, err := validatorService.Detail(reqVO)
 	
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)
@@ -25,9 +26,9 @@ func (h CandidateDetailHandler) Handler(ctx context.Context, req *irisProtoc.Can
 	return h.BuildResponse(resVO), nil
 }
 
-func (h CandidateDetailHandler) BuildRequest(req *irisProtoc.CandidateDetailRequest) vo.CandidateDetailReqVO {
+func (h ValidatorDetailHandler) BuildRequest(req *irisProtoc.CandidateDetailRequest) vo.ValidatorDetailReqVO {
 	
-	reqVO := vo.CandidateDetailReqVO{
+	reqVO := vo.ValidatorDetailReqVO{
 		Address: req.GetAddress(),
 		ValAddr: req.GetPubKey(),
 	}
@@ -35,7 +36,7 @@ func (h CandidateDetailHandler) BuildRequest(req *irisProtoc.CandidateDetailRequ
 	return reqVO
 }
 
-func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *irisProtoc.Candidate {
+func (h ValidatorDetailHandler) BuildResponse(resVO vo.ValidatorDetailResVO) *irisProtoc.Candidate {
 	var (
 		response irisProtoc.Candidate
 		resCandidateDescription irisProtoc.CandidateDescription
@@ -60,7 +61,7 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 		resCandidateDelegator = irisProtoc.Delegator{
 			Address: delegator.Address,
 			PubKey: delegator.ValidatorAddr,
-			Shares: delegator.Shares,
+			Shares: helper.ConvertFloatToInt(delegator.Shares),
 		}
 		resCandidateDelegators = append(resCandidateDelegators, &resCandidateDelegator)
 	}
@@ -69,7 +70,7 @@ func (h CandidateDetailHandler) BuildResponse(resVO vo.CandidateDetailResVO) *ir
 	response = irisProtoc.Candidate{
 		Address: candidate.Address,
 		PubKey: candidate.PubKey,
-		Shares: candidate.Shares,
+		//Shares: candidate.Shares,
 		VotingPower: candidate.VotingPower,
 		Description: &resCandidateDescription,
 		Delegators: resCandidateDelegators,

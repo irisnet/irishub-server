@@ -3,6 +3,7 @@
 *.DS_Store
 vendor/
 *.log
-iris-api
-iris-api-unix
+irishub-server
+irishub-server-unix
 docker/
+*.out

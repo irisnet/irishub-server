@@ -14,7 +14,7 @@ var ServerConfig configServer
 func init() {
 	var (
 		rpcServerPort uint64 = 9080
-		addrNodeServer = "http://192.168.150.7:1317"
+		addrNodeServer = "http://127.0.0.1:1317"
 	)
 	
 	if env.AddrNodeServer != "" {

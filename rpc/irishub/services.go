@@ -5,36 +5,43 @@ import (
 	"golang.org/x/net/context"
 )
 
-type IRISHubRPCSERVICES struct {
+type IRISHubRPCServices struct {
 
 }
 
-func (s IRISHubRPCSERVICES) GetCandidateList(ctx context.Context, req *irisProtoc.CandidateListRequest) (
+func (s IRISHubRPCServices) GetCandidateList(ctx context.Context, req *irisProtoc.CandidateListRequest) (
 	[]*irisProtoc.Candidate, error) {
 	
 	res, err := Handler(ctx, req)
 	return res.([]*irisProtoc.Candidate), err
 }
 
-func (s IRISHubRPCSERVICES) GetCandidateDetail(ctx context.Context, req *irisProtoc.CandidateDetailRequest) (
+func (s IRISHubRPCServices) GetCandidateDetail(ctx context.Context, req *irisProtoc.CandidateDetailRequest) (
 	*irisProtoc.Candidate, error) {
 	
 	res, err := Handler(ctx, req)
 	return res.(*irisProtoc.Candidate), err
 }
 
-func (s IRISHubRPCSERVICES) GetDelegatorCandidateList(ctx context.Context, req *irisProtoc.DelegatorCandidateListRequest) (
+func (s IRISHubRPCServices) GetDelegatorCandidateList(ctx context.Context, req *irisProtoc.DelegatorCandidateListRequest) (
 	[]*irisProtoc.Candidate, error) {
 	
 	res, err := Handler(ctx, req)
 	return res.([]*irisProtoc.Candidate), err
 }
 
-func (s IRISHubRPCSERVICES) GetDelegatorTotalShares(ctx context.Context, req *irisProtoc.TotalShareRequest) (
+func (s IRISHubRPCServices) GetDelegatorTotalShares(ctx context.Context, req *irisProtoc.TotalShareRequest) (
 	*irisProtoc.TotalShareResponse, error) {
 	
 	res, err := Handler(ctx, req)
 	return res.(*irisProtoc.TotalShareResponse), err
+}
+
+func (s IRISHubRPCServices)GetValidatorExRate(ctx context.Context, req *irisProtoc.ValidatorExRateRequest) (
+	r *irisProtoc.ValidatorExRateResponse, err error) {
+
+	res, err := Handler(ctx, req)
+	return res.(*irisProtoc.ValidatorExRateResponse), err
 }
 
 

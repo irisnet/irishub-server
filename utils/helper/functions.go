@@ -7,6 +7,7 @@ import (
 	
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/utils/constants"
+	"math"
 )
 
 // convert object to json
@@ -58,5 +59,9 @@ func SliceContains(s []int, e int) bool {
 		}
 	}
 	return false
+}
+
+func ConvertFloatToInt(f float64) int64 {
+	return int64(math.Floor(f))
 }
 

@@ -12,6 +12,7 @@ type TxListReqVO struct {
 	EndTime              string   `json:"endTime,omitempty"`
 	Sort                 string   `json:"sort,omitempty"`
 	Q                    string   `json:"q,omitempty"`
+	Ext 				 []byte
 }
 
 type TxListResVO struct {

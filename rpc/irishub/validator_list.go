@@ -5,17 +5,18 @@ import (
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
-type CandidateListHandler struct {
+type ValidatorListHandler struct {
 
 }
 
-func (c CandidateListHandler) Handler(ctx context.Context, req *irisProtoc.CandidateListRequest) (
+func (c ValidatorListHandler) Handler(ctx context.Context, req *irisProtoc.CandidateListRequest) (
 	[]*irisProtoc.Candidate, error) {
 	
 	reqVO := c.BuildRequest(req)
-	resVO, err := candidateService.List(reqVO)
+	resVO, err := validatorService.List(reqVO)
 	
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)
@@ -24,8 +25,8 @@ func (c CandidateListHandler) Handler(ctx context.Context, req *irisProtoc.Candi
 	return c.BuildResponse(resVO), nil
 }
 
-func (c CandidateListHandler) BuildRequest(req *irisProtoc.CandidateListRequest) vo.CandidateListReqVO {
-	reqVO := vo.CandidateListReqVO{
+func (c ValidatorListHandler) BuildRequest(req *irisProtoc.CandidateListRequest) vo.ValidatorListReqVO {
+	reqVO := vo.ValidatorListReqVO{
 		Address: req.GetAddress(),
 		Page: req.GetPage(),
 		PerPage: req.GetPerPage(),
@@ -36,7 +37,7 @@ func (c CandidateListHandler) BuildRequest(req *irisProtoc.CandidateListRequest)
 	return reqVO
 }
 
-func (c CandidateListHandler) BuildResponse(resVO vo.CandidateListResVO) []*irisProtoc.Candidate  {
+func (c ValidatorListHandler) BuildResponse(resVO vo.ValidatorListResVO) []*irisProtoc.Candidate  {
 	var (
 		response           []*irisProtoc.Candidate
 	)
@@ -65,7 +66,7 @@ func (c CandidateListHandler) BuildResponse(resVO vo.CandidateListResVO) []*iris
 				resCandidateDelegator = irisProtoc.Delegator{
 					Address: delegator.Address,
 					PubKey: delegator.ValidatorAddr,
-					Shares: delegator.Shares,
+					Shares: helper.ConvertFloatToInt(delegator.Shares),
 				}
 				resCandidateDelegators = append(resCandidateDelegators, &resCandidateDelegator)
 			}
@@ -74,7 +75,7 @@ func (c CandidateListHandler) BuildResponse(resVO vo.CandidateListResVO) []*iris
 			resCandidate = irisProtoc.Candidate{
 				Address: v.Address,
 				PubKey: v.PubKey,
-				Shares: v.Shares,
+				//Shares: v.Shares,
 				VotingPower: v.VotingPower,
 				Description: &resCandidateDescription,
 				Delegators: resCandidateDelegators,

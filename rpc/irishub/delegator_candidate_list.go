@@ -5,6 +5,7 @@ import (
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 type DelegatorCandidateListHandler struct {
@@ -16,7 +17,7 @@ func (h DelegatorCandidateListHandler) Handler(ctx context.Context, req *irisPro
 	
 	reqVO := h.BuildRequest(req)
 	
-	resVO, err := candidateService.DelegatorCandidateList(reqVO)
+	resVO, err := delegatorService.DelegatorCandidateList(reqVO)
 	
 	if err.IsNotNull() {
 		return nil, rpc.ConvertIrisErrToGRPCErr(err)
@@ -65,7 +66,7 @@ func (h DelegatorCandidateListHandler) BuildResponse(resVO vo.DelegatorCandidate
 				resCandidateDelegator = irisProtoc.Delegator{
 					Address: delegator.Address,
 					PubKey: delegator.ValidatorAddr,
-					Shares: delegator.Shares,
+					Shares: helper.ConvertFloatToInt(delegator.Shares),
 				}
 				resCandidateDelegators = append(resCandidateDelegators, &resCandidateDelegator)
 			}
@@ -74,7 +75,7 @@ func (h DelegatorCandidateListHandler) BuildResponse(resVO vo.DelegatorCandidate
 			resCandidate = irisProtoc.Candidate{
 				Address: v.Address,
 				PubKey: v.PubKey,
-				Shares: v.Shares,
+				//Shares: v.Shares,
 				VotingPower: v.VotingPower,
 				Description: &resCandidateDescription,
 				Delegators: resCandidateDelegators,
