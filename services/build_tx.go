@@ -43,7 +43,7 @@ func (s BuildTxService) BuildTx(reqVO vo.BuildTxReqVO) (vo.BuildTxResVO, errors.
 	
 	txType := reqVO.TxType
 	switch txType {
-	case constants.DbTxTypeCoin:
+	case constants.DbTxTypeTransfer:
 		resBuildTx, err = buildTxFunc(constants.HttpUriBuildCoinTx, reqVO)
 		break
 	case constants.DbTxTypeStakeDelegate:
@@ -59,7 +59,7 @@ func (s BuildTxService) BuildTx(reqVO vo.BuildTxReqVO) (vo.BuildTxResVO, errors.
 		}
 		resBuildTx, err = buildTxFunc(constants.HttpUriBuildDelegateTx, delegateReqVO)
 		break
-	case constants.DbTxTypeStakeUnBond:
+	case constants.DbTxTypeStakeBeginUnBonding:
 		unBondReqVO := vo.BuildUnBondTxReqVO{
 			Fees: reqVO.Fees,
 			Sequence: reqVO.Sequence,

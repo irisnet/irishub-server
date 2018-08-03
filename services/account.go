@@ -6,8 +6,8 @@ import (
 	"github.com/irisnet/irishub-server/utils/constants"
 	"encoding/json"
 	"github.com/irisnet/irishub-server/errors"
-	"github.com/irisnet/irishub-server/modules/bech32"
 	"strconv"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 type AccountService struct {
@@ -20,9 +20,14 @@ type AccountRes struct {
 }
 
 type Value struct {
-	Coins []*vo.Coin `json:"coins"`
-	AccountNum int64 `json:"account_number"`
-	Sequence int64 `json:"sequence"`
+	Coins []coin `json:"coins"`
+	AccountNum string `json:"account_number"`
+	Sequence string `json:"sequence"`
+}
+
+type coin struct {
+	Denom  string `json:"denom"`
+	Amount string  `json:"amount"`
 }
 
 func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, errors.IrisError) {
@@ -31,10 +36,7 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 		accRes AccountRes
 	)
 
-	address, err := bech32.ConvertHexToBech32(reqVO.Address)
-	if err != nil {
-		return resVO, ConvertBadRequestErr(err)
-	}
+	address := reqVO.Address
 
 	uri := fmt.Sprintf(constants.HttpUriGetBalance, address)
 	statusCode, resBytes := HttpClientGetData(uri)
@@ -48,9 +50,28 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 		return resVO, ConvertSysErr(err)
 	}
 
+	funBuildCoins := func(coins []coin) []*vo.Coin {
+		var (
+			resCoins []*vo.Coin
+		)
+
+		if len(coins) > 0 {
+			for _, v := range coins {
+				coin := vo.Coin{
+					Denom: v.Denom,
+					Amount: helper.ConvertStrToInt(v.Amount),
+				}
+
+				resCoins = append(resCoins, &coin)
+			}
+		}
+
+		return resCoins
+	}
+
 	resVO = vo.BalanceResVO{
 		Data: vo.BalanceResDataVO{
-			Coins: accRes.Value.Coins,
+			Coins: funBuildCoins(accRes.Value.Coins),
 		},
 	}
 
@@ -61,12 +82,10 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 	var (
 		resVO  vo.SequenceResVO
 		accRes AccountRes
+		err error
 	)
 
-	address, err := bech32.ConvertHexToBech32(reqVO.Address)
-	if err != nil {
-		return resVO, ConvertBadRequestErr(err)
-	}
+	address := reqVO.Address
 
 	uri := fmt.Sprintf(constants.HttpUriGetSequence, address)
 	statusCode, res := HttpClientGetData(uri)
@@ -84,8 +103,8 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 	}
 
 	resVO = vo.SequenceResVO{
-		Sequence: accRes.Value.Sequence,
-		Ext: []byte(strconv.Itoa(int(accRes.Value.AccountNum))),
+		Sequence: helper.ConvertStrToInt(accRes.Value.Sequence),
+		Ext: []byte(strconv.Itoa(int(helper.ConvertStrToInt(accRes.Value.AccountNum)))),
 	}
 
 	return resVO, irisErr

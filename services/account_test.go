@@ -22,7 +22,7 @@ func TestAccountService_GetBalance(t *testing.T) {
 			s: AccountService{},
 			args: args{
 				reqVO: vo.BalanceReqVO{
-					Address: "ADA14398D8FA297E29AB7BA241C7B955F2680C46",
+					Address: "faa1j29yg75chqnvggpzpxrz2akc8caqh3mvfm8ajj",
 				},
 			},
 		},
@@ -53,7 +53,7 @@ func TestAccountService_GetSequence(t *testing.T) {
 			s: AccountService{},
 			args: args{
 				reqVO: vo.SequenceReqVO{
-					Address: "ADA14398D8FA297E29AB7BA241C7B955F2680C46",
+					Address: "faa1j29yg75chqnvggpzpxrz2akc8caqh3mvfm8ajj",
 				},
 			},
 		},
