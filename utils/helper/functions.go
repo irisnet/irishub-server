@@ -62,6 +62,6 @@ func SliceContains(s []int, e int) bool {
 }
 
 func ConvertFloatToInt(f float64) int64 {
-	return int64(math.Floor(f))
+	return int64(math.Floor(f + 0.5))
 }
 
