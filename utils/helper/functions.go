@@ -8,6 +8,7 @@ import (
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/utils/constants"
 	"math"
+	"strconv"
 )
 
 // convert object to json
@@ -63,5 +64,13 @@ func SliceContains(s []int, e int) bool {
 
 func ConvertFloatToInt(f float64) int64 {
 	return int64(math.Floor(f))
+}
+
+func ConvertStrToInt(s string) int64  {
+	i, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		logger.Error.Println("Convert str to int failed")
+	}
+	return i
 }
 
