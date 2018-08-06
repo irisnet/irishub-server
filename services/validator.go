@@ -5,7 +5,6 @@ import (
 	"github.com/irisnet/irishub-server/models/document"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/helper"
-	"github.com/irisnet/irishub-server/modules/bech32"
 	"fmt"
 	"github.com/irisnet/irishub-server/utils/constants"
 	"encoding/json"
@@ -70,10 +69,7 @@ func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
 		resVO vo.ValidatorExRateResVO
 	)
 
-	address, err := bech32.ConvertHexToBech32(reqVO.ValidatorAddress)
-	if err != nil {
-		return resVO, ConvertBadRequestErr(err)
-	}
+	address := reqVO.ValidatorAddress
 
 	uri := fmt.Sprintf(constants.HttpUriGetExRate, address)
 

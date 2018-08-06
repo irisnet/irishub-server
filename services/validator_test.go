@@ -54,7 +54,7 @@ func TestValidatorService_GetValidatorExRate(t *testing.T) {
 			name: "test get validatot ex_rate",
 			args: args{
 				reqVO: vo.ValidatorExRateReqVO{
-					ValidatorAddress: "E44F06A3CF4850C078E8A805FF9743D0901894BE",
+					ValidatorAddress: "faa1r4dnf8lnakw743dwhd4nnpxatcx5v40n0vntc6",
 				},
 			},
 		},

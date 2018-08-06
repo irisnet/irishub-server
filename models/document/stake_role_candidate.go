@@ -98,7 +98,7 @@ func (d Candidate) GetTotalShares() (float64, error)  {
 			{
 				"$group": bson.M{
 					"_id":          "test",
-					"total_shares": bson.M{"$sum": "$shares"},
+					"total_shares": bson.M{"$sum": "$tokens"},
 				},
 			},
 		}
