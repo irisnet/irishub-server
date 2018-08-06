@@ -54,7 +54,9 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	
 	for _, commonTx := range commonTxs {
 		txType := commonTx.Type
-		if txType == constants.TxTypeStakeDelegate || txType == constants.TxTypeStakeUnBond {
+		if txType == constants.DbTxTypeStakeDelegate ||
+			txType == constants.DbTxTypeStakeBeginUnBonding ||
+			txType == constants.DbTxTypeStakeCompleteUnBonding {
 			valAddrs = append(valAddrs, commonTx.To)
 		}
 	}
@@ -96,7 +98,7 @@ func (s TxService) GetTxDetail(reqVO vo.TxDetailReqVO) (vo.TxDetailResVO, errors
 	
 	if commonTx.TxHash != "" {
 		txType := commonTx.Type
-		if txType == constants.TxTypeStakeDelegate || txType == constants.TxTypeStakeUnBond {
+		if txType == constants.TxTypeStakeDelegate || txType == constants.TxTypeStakeBeginUnBonding {
 			pubKeys = append(pubKeys, commonTx.To)
 		}
 	}
@@ -125,7 +127,8 @@ func (s TxService) buildData(commonTx document.CommonTx,
 	
 	// get candidate info
 	if txType == constants.DbTxTypeStakeDelegate ||
-		txType == constants.DbTxTypeStakeUnBond {
+		txType == constants.DbTxTypeStakeBeginUnBonding ||
+		txType == constants.DbTxTypeStakeCompleteUnBonding {
 		
 		for _, candidate := range candidates {
 			if commonTx.To == candidate.Address {
@@ -136,7 +139,7 @@ func (s TxService) buildData(commonTx document.CommonTx,
 	}
 	
 	switch txType {
-	case constants.DbTxTypeCoin:
+	case constants.DbTxTypeTransfer:
 		if address == commonTx.From {
 			txTypeDisplay = constants.TxTypeCoinSend
 		} else if address == commonTx.To {
@@ -146,10 +149,12 @@ func (s TxService) buildData(commonTx document.CommonTx,
 	case constants.DbTxTypeStakeDelegate:
 		txTypeDisplay = constants.TxTypeStakeDelegate
 		break
-	case constants.DbTxTypeStakeUnBond:
-		txTypeDisplay = constants.TxTypeStakeUnBond
+	case constants.DbTxTypeStakeBeginUnBonding:
+		txTypeDisplay = constants.TxTypeStakeBeginUnBonding
 		commonTx.Amount[0] = CalculateUnBondToken(commonTx.Amount[0])
 		break
+	case constants.DbTxTypeStakeCompleteUnBonding:
+		txTypeDisplay = constants.TxTypeStakeCompleteUnBonding
 	default:
 		logger.Info.Println("unsupport tx type")
 	}

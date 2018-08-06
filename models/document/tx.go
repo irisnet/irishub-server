@@ -64,7 +64,8 @@ func (d CommonTx) GetList(address string, txType string,
 				constants.TxTypeFrontMapDb[constants.TxTypeCoinSend],
 				constants.TxTypeFrontMapDb[constants.TxTypeCoinReceive],
 				constants.TxTypeFrontMapDb[constants.TxTypeStakeDelegate],
-				constants.TxTypeFrontMapDb[constants.TxTypeStakeUnBond],
+				constants.TxTypeFrontMapDb[constants.TxTypeStakeBeginUnBonding],
+				constants.TxTypeFrontMapDb[constants.TxTypeStakeCompleteUnBonding],
 			},
 		}
 	} else {
@@ -73,7 +74,7 @@ func (d CommonTx) GetList(address string, txType string,
 			query["to"] = address
 			query["type"] = constants.TxTypeFrontMapDb[txType]
 			break
-		case constants.TxTypeCoinSend, constants.TxTypeStakeDelegate, constants.TxTypeStakeUnBond:
+		case constants.TxTypeCoinSend, constants.TxTypeStakeDelegate, constants.TxTypeStakeBeginUnBonding:
 			query["from"] = address
 			query["type"] = constants.TxTypeFrontMapDb[txType]
 			if ext != "" && txType != constants.TxTypeCoinSend {
@@ -85,7 +86,7 @@ func (d CommonTx) GetList(address string, txType string,
 			query["type"] = bson.M{
 				"$in": []string{
 					constants.TxTypeStakeDelegate,
-					constants.TxTypeStakeUnBond,
+					constants.TxTypeStakeBeginUnBonding,
 				},
 			}
 			if ext != "" {
@@ -106,7 +107,7 @@ func (d CommonTx) GetList(address string, txType string,
 		"$lte": endTime,
 	}
 	fields := bson.M{}
-	
+
 	return d.Query(query, fields, skip, limit, sorts...)
 }
 

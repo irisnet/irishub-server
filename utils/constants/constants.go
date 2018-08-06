@@ -29,17 +29,20 @@ const TxTypeCoinReceive  = "receive"
 const TxTypeCoinSend  = "send"
 const TxTypeStake = "stake"
 const TxTypeStakeDelegate  = "delegate"
-const TxTypeStakeUnBond  = "unbond"
+const TxTypeStakeBeginUnBonding = "beginUnbonding"
+const TxTypeStakeCompleteUnBonding = "completeUnbonding"
 
 // define tx type store in db
-const DbTxTypeCoin = "coin"
-const DbTxTypeStakeDelegate  = "delegate"
-const DbTxTypeStakeUnBond = "unbond"
+const DbTxTypeTransfer = "Transfer"
+const DbTxTypeStakeDelegate  = "Delegate"
+const DbTxTypeStakeBeginUnBonding = "BeginUnbonding"
+const DbTxTypeStakeCompleteUnBonding = "CompleteUnbonding"
 var TxTypeFrontMapDb = map[string]string{
-	TxTypeCoinReceive: DbTxTypeCoin,
-	TxTypeCoinSend: DbTxTypeCoin,
-	TxTypeStakeDelegate: DbTxTypeStakeDelegate,
-	TxTypeStakeUnBond: DbTxTypeStakeUnBond,
+	TxTypeCoinReceive:         DbTxTypeTransfer,
+	TxTypeCoinSend:            DbTxTypeTransfer,
+	TxTypeStakeDelegate:       DbTxTypeStakeDelegate,
+	TxTypeStakeBeginUnBonding: DbTxTypeStakeBeginUnBonding,
+	TxTypeStakeCompleteUnBonding: DbTxTypeStakeCompleteUnBonding,
 }
 
 // define tx status
