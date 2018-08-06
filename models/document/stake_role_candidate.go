@@ -16,7 +16,7 @@ const (
 type Candidate struct {
 	Address     string      `json:"address" bson:"address"` // owner
 	PubKey      string      `json:"pub_key" bson:"pub_key"`
-	Shares      float64     `json:"shares" bson:"shares"`
+	Shares      float64     `json:"shares" bson:"tokens"`
 	Revoked     bool        `bson:"revoked"`
 	Description Description `json:"description" bson:"description"`  // Description terms for the candidate
     UpdateTime  time.Time   `json:"update_time" bson:"update_time"`
