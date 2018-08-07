@@ -2,39 +2,37 @@ package irishub
 
 import (
 	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server/model"
-	"golang.org/x/net/context"
 	"github.com/irisnet/irishub-server/rpc/vo"
-	"github.com/irisnet/irishub-server/rpc"
+	"golang.org/x/net/context"
 )
 
 type ValidatorExRateHandler struct {
-	
 }
 
 func (h ValidatorExRateHandler) Handle(ctx context.Context, req *irisProtoc.ValidatorExRateRequest) (
 	*irisProtoc.ValidatorExRateResponse, error) {
 
-	reqVO := h.BuildRequest(req)
+	reqVO := h.buildRequest(req)
 
 	resVO, err := validatorService.GetValidatorExRate(reqVO)
 
 	if err.IsNotNull() {
-		return nil, rpc.ConvertIrisErrToGRPCErr(err)
+		return nil, BuildException(err)
 	}
 
-	return h.BuildResponse(resVO), nil
+	return h.buildResponse(resVO), nil
 }
 
-func (h ValidatorExRateHandler) BuildRequest(req *irisProtoc.ValidatorExRateRequest) vo.ValidatorExRateReqVO {
-	
+func (h ValidatorExRateHandler) buildRequest(req *irisProtoc.ValidatorExRateRequest) vo.ValidatorExRateReqVO {
+
 	reqVO := vo.ValidatorExRateReqVO{
 		ValidatorAddress: req.GetValidatorAddress(),
 	}
-	
+
 	return reqVO
 }
 
-func (h ValidatorExRateHandler) BuildResponse(resVO vo.ValidatorExRateResVO) *irisProtoc.ValidatorExRateResponse {
+func (h ValidatorExRateHandler) buildResponse(resVO vo.ValidatorExRateResVO) *irisProtoc.ValidatorExRateResponse {
 	var (
 		res irisProtoc.ValidatorExRateResponse
 	)
