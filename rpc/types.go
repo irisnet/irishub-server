@@ -1,40 +1,32 @@
 package rpc
 
 import (
-	chainModel "github.com/irisnet/blockchain-rpc/codegen/server/model"
-	"github.com/irisnet/irishub-server/errors"
+	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/models/document"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
-func ConvertIrisErrToGRPCErr(err errors.IrisError) error {
-	return status.Error(codes.Code(err.ErrCode), err.ErrMsg)
-}
-
-func BuildResponseAddress(address string) chainModel.Address {
-	return chainModel.Address{
+func BuildResponseAddress(address string) commonProtoc.Address {
+	return commonProtoc.Address{
 		Chain: "",
-		App: "",
-		Addr: address,
+		App:   "",
+		Addr:  address,
 	}
 }
 
-func BuildResponseCoins(coins document.Coins) []*chainModel.Coin {
+func BuildResponseCoins(coins document.Coins) []*commonProtoc.Coin {
 	var (
-		modelCoins []*chainModel.Coin
+		modelCoins []*commonProtoc.Coin
 	)
-	
-	
+
 	if len(coins) > 0 {
 		for _, v := range coins {
-			modelCoin := chainModel.Coin{
-				Denom: v.Denom,
+			modelCoin := commonProtoc.Coin{
+				Denom:  v.Denom,
 				Amount: float64(v.Amount),
 			}
 			modelCoins = append(modelCoins, &modelCoin)
 		}
 	}
-	
+
 	return modelCoins
 }

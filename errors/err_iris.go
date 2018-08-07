@@ -5,18 +5,18 @@ type IrisError struct {
 	ErrMsg  string
 }
 
-func (e *IrisError) Error() string {
+func (e IrisError) Error() string {
 	return e.ErrMsg
 }
 
-func (e *IrisError) IsNotNull() bool {
+func (e IrisError) IsNotNull() bool {
 	if e.ErrCode != 0 {
 		return true
 	}
 	return false
 }
 
-func (e *IrisError) New(errCode uint32, errMsg string) IrisError {
+func (e IrisError) New(errCode uint32, errMsg string) IrisError {
 	return IrisError{
 		ErrCode: errCode,
 		ErrMsg:  errMsg,
