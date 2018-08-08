@@ -148,7 +148,6 @@ func (s TxService) buildData(commonTx document.CommonTx,
 		break
 	case constants.DbTxTypeStakeBeginUnBonding:
 		txTypeDisplay = constants.TxTypeStakeBeginUnBonding
-		commonTx.Amount[0] = CalculateUnBondToken(commonTx.Amount[0])
 		break
 	case constants.DbTxTypeStakeCompleteUnBonding:
 		txTypeDisplay = constants.TxTypeStakeCompleteUnBonding
