@@ -7,3 +7,4 @@ irishub-server
 irishub-server-unix
 docker/
 *.out
+**/gen_js/*.js
