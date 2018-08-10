@@ -2,6 +2,7 @@ package blockchain
 
 import (
 	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
+	"github.com/irisnet/irishub-server/errors"
 	"github.com/irisnet/irishub-server/services"
 	"golang.org/x/net/context"
 )
@@ -9,17 +10,17 @@ import (
 var (
 	buildTxHandler BuildTxHandler
 	buildTxService services.BuildTxService
-	
+
 	postTxHandler PostTxHandler
 	postTxService services.PostTxService
 
 	accountService  services.AccountService
 	sequenceHandler SequenceHandler
-	balanceHandler BalanceHandler
+	balanceHandler  BalanceHandler
 
 	txListHandler TxListHandler
 	txService     services.TxService
-	
+
 	txDetailHandler TxDetailHandler
 )
 
@@ -28,7 +29,7 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 		res interface{}
 		err error
 	)
-	
+
 	switch req.(type) {
 	case *commonProtoc.BuildTxRequest:
 		res, err = buildTxHandler.Handler(ctx, req.(*commonProtoc.BuildTxRequest))
@@ -49,6 +50,15 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 		res, err = txDetailHandler.Handler(ctx, req.(*commonProtoc.TxDetailRequest))
 		break
 	}
-	
+
 	return res, err
+}
+
+func BuildException(err errors.IrisError) error {
+	var (
+		exception commonProtoc.Exception
+	)
+	exception.ErrCode = int32(err.ErrCode)
+	exception.ErrMsg = err.ErrMsg
+	return &exception
 }

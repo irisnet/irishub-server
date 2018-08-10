@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Test IRISHub-RPC Server</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <style type="text/css">
+        div.title p {
+            font-weight: bolder;
+            font-size: larger;
+            background-color: floralwhite;
+            color: black;
+        }
+
+        div.title {
+            margin-top: 3%;
+            margin-bottom: 3%;
+        }
+
+        div.res {
+            margin-top: 3%;
+        }
+
+        div.res p {
+            font-weight: 700;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li role="presentation" class="active"><a href="#getValidatorList" aria-controls="getValidatorList" role="tab"
+                                                  data-toggle="tab">验证人列表</a>
+        </li>
+        <li role="presentation"><a href="#getValidatorExRate" aria-controls="getValidatorExRate" role="tab"
+                                   data-toggle="tab">验证人兑换比例</a>
+        </li>
+        <li role="presentation"><a href="#delegatorValidatorList" aria-controls="delegatorValidatorList" role="tab"
+                                   data-toggle="tab">委托人的验证人列表</a>
+        </li>
+        <li role="presentation"><a href="#delegatorTotalShares" aria-controls="delegatorTotalShares" role="tab"
+                                   data-toggle="tab">委托人的委托总额</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="getValidatorList" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane active">
+            <div class="title">
+                <p class="bg-primary">验证人列表</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="validatorListReqAddr">Address</label>
+                        <input type="text" class="form-control" id="validatorListReqAddr" placeholder="委托人账户地址">
+                    </div>
+                    <div class="form-group">
+                        <label for="validatorListReqPage">Page</label>
+                        <input type="number" class="form-control" id="validatorListReqPage" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="validatorListReqPerPage">PerPage</label>
+                        <input type="number" class="form-control" id="validatorListReqPerPage" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="validatorListReqSort">Sort</label>
+                        <input type="text" class="form-control" id="validatorListReqSort" value="-voting_power">
+                    </div>
+                    <div class="form-group">
+                        <label for="validatorListReqQ">Query</label>
+                        <input type="text" class="form-control" id="validatorListReqQ">
+                    </div>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result</p>
+                <pre></pre>
+            </div>
+        </div>
+
+        <div id="getValidatorExRate" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane">
+            <div class="title">
+                <p class="bg-primary">验证人兑换比例</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="validatorExRateReqAddr">Address</label>
+                        <input type="text" class="form-control" id="validatorExRateReqAddr" placeholder="验证人地址">
+                    </div>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result</p>
+                <pre></pre>
+            </div>
+        </div>
+
+
+        <div id="delegatorValidatorList" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane">
+            <div class="title">
+                <p class="bg-primary">委托人的验证人列表</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="delegatorValidatorListReqAddr">Address</label>
+                        <input type="text" class="form-control" id="delegatorValidatorListReqAddr"
+                               placeholder="委托人的账户地址">
+                    </div>
+                    <div class="form-group">
+                        <label for="delegatorValidatorListReqPage">Page</label>
+                        <input type="number" class="form-control" id="delegatorValidatorListReqPage" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="delegatorValidatorListReqPerPage">PerPage</label>
+                        <input type="number" class="form-control" id="delegatorValidatorListReqPerPage" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="delegatorValidatorListReqSort">Sort</label>
+                        <input type="text" class="form-control" id="delegatorValidatorListReqSort"
+                               value="-voting_power">
+                    </div>
+                    <div class="form-group">
+                        <label for="delegatorValidatorListReqQ">Query</label>
+                        <input type="text" class="form-control" id="delegatorValidatorListReqQ">
+                    </div>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result</p>
+                <pre></pre>
+            </div>
+        </div>
+
+        <div id="delegatorTotalShares" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane">
+            <div class="title">
+                <p class="bg-primary">委托人的委托总额</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="totalSharesReqAddr">Address</label>
+                        <input type="text" class="form-control" id="totalSharesReqAddr" placeholder="委托人的地址">
+                    </div>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result</p>
+                <pre></pre>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
+<script src="../thrift.js"></script>
+
+<!-- bootstrap 3.3.7 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+<script src="./gen_js/model_types.js"></script>
+<script src="./gen_js/IRISHubService.js"></script>
+
+<script>
+    transport = new Thrift.TXHRTransport("http://127.0.0.1:9080/irishub");
+    protocol = new Thrift.Protocol(transport);
+    client = new IRISHubServiceClient(protocol);
+
+    // getValidatorList
+    $("#getValidatorList button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#getValidatorList").find("div.res > pre");
+
+        var req = new CandidateListRequest();
+        req.address = $("#validatorListReqAddr").val();
+        req.page = $("#validatorListReqPage").val();
+        req.perPage = $("#validatorListReqPerPage").val();
+        req.sort = $("#validatorListReqSort").val();
+        req.q = $("#validatorListReqQ").val();
+
+        try {
+            res = client.GetCandidateList(req)
+        } catch (e) {
+            res = e;
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+
+    // getValidatorExRate
+    $("#getValidatorExRate button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#getValidatorExRate").find("div.res > pre");
+
+        var req = new ValidatorExRateRequest();
+        req.validatorAddress = $("#validatorExRateReqAddr").val();
+
+        try {
+            res = client.GetValidatorExRate(req);
+        } catch (e) {
+            res = e;
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+
+    // delegatorValidatorList
+    $("#delegatorValidatorList button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#delegatorValidatorList").find("div.res > pre");
+
+        var req = new CandidateListRequest();
+        req.address = $("#delegatorValidatorListReqAddr").val();
+        req.page = $("#delegatorValidatorListReqPage").val();
+        req.perPage = $("#delegatorValidatorListReqPerPage").val();
+        req.sort = $("#delegatorValidatorListReqSort").val();
+        req.q = $("#delegatorValidatorListReqQ").val();
+
+        try {
+            res = client.GetDelegatorCandidateList(req);
+        } catch (e) {
+            res = e;
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+
+    // delegatorTotalShares
+    $("#delegatorTotalShares button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#delegatorTotalShares").find("div.res > pre");
+
+        var address = $("#totalSharesReqAddr").val();
+        var req = new TotalShareRequest();
+        req.address = address;
+
+        try {
+            res = client.GetDelegatorTotalShares(req);
+        } catch (e) {
+            res = e;
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+</script>
+</body>
+</html>
