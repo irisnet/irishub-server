@@ -94,8 +94,9 @@ func (d CommonTx) GetList(address string, txType string,
 			if ext != "" {
 				query["to"] = ext
 			}
+		default:
+			return nil, nil
 		}
-
 	}
 
 	if startTime.IsZero() {
