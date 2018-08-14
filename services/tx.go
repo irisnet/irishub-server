@@ -59,17 +59,6 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 		}
 	}
 
-	// remove repetition value in slice
-	valAddrs = RemoveRepetitionStrValueFromSlice(valAddrs)
-
-	// get candidates by valAddrs
-	if valAddrs != nil {
-		candidates, err = candidateModel.GetCandidatesListByValidatorAddrs(valAddrs)
-		if err != nil {
-			return resVO, ConvertSysErr(err)
-		}
-	}
-
 	for i, commonTx := range commonTxs {
 		commonTx = s.buildData(commonTx, candidates, address)
 		commonTxs[i] = commonTx
