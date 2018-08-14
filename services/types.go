@@ -15,7 +15,6 @@ import (
 var (
 	candidateModel document.Candidate
 	delegatorModel document.Delegator
-	stakeTxModel   document.StakeTx
 	commonTxModel  document.CommonTx
 	irisErr        errors.IrisError
 )
