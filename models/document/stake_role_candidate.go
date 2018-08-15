@@ -105,8 +105,8 @@ func (d Candidate) GetTotalShares() (float64, error) {
 
 	err := models.ExecCollection(d.Name(), q)
 
-	if err != nil && err.Error() == mgo.ErrNotFound.Error() {
-		logger.Error.Println(err)
+	if err != nil && err.Error() != mgo.ErrNotFound.Error() {
+		return 0, err
 	}
 	return value.TotalShares, nil
 }

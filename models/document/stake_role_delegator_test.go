@@ -65,3 +65,30 @@ func TestDelegator_GetTotalTokenByAddress(t *testing.T) {
 		})
 	}
 }
+
+func TestDelegator_GetTotalUnbondingTokens(t *testing.T) {
+	type args struct {
+		address string
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "test get total unbonding tokens",
+			args: args{
+				address: "faa19tyxwyj7y2sld8qy2m2wgv7cekfep229schqnn",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := Delegator{}
+			res, err := d.GetTotalUnbondingTokens(tt.args.address)
+			if err != nil {
+				logger.Error.Fatalln(err)
+			}
+			logger.Info.Println(helper.ToJson(res))
+		})
+	}
+}
