@@ -67,14 +67,16 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReqVO) (vo.DelegatorTotalShareResVO, errors.IrisError) {
 
 	var (
-		resVO                                                vo.DelegatorTotalShareResVO
-		totalShares, totalBondedTokens, totalUnbondingTokens float64
+		resVO                           vo.DelegatorTotalShareResVO
+		totalrShares, totalBondedTokens float64
 	)
 
+	// get total shares and bonded tokens
+	// note: delegatorShares represent shares which delegator bonded on one validator,
+	//       result is grouped by validator address
 	delegatorShares, err := delegatorModel.GetTotalSharesByAddress(reqVO.Address)
-	// can't find record by address
 	if err != nil {
-		return resVO, irisErr
+		return resVO, ConvertSysErr(err)
 	}
 
 	if len(delegatorShares) > 0 {
@@ -90,14 +92,19 @@ func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReq
 				continue
 			}
 
-			totalShares += v.TotalShares
+			totalrShares += v.TotalShares
 			totalBondedTokens += v.TotalShares * res.ExRate
-			totalUnbondingTokens += v.TotalUnbondingTokens
 		}
 	}
 
+	// get total unbonding tokens
+	totalUnbondingTokens, err := delegatorModel.GetTotalUnbondingTokens(reqVO.Address)
+	if err != nil {
+		return resVO, ConvertSysErr(err)
+	}
+
 	resVO = vo.DelegatorTotalShareResVO{
-		TotalShares:          totalShares,
+		TotalShares:          totalrShares,
 		ToTalBondedTokens:    totalBondedTokens,
 		ToTalUnbondingTokens: totalUnbondingTokens,
 	}
