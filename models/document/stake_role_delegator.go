@@ -1,8 +1,6 @@
 package document
 
 import (
-	"time"
-
 	"github.com/irisnet/irishub-server/modules/logger"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -16,15 +14,15 @@ const (
 
 type Delegator struct {
 	Address             string  `json:"address" bson:"address"`
-	ValidatorAddr       string  `json:"pub_key" bson:"validator_addr"` // validator ValidatorAddress
+	ValidatorAddr       string  `bson:"validator_addr"` // validator ValidatorAddress
 	Shares              float64 `json:"shares" bson:"shares"`
 	BondedTokens        float64
 	UnbondingDelegation UnbondingDelegation `bson:"unbonding_delegation"`
 }
 
 type UnbondingDelegation struct {
-	Balance Coins     `bson:"balance"`
-	MinTime time.Time `bson:"min_time"`
+	Balance Coins `bson:"balance"`
+	MinTime int64 `bson:"min_time"`
 }
 
 type DelegatorShares struct {
@@ -76,9 +74,6 @@ func (d Delegator) GetDelegatorListByAddress(address string, skip int,
 
 	query := bson.M{
 		"address": address,
-		"shares": &bson.M{
-			"$gt": 0,
-		},
 	}
 
 	delegator, err := d.Query(query, skip, limit, sorts...)

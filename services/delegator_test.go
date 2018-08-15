@@ -20,8 +20,7 @@ func TestDelegatorService_DelegatorCandidateList(t *testing.T) {
 			name: "test get delegator candidate list",
 			args: args{
 				reqVO: vo.DelegatorCandidateListReqVO{
-					Address: "461B0D58301072D68EB95C54DDFCFBFF7D67DA7C",
-
+					Address: "faa19tyxwyj7y2sld8qy2m2wgv7cekfep229schqnn",
 					Page:    1,
 					PerPage: 10,
 					Sort:    "-time",

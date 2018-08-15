@@ -1,25 +1,26 @@
 package services
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/irisnet/irishub-server/errors"
 	"github.com/irisnet/irishub-server/models/document"
+	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc/vo"
-	"github.com/irisnet/irishub-server/utils/helper"
-	"fmt"
 	"github.com/irisnet/irishub-server/utils/constants"
-	"encoding/json"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 type ValidatorService struct {
 }
 
-func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListResVO, errors.IrisError)  {
+func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListResVO, errors.IrisError) {
 	sorts := helper.ParseParamSort(reqVO.Sort)
-	
+
 	var (
 		resVO vo.ValidatorListResVO
 	)
-	
+
 	skip, limit := helper.ParseParamPage(int(reqVO.Page), int(reqVO.PerPage))
 	address := reqVO.Address
 	q := reqVO.Q
@@ -54,7 +55,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	for i, cd := range candidates {
 		candidates[i] = s.buildCandidates(cd, delegator, totalShares)
 	}
-	
+
 	resVO = vo.ValidatorListResVO{
 		Candidates: candidates,
 	}
@@ -63,7 +64,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 }
 
 func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
-	vo.ValidatorExRateResVO, errors.IrisError)  {
+	vo.ValidatorExRateResVO, errors.IrisError) {
 
 	var (
 		resVO vo.ValidatorExRateResVO
@@ -79,7 +80,6 @@ func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
 	if !helper.SliceContains(constants.SuccessStatusCodes, statusCode) {
 		return resVO, ConvertSysErr(fmt.Errorf(string(resBytes)))
 	}
-
 
 	if err := json.Unmarshal(resBytes, &resVO); err != nil {
 		return resVO, ConvertSysErr(err)
@@ -106,12 +106,10 @@ func (s ValidatorService) buildCandidates(cd document.Candidate,
 			}
 			res, err := s.GetValidatorExRate(reqVO)
 			if err.IsNotNull() {
-				// TODO: handle err
+				logger.Error.Printf("Can't getValidatorExRate, err is %v\n", err)
 			}
 			tokens := float64(de.Shares) * res.ExRate
-			// TODO: set value of shares equal tokens,
-			// next version will change correct
-			de.Shares = tokens
+			de.BondedTokens = tokens
 
 			delegators = append(delegators, de)
 			cd.Delegators = delegators
@@ -122,13 +120,12 @@ func (s ValidatorService) buildCandidates(cd document.Candidate,
 		cd.VotingPower = float64(cd.Shares) / totalShares
 	}
 
-
 	return cd
 }
 
 func (s ValidatorService) Detail(reqVO vo.ValidatorDetailReqVO) (
 	vo.ValidatorDetailResVO, errors.IrisError) {
-	
+
 	var (
 		resVO vo.ValidatorDetailResVO
 	)
@@ -159,13 +156,10 @@ func (s ValidatorService) Detail(reqVO vo.ValidatorDetailReqVO) (
 		return resVO, ConvertSysErr(err)
 	}
 	candidate = s.buildCandidates(candidate, delegator, totalShares)
-	
+
 	resVO = vo.ValidatorDetailResVO{
 		Candidate: candidate,
 	}
 
 	return resVO, irisErr
 }
-
-
-
