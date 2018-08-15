@@ -26,9 +26,8 @@ type UnbondingDelegation struct {
 }
 
 type DelegatorShares struct {
-	ValidatorAddr        string  `bson:"_id"`
-	TotalShares          float64 `json:"total_shares" bson:"total_shares"`
-	TotalUnbondingTokens float64 `bson:"unbonding_tokens"`
+	ValidatorAddr string  `bson:"_id"`
+	TotalShares   float64 `json:"total_shares" bson:"total_shares"`
 }
 
 func (d Delegator) Name() string {
@@ -95,12 +94,10 @@ func (d Delegator) GetTotalSharesByAddress(address string) ([]DelegatorShares, e
 					"address": address,
 				},
 			},
-			{"$unwind": "$unbonding_delegation.balance"},
 			{
 				"$group": bson.M{
-					"_id":              "$validator_addr",
-					"total_shares":     bson.M{"$sum": "$shares"},
-					"unbonding_tokens": bson.M{"$sum": "$unbonding_delegation.balance.amount"},
+					"_id":          "$validator_addr",
+					"total_shares": bson.M{"$sum": "$shares"},
 				},
 			},
 		}
@@ -109,9 +106,45 @@ func (d Delegator) GetTotalSharesByAddress(address string) ([]DelegatorShares, e
 
 	err := models.ExecCollection(d.Name(), q)
 
-	if err != nil {
+	// when err is not can't find record, throw err
+	if err != nil && err.Error() != mgo.ErrNotFound.Error() {
 		return nil, err
 	}
 	return value, nil
+}
 
+func (d Delegator) GetTotalUnbondingTokens(address string) (float64, error) {
+	type result struct {
+		Id                   string  `bson:"_id"`
+		TotalUnbondingTokens float64 `bson:"total_unbonding_tokens"`
+	}
+	var value result
+
+	q := func(c *mgo.Collection) error {
+		m := []bson.M{
+			{
+				"$match": bson.M{
+					"address": address,
+				},
+			},
+			{
+				"$unwind": "$unbonding_delegation.balance",
+			},
+			{
+				"$group": bson.M{
+					"_id": "test",
+					"total_unbonding_tokens": bson.M{"$sum": "$unbonding_delegation.balance.amount"},
+				},
+			},
+		}
+		return c.Pipe(m).One(&value)
+	}
+
+	err := models.ExecCollection(d.Name(), q)
+
+	// when err is not can't find record, throw err
+	if err != nil && err.Error() != mgo.ErrNotFound.Error() {
+		return 0, err
+	}
+	return value.TotalUnbondingTokens, nil
 }
