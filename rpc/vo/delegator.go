@@ -9,11 +9,11 @@ import (
 // =============================================
 
 type DelegatorCandidateListReqVO struct {
-	Address              string   `json:"address,omitempty"`
-	Page                 int16   `json:"page,omitempty"`
-	PerPage              int16   `json:"perPage,omitempty"`
-	Sort                 string   `json:"sort,omitempty"`
-	Q                    string   `json:"q,omitempty"`
+	Address string `json:"address,omitempty"`
+	Page    int16  `json:"page,omitempty"`
+	PerPage int16  `json:"perPage,omitempty"`
+	Sort    string `json:"sort,omitempty"`
+	Q       string `json:"q,omitempty"`
 }
 
 type DelegatorCandidateListResVO struct {
@@ -29,5 +29,7 @@ type DelegatorTotalShareReqVO struct {
 }
 
 type DelegatorTotalShareResVO struct {
-	TotalShare float64
+	TotalShares          float64
+	ToTalBondedTokens    float64
+	ToTalUnbondingTokens float64
 }

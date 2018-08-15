@@ -1,21 +1,20 @@
 package services
 
 import (
-	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/errors"
-	"github.com/irisnet/irishub-server/utils/helper"
 	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/rpc/vo"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 type DelegatorService struct {
-
 }
 
 var (
 	validatorService ValidatorService
 )
 
-func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateListReqVO) (vo.DelegatorCandidateListResVO, errors.IrisError)  {
+func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateListReqVO) (vo.DelegatorCandidateListResVO, errors.IrisError) {
 
 	var (
 		resVO vo.DelegatorCandidateListResVO
@@ -68,8 +67,8 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReqVO) (vo.DelegatorTotalShareResVO, errors.IrisError) {
 
 	var (
-		resVO       vo.DelegatorTotalShareResVO
-		totalTokens float64
+		resVO                                                vo.DelegatorTotalShareResVO
+		totalShares, totalBondedTokens, totalUnbondingTokens float64
 	)
 
 	delegatorShares, err := delegatorModel.GetTotalSharesByAddress(reqVO.Address)
@@ -91,14 +90,16 @@ func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReq
 				continue
 			}
 
-			totalTokens += v.TotalShares * res.ExRate
+			totalShares += v.TotalShares
+			totalBondedTokens += v.TotalShares * res.ExRate
+			totalUnbondingTokens += v.TotalUnbondingTokens
 		}
 	}
 
 	resVO = vo.DelegatorTotalShareResVO{
-		// TODO: set value of shares equal tokens,
-		// next version will change correct
-		TotalShare: totalTokens,
+		TotalShares:          totalShares,
+		ToTalBondedTokens:    totalBondedTokens,
+		ToTalUnbondingTokens: totalUnbondingTokens,
 	}
 	return resVO, irisErr
 }
