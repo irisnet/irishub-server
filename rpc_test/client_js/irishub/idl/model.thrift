@@ -1,9 +1,16 @@
 namespace go model
 
+struct DelegatorUnbondingDelegation {
+    1: double tokens,
+    2: string minTime
+}
+
 struct Delegator {
 	1: string address,
-	2: string pubKey,
-	3: i64 shares
+	2: string valAddress,
+	3: double shares,
+    4: double bondedTokens,
+    5: DelegatorUnbondingDelegation unbondingDelegation
 }
 
 struct CandidateDescription {
@@ -16,7 +23,7 @@ struct CandidateDescription {
 struct Candidate {
 	1: string address,
 	2: string pubKey,
-	3: i64 shares,
+	3: double shares,
 	4: double votingPower,
 	5: CandidateDescription description,
 	6: list<Delegator> delegators
@@ -44,8 +51,8 @@ struct CandidateListRequest {
 }
 
 struct CandidateDetailRequest {
-	1: string address
-	2: string pubKey
+	1: string delAddress
+	2: string valAddress
 }
 
 struct DelegatorCandidateListRequest {
@@ -61,7 +68,9 @@ struct TotalShareRequest {
 }
 
 struct TotalShareResponse {
-	2: i64 totalShares
+	1: double totalShares,
+	2: double bondedTokens,
+	3: double unbondingTokens
 }
 
 struct ValidatorExRateRequest {

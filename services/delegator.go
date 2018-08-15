@@ -54,7 +54,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	}
 
 	for i, cd := range candidates {
-		candidates[i] = validatorService.buildCandidates(cd, delegator, totalShares)
+		candidates[i] = validatorService.buildValidator(cd, delegator, totalShares)
 	}
 
 	resVO = vo.DelegatorCandidateListResVO{
