@@ -1,57 +1,55 @@
 package irishub
 
 import (
+	"fmt"
 	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server/model"
-	"github.com/irisnet/irishub-server/errors"
-	"github.com/irisnet/irishub-server/services"
-	"golang.org/x/net/context"
+	"github.com/irisnet/irishub-server/models/document"
 )
 
-var (
-	validatorListHandler   ValidatorListHandler
-	validatorDetailHandler ValidatorDetailHandler
-	validatorExRateHandle  ValidatorExRateHandler
-
-	delegatorCandidateListHandler DelegatorCandidateListHandler
-	delegatorTotalSharesHandler   DelegatorTotalSharesHandler
-
-	validatorService services.ValidatorService
-	delegatorService services.DelegatorService
-)
-
-func Handler(ctx context.Context, req interface{}) (interface{}, error) {
+func BuildCandidateResponse(v document.Candidate) irisProtoc.Candidate {
 	var (
-		res interface{}
-		err error
+		resCandidate            irisProtoc.Candidate
+		resCandidateDescription irisProtoc.CandidateDescription
+		resCandidateDelegator   irisProtoc.Delegator
+		resCandidateDelegators  []*irisProtoc.Delegator
+		resDelegatorUbd         irisProtoc.DelegatorUnbondingDelegation
 	)
 
-	switch req.(type) {
-	case *irisProtoc.CandidateListRequest:
-		res, err = validatorListHandler.Handler(ctx, req.(*irisProtoc.CandidateListRequest))
-		break
-	case *irisProtoc.CandidateDetailRequest:
-		res, err = validatorDetailHandler.Handler(ctx, req.(*irisProtoc.CandidateDetailRequest))
-		break
-	case *irisProtoc.ValidatorExRateRequest:
-		res, err = validatorExRateHandle.Handle(ctx, req.(*irisProtoc.ValidatorExRateRequest))
-		break
-
-	case *irisProtoc.DelegatorCandidateListRequest:
-		res, err = delegatorCandidateListHandler.Handler(ctx, req.(*irisProtoc.DelegatorCandidateListRequest))
-		break
-	case *irisProtoc.TotalShareRequest:
-		res, err = delegatorTotalSharesHandler.Handler(ctx, req.(*irisProtoc.TotalShareRequest))
-		break
+	// description
+	resCandidateDescription = irisProtoc.CandidateDescription{
+		Details:  v.Description.Details,
+		Identity: v.Description.Identity,
+		Moniker:  v.Description.Moniker,
+		Website:  v.Description.Website,
 	}
 
-	return res, err
-}
+	// delegator
+	if len(v.Delegators) > 0 {
+		delegator := v.Delegators[0]
+		if balance := delegator.UnbondingDelegation.Balance; len(balance) > 0 {
+			resDelegatorUbd = irisProtoc.DelegatorUnbondingDelegation{
+				Tokens:  balance[0].Amount,
+				MinTime: fmt.Sprintf("%v", delegator.UnbondingDelegation.MinTime),
+			}
+		}
 
-func BuildException(err errors.IrisError) error {
-	var (
-		exception irisProtoc.Exception
-	)
-	exception.ErrCode = int32(err.ErrCode)
-	exception.ErrMsg = err.ErrMsg
-	return &exception
+		resCandidateDelegator = irisProtoc.Delegator{
+			Address:             delegator.Address,
+			ValAddress:          delegator.ValidatorAddr,
+			Shares:              delegator.Shares,
+			BondedTokens:        delegator.BondedTokens,
+			UnbondingDelegation: &resDelegatorUbd,
+		}
+		resCandidateDelegators = append(resCandidateDelegators, &resCandidateDelegator)
+	}
+
+	resCandidate = irisProtoc.Candidate{
+		Address:     v.Address,
+		PubKey:      v.PubKey,
+		VotingPower: v.VotingPower,
+		Description: &resCandidateDescription,
+		Delegators:  resCandidateDelegators,
+	}
+
+	return resCandidate
 }

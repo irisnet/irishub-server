@@ -3,7 +3,6 @@ package irishub
 import (
 	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc/vo"
-	"github.com/irisnet/irishub-server/utils/helper"
 	"golang.org/x/net/context"
 )
 
@@ -35,7 +34,9 @@ func (c DelegatorTotalSharesHandler) buildRequest(req *irisProtoc.TotalShareRequ
 func (c DelegatorTotalSharesHandler) buildResponse(resVO vo.DelegatorTotalShareResVO) *irisProtoc.TotalShareResponse {
 
 	response := irisProtoc.TotalShareResponse{
-		TotalShares: helper.ConvertFloatToInt(resVO.TotalShare),
+		TotalShares:     resVO.TotalShares,
+		BondedTokens:    resVO.ToTalBondedTokens,
+		UnbondingTokens: resVO.ToTalUnbondingTokens,
 	}
 
 	return &response

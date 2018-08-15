@@ -2,17 +2,16 @@ package vo
 
 import "github.com/irisnet/irishub-server/models/document"
 
-
 // ==============================================
 // request of get validator list
 // ==============================================
 
 type ValidatorListReqVO struct {
-	Address              string   `json:"address,omitempty"`
-	Page                 int16   `json:"page,omitempty"`
-	PerPage              int16   `json:"perPage,omitempty"`
-	Sort                 string   `json:"sort,omitempty"`
-	Q                    string   `json:"q,omitempty"`
+	Address string `json:"address,omitempty"`
+	Page    int16  `json:"page,omitempty"`
+	PerPage int16  `json:"perPage,omitempty"`
+	Sort    string `json:"sort,omitempty"`
+	Q       string `json:"q,omitempty"`
 }
 
 type ValidatorListResVO struct {
@@ -24,7 +23,7 @@ type ValidatorListResVO struct {
 // ==============================================
 
 type ValidatorDetailReqVO struct {
-	Address string `json:"address,omitempty"`
+	DelAddr string `json:"address,omitempty"`
 	ValAddr string `json:"pubKey,omitempty"`
 }
 
@@ -43,6 +42,3 @@ type ValidatorExRateReqVO struct {
 type ValidatorExRateResVO struct {
 	ExRate float64 `json:"token_shares_rate"`
 }
-
-
-
