@@ -16,10 +16,10 @@ type TxService struct {
 
 func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisError) {
 	var (
-		startTime  time.Time
-		endTime    time.Time
-		err        error
-		valAddrs   []string
+		startTime time.Time
+		endTime   time.Time
+		err       error
+		//valAddrs   []string
 		candidates []document.Candidate
 		resVO      vo.TxListResVO
 	)
@@ -50,14 +50,14 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 		return resVO, ConvertSysErr(err)
 	}
 
-	for _, commonTx := range commonTxs {
-		txType := commonTx.Type
-		if txType == constants.DbTxTypeStakeDelegate ||
-			txType == constants.DbTxTypeStakeBeginUnBonding ||
-			txType == constants.DbTxTypeStakeCompleteUnBonding {
-			valAddrs = append(valAddrs, commonTx.To)
-		}
-	}
+	//for _, commonTx := range commonTxs {
+	//	txType := commonTx.Type
+	//	if txType == constants.DbTxTypeStakeDelegate ||
+	//		txType == constants.DbTxTypeStakeBeginUnBonding ||
+	//		txType == constants.DbTxTypeStakeCompleteUnBonding {
+	//		valAddrs = append(valAddrs, commonTx.To)
+	//	}
+	//}
 
 	for i, commonTx := range commonTxs {
 		commonTx = s.buildData(commonTx, candidates, address)

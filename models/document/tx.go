@@ -22,6 +22,8 @@ type CommonTx struct {
 	To     string    `json:"to" bson:"to"`
 	Amount Coins     `json:"amount" bson:"amount"`
 	Type   string    `json:"type" bson:"type"`
+	Status string    `bson:"status"`
+	Log    string    `bson:"log"`
 
 	Candidate Candidate `json:"candidate"`
 }
@@ -79,6 +81,18 @@ func (d CommonTx) GetList(address string, txType string,
 			query["from"] = address
 			query["type"] = constants.TxTypeFrontMapDb[txType]
 			if ext != "" && txType != constants.TxTypeCoinSend {
+				query["to"] = ext
+			}
+			break
+		case constants.TxTypeStakeUnbond:
+			query["from"] = address
+			query["type"] = bson.M{
+				"$in": []string{
+					constants.TxTypeFrontMapDb[constants.TxTypeStakeBeginUnBonding],
+					constants.TxTypeFrontMapDb[constants.TxTypeStakeCompleteUnBonding],
+				},
+			}
+			if ext != "" {
 				query["to"] = ext
 			}
 			break

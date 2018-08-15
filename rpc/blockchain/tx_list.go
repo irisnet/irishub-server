@@ -4,7 +4,6 @@ import (
 	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
-	"github.com/irisnet/irishub-server/utils/constants"
 	"golang.org/x/net/context"
 )
 
@@ -61,7 +60,7 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) []*commonProtoc.Tx {
 				Receiver: &to,
 				Amount:   modelCoins,
 				Type:     v.Type,
-				Status:   constants.TxStatusSuccess,
+				Status:   v.Status,
 				Ext:      []byte{},
 			}
 			resTxs = append(resTxs, &resTxListObj)
