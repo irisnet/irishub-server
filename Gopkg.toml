@@ -31,6 +31,8 @@
 [[constraint]]
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
+  # TODO: delete source and change branch to version when deploy to stage
+  # source = "https://github.com/kaifei-bianjie/blockchain-rpc.git"
 
 [[constraint]]
   branch = "develop"

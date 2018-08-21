@@ -5,6 +5,7 @@ import (
 
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc/vo"
+	"github.com/irisnet/irishub-server/utils/constants"
 	"github.com/irisnet/irishub-server/utils/helper"
 )
 
@@ -49,24 +50,53 @@ func TestTxService_GetTxList(t *testing.T) {
 	}
 }
 
+func TestTxService_GetTxGas(t *testing.T) {
+	type args struct {
+		reqVO vo.TxGasReqVO
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			name: "test get tx gas",
+			args: args{
+				reqVO: vo.TxGasReqVO{
+					TxType: constants.TxTypeCoinSend,
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := TxService{}
+			res, err := s.GetTxGas(tt.args.reqVO)
+			if err.IsNotNull() {
+				t.Error(err)
+			} else {
+				logger.Info.Println(helper.ToJson(res))
+			}
+		})
+	}
+}
+
 func TestTxService_getTxDetail(t *testing.T) {
 	type args struct {
 		reqVO vo.TxDetailReqVO
 	}
 	tests := []struct {
-		name  string
-		s     TxService
-		args  args
+		name string
+		s    TxService
+		args args
 	}{
 		{
 			name: "test get tx detail",
-			s: TxService{},
+			s:    TxService{},
 			args: args{
 				reqVO: vo.TxDetailReqVO{
 					TxHash: "5289539FE1FE03E5B427F9ACADB0FC185B66EB54",
 				},
 			},
-			
 		},
 	}
 	for _, tt := range tests {

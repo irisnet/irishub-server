@@ -38,6 +38,13 @@ struct Memo {
 	2: binary text
 }
 
+struct GasPrice {
+    1: double minGasPrice,
+    2: double maxGasPrice,
+    3: double avgGasPrice,
+    4: string denom
+}
+
 /** tx structure
  *
  */
@@ -47,6 +54,7 @@ struct Tx {
 	3: Address receiver,
 	4: list<Coin> amount,
 	5: Fee fee,
+	13: double gasLimit,
 	6: Memo memo,
 	7: string type,
 
@@ -54,7 +62,8 @@ struct Tx {
 	9: string time,
 	10: i64 height,
 	11: string status,
-	12: binary ext
+	12: binary ext,
+	14: double gasUsed
 }
 
 /** common exception
@@ -70,6 +79,22 @@ exception Exception {
 // define each method request and response
 // ========================================
 
+/** txGas request
+ * @param txType, txType
+ */
+struct TxGasRequest {
+    1: string txType
+}
+
+/** txGas response
+ * @param gas, suggest gas
+ * @param gasPrice, suggest gasPrice
+ */
+struct TxGasResponse {
+    1: string txType,
+    2: double gasLimit,
+    3: GasPrice gasPrice
+}
 
 /** sequence request
  * @param address, address

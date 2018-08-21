@@ -8,6 +8,8 @@ import (
 )
 
 var (
+	txGasHandler TxGasHandler
+
 	buildTxHandler BuildTxHandler
 	buildTxService services.BuildTxService
 
@@ -31,6 +33,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	)
 
 	switch req.(type) {
+	case *commonProtoc.TxGasRequest:
+		res, err = txGasHandler.Handler(ctx, req.(*commonProtoc.TxGasRequest))
+		break
 	case *commonProtoc.BuildTxRequest:
 		res, err = buildTxHandler.Handler(ctx, req.(*commonProtoc.BuildTxRequest))
 		break

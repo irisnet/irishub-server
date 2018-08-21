@@ -11,7 +11,7 @@
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
   packages = ["codegen/server/model"]
-  revision = "397393d3923f5ab91bffaa07c5df5946016f2c5a"
+  revision = "e732c73488726f36db703bc5ade98b2356223448"
 
 [[projects]]
   branch = "develop"
@@ -29,7 +29,7 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context"]
-  revision = "c39426892332e1bb5ec0a434a079bf82f5d30c54"
+  revision = "922f4815f713f213882e8ef45e0d315b164d705c"
 
 [[projects]]
   branch = "v2"

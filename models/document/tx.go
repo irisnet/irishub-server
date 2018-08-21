@@ -15,15 +15,19 @@ const (
 )
 
 type CommonTx struct {
-	TxHash string    `json:"tx_hash" bson:"tx_hash"`
-	Time   time.Time `json:"time" bson:"time"`
-	Height int64     `json:"height" bson:"height"`
-	From   string    `json:"from" bson:"from"`
-	To     string    `json:"to" bson:"to"`
-	Amount Coins     `json:"amount" bson:"amount"`
-	Type   string    `json:"type" bson:"type"`
-	Status string    `bson:"status"`
-	Log    string    `bson:"log"`
+	TxHash   string    `json:"tx_hash" bson:"tx_hash"`
+	Time     time.Time `json:"time" bson:"time"`
+	Height   int64     `json:"height" bson:"height"`
+	From     string    `json:"from" bson:"from"`
+	To       string    `json:"to" bson:"to"`
+	Amount   Coins     `json:"amount" bson:"amount"`
+	Type     string    `json:"type" bson:"type"`
+	Fee      Fee       `bson:"fee"`
+	Memo     string    `bson:"memo"`
+	Status   string    `bson:"status"`
+	Log      string    `bson:"log"`
+	GasUsed  int64     `bson:"gas_used"`
+	GasPrice float64   `bson:"gas_price"`
 
 	Candidate Candidate `json:"candidate"`
 }

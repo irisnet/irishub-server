@@ -68,6 +68,24 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	return resVO, irisErr
 }
 
+func (s TxService) GetTxGas(reqVO vo.TxGasReqVO) (vo.TxGasResVO, errors.IrisError) {
+	var (
+		resVO vo.TxGasResVO
+	)
+
+	txGas, err := txGasModel.GetTxGas(reqVO.TxType)
+	if err != nil {
+		return resVO, ConvertSysErr(err)
+	}
+
+	resVO = vo.TxGasResVO{
+		TxType:   txGas.TxType,
+		Gas:      txGas.GasUsed,
+		GasPrice: txGas.GasPrice,
+	}
+	return resVO, irisErr
+}
+
 func (s TxService) GetTxDetail(reqVO vo.TxDetailReqVO) (vo.TxDetailResVO, errors.IrisError) {
 	var (
 		resVO      vo.TxDetailResVO
@@ -124,6 +142,7 @@ func (s TxService) buildData(commonTx document.CommonTx,
 		}
 	}
 
+	// display tx type used by front
 	switch txType {
 	case constants.DbTxTypeTransfer:
 		if address == commonTx.From {

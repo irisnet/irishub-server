@@ -3,6 +3,9 @@ include "model.thrift"
 namespace go model
 
 service BlockChainService {
+	// get tx gas
+	model.TxGasResponse GetTxGas(1: model.TxGasRequest req) throws (1:model.Exception e),
+
     // get sequence
 	model.SequenceResponse GetSequence(1: model.SequenceRequest req) throws (1:model.Exception e),
 
@@ -19,5 +22,5 @@ service BlockChainService {
 	list<model.Tx> GetTxList(1: model.TxListRequest req) throws (1:model.Exception e),
 
 	// get tx detail
-	model.Tx GetTxDetail(1: model.TxDetailRequest req) throws (1:model.Exception e)
+	model.Tx GetTxDetail(1: model.TxDetailRequest req) throws (1:model.Exception e),
 }
