@@ -2,7 +2,6 @@ package blockchain
 
 import (
 	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
-	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/constants"
 	"golang.org/x/net/context"
@@ -36,9 +35,9 @@ func (c TxDetailHandler) BuildRequest(req *commonProtoc.TxDetailRequest) vo.TxDe
 
 func (c TxDetailHandler) BuildResponse(resVO vo.TxDetailResVO) *commonProtoc.Tx {
 	resTx := resVO.Tx
-	from := rpc.BuildResponseAddress(resTx.From)
-	to := rpc.BuildResponseAddress(resTx.To)
-	coins := rpc.BuildResponseCoins(resTx.Amount)
+	from := BuildResponseAddress(resTx.From)
+	to := BuildResponseAddress(resTx.To)
+	coins := BuildResponseCoins(resTx.Amount)
 	fee := commonProtoc.Fee{}
 
 	response := commonProtoc.Tx{

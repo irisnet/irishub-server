@@ -7,6 +7,11 @@ type Coin struct {
 	Amount float64 `bson:"amount"`
 }
 
+type Fee struct {
+	Amount Coins `bson:"amount"`
+	Gas    int64 `bson:"gas"`
+}
+
 // validator description
 type ValDescription struct {
 	Moniker  string `json:"moniker" bson:"moniker"`

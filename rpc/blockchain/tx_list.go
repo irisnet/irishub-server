@@ -2,7 +2,6 @@ package blockchain
 
 import (
 	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
-	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
 )
@@ -46,11 +45,13 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) []*commonProtoc.Tx {
 
 	if len(resVO.Txs) > 0 {
 		for _, v := range resVO.Txs {
-			from := rpc.BuildResponseAddress(v.From)
-			to := rpc.BuildResponseAddress(v.To)
+			from := BuildResponseAddress(v.From)
+			to := BuildResponseAddress(v.To)
 
 			var modelCoins []*commonProtoc.Coin
-			modelCoins = rpc.BuildResponseCoins(v.Amount)
+			modelCoins = BuildResponseCoins(v.Amount)
+
+			resFee, resGasLimit := BuildResponseFeeAndGasLimit(v.Fee)
 
 			resTxListObj := commonProtoc.Tx{
 				TxHash:   v.TxHash,
@@ -62,6 +63,9 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) []*commonProtoc.Tx {
 				Type:     v.Type,
 				Status:   v.Status,
 				Ext:      []byte{},
+				Fee:      resFee,
+				GasLimit: resGasLimit,
+				GasUsed:  float64(v.GasUsed),
 			}
 			resTxs = append(resTxs, &resTxListObj)
 		}

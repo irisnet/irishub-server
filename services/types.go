@@ -16,6 +16,7 @@ var (
 	candidateModel document.Candidate
 	delegatorModel document.Delegator
 	commonTxModel  document.CommonTx
+	txGasModel     document.TxGas
 	irisErr        errors.IrisError
 )
 
