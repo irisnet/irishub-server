@@ -61,7 +61,7 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 			for _, v := range coins {
 				coin := vo.Coin{
 					Denom:  v.Denom,
-					Amount: helper.ConvertStrToInt(v.Amount),
+					Amount: helper.ConvertStrToFloat(v.Amount),
 				}
 
 				resCoins = append(resCoins, &coin)

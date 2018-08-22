@@ -11,7 +11,7 @@
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
   packages = ["codegen/server/model"]
-  revision = "e732c73488726f36db703bc5ade98b2356223448"
+  revision = "d81c412e827038a89d1ca56d3f5d4ead80e0f8f7"
 
 [[projects]]
   branch = "develop"

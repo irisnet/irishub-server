@@ -35,9 +35,9 @@ func (c TxDetailHandler) BuildRequest(req *commonProtoc.TxDetailRequest) vo.TxDe
 
 func (c TxDetailHandler) BuildResponse(resVO vo.TxDetailResVO) *commonProtoc.Tx {
 	resTx := resVO.Tx
-	from := BuildResponseAddress(resTx.From)
-	to := BuildResponseAddress(resTx.To)
-	coins := BuildResponseCoins(resTx.Amount)
+	from := BuildResAddress(resTx.From)
+	to := BuildResAddress(resTx.To)
+	coins := BuildResCoins(resTx.Amount)
 	fee := commonProtoc.Fee{}
 
 	response := commonProtoc.Tx{

@@ -5,7 +5,7 @@ import (
 	"github.com/irisnet/irishub-server/models/document"
 )
 
-func BuildResponseAddress(address string) commonProtoc.Address {
+func BuildResAddress(address string) commonProtoc.Address {
 	return commonProtoc.Address{
 		Chain: "",
 		App:   "",
@@ -13,7 +13,7 @@ func BuildResponseAddress(address string) commonProtoc.Address {
 	}
 }
 
-func BuildResponseCoins(coins document.Coins) []*commonProtoc.Coin {
+func BuildResCoins(coins document.Coins) []*commonProtoc.Coin {
 	var (
 		modelCoins []*commonProtoc.Coin
 	)
@@ -31,7 +31,7 @@ func BuildResponseCoins(coins document.Coins) []*commonProtoc.Coin {
 	return modelCoins
 }
 
-func BuildResponseFeeAndGasLimit(fee document.Fee) (*commonProtoc.Fee, float64) {
+func BuildResFeeAndGasLimit(fee document.Fee) (*commonProtoc.Fee, float64) {
 	var (
 		resFee      commonProtoc.Fee
 		resGasLimit float64
@@ -47,4 +47,17 @@ func BuildResponseFeeAndGasLimit(fee document.Fee) (*commonProtoc.Fee, float64) 
 	}
 
 	return &resFee, resGasLimit
+}
+
+func BuildResActualFee(actualFee document.ActualFee) *commonProtoc.Fee {
+	var (
+		resActualFee commonProtoc.Fee
+	)
+
+	resActualFee = commonProtoc.Fee{
+		Amount: actualFee.Amount,
+		Denom:  actualFee.Denom,
+	}
+
+	return &resActualFee
 }
