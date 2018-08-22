@@ -1,8 +1,6 @@
 package document
 
 import (
-	"time"
-
 	"github.com/irisnet/irishub-server/models"
 	"github.com/irisnet/irishub-server/modules/logger"
 	"gopkg.in/mgo.v2"
@@ -16,12 +14,13 @@ const (
 type Candidate struct {
 	Address     string         `json:"address" bson:"address"` // owner
 	PubKey      string         `json:"pub_key" bson:"pub_key"`
+	PubKeyAddr  string         `bson:"pub_key_addr"` // validator address
 	Shares      float64        `json:"shares" bson:"tokens"`
 	Revoked     bool           `bson:"revoked"`
 	Description ValDescription `json:"description" bson:"description"` // Description terms for the candidate
-	UpdateTime  time.Time      `json:"update_time" bson:"update_time"`
 
-	VotingPower float64     `json:"voting_power"` // Voting power if pubKey is a considered a validator
+	VotingPower float64 `json:"voting_power"` // Voting power if pubKey is a considered a validator
+	UpTime      float64
 	Delegators  []Delegator `json:"delegators"`
 }
 

@@ -17,7 +17,7 @@
   branch = "develop"
   name = "github.com/irisnet/irishub-rpc"
   packages = ["codegen/server/model"]
-  revision = "4369d80d56d6e388638e5543bfaa48c8ecfb65ad"
+  revision = "c502bb9f2b74772433a61d023f30320e847133ce"
 
 [[projects]]
   name = "github.com/rs/cors"

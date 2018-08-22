@@ -36,7 +36,7 @@ func (h TxGasHandler) buildRes(resVO vo.TxGasResVO) *commonProtoc.TxGasResponse 
 	)
 
 	resGasPrice = commonProtoc.GasPrice{
-		Denom:       resVO.TxType,
+		Denom:       resVO.GasPrice.Denom,
 		MinGasPrice: resVO.GasPrice.MinGasPrice,
 		MaxGasPrice: resVO.GasPrice.MaxGasPrice,
 		AvgGasPrice: resVO.GasPrice.AvgGasPrice,

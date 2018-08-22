@@ -1,18 +1,16 @@
 package document
 
 import (
-"testing"
+	"testing"
 
-
-"github.com/irisnet/irishub-server/modules/logger"
-"github.com/irisnet/irishub-server/utils/helper"
-
+	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/utils/helper"
 )
 
 func TestCandidate_GetCandidatesList(t *testing.T) {
 
 	type args struct {
-		q string
+		q     string
 		skip  int
 		limit int
 		sorts []string
@@ -24,7 +22,7 @@ func TestCandidate_GetCandidatesList(t *testing.T) {
 		{
 			name: "test get candidate list",
 			args: args{
-				q: "",
+				q:     "",
 				skip:  0,
 				limit: 10,
 				sorts: []string{"-voting_power"},
@@ -68,8 +66,8 @@ func TestCandidate_GetCandidateDetail(t *testing.T) {
 		pubKey string
 	}
 	tests := []struct {
-		name    string
-		args    args
+		name string
+		args args
 	}{
 		{
 			name: "test get detail of candidate",
@@ -80,8 +78,7 @@ func TestCandidate_GetCandidateDetail(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := Candidate{
-			}
+			d := Candidate{}
 			candidate, err := d.GetCandidateDetail(tt.args.pubKey)
 			if err != nil {
 				logger.Error.Panicln(err)

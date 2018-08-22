@@ -17,7 +17,8 @@ var (
 func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateListReqVO) (vo.DelegatorCandidateListResVO, errors.IrisError) {
 
 	var (
-		resVO vo.DelegatorCandidateListResVO
+		resVO                vo.DelegatorCandidateListResVO
+		tmValAddrs, valAddrs []string
 	)
 
 	sorts := helper.ParseParamSort(reqVO.Sort)
@@ -42,9 +43,6 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	}
 
 	// query all candidate which delegator have delegated
-	var (
-		valAddrs []string
-	)
 	for _, de := range delegator {
 		valAddrs = append(valAddrs, de.ValidatorAddr)
 	}
@@ -53,8 +51,17 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 		return resVO, ConvertSysErr(err)
 	}
 
+	// get validator up time info
+	for _, v := range candidates {
+		tmValAddrs = append(tmValAddrs, v.PubKeyAddr)
+	}
+	valUpTimes, err := valUpTimeModel.GetUpTime(tmValAddrs)
+	if err != nil {
+		return resVO, ConvertSysErr(err)
+	}
+
 	for i, cd := range candidates {
-		candidates[i] = validatorService.buildValidator(cd, delegator, totalShares)
+		candidates[i] = validatorService.buildValidator(cd, delegator, valUpTimes, totalShares)
 	}
 
 	resVO = vo.DelegatorCandidateListResVO{

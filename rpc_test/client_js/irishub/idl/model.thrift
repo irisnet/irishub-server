@@ -26,7 +26,8 @@ struct Candidate {
 	3: double shares,
 	4: double votingPower,
 	5: CandidateDescription description,
-	6: list<Delegator> delegators
+	6: list<Delegator> delegators,
+	7: double upTime
 }
 
 /** common exception
