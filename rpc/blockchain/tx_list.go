@@ -45,27 +45,31 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) []*commonProtoc.Tx {
 
 	if len(resVO.Txs) > 0 {
 		for _, v := range resVO.Txs {
-			from := BuildResponseAddress(v.From)
-			to := BuildResponseAddress(v.To)
+			var (
+				modelCoins []*commonProtoc.Coin
+			)
+			from := BuildResAddress(v.From)
+			to := BuildResAddress(v.To)
 
-			var modelCoins []*commonProtoc.Coin
-			modelCoins = BuildResponseCoins(v.Amount)
+			modelCoins = BuildResCoins(v.Amount)
 
-			resFee, resGasLimit := BuildResponseFeeAndGasLimit(v.Fee)
+			resFee, resGasLimit := BuildResFeeAndGasLimit(v.Fee)
+			actualFee := BuildResActualFee(v.ActualFee)
 
 			resTxListObj := commonProtoc.Tx{
-				TxHash:   v.TxHash,
-				Time:     v.Time.String(),
-				Height:   v.Height,
-				Sender:   &from,
-				Receiver: &to,
-				Amount:   modelCoins,
-				Type:     v.Type,
-				Status:   v.Status,
-				Ext:      []byte{},
-				Fee:      resFee,
-				GasLimit: resGasLimit,
-				GasUsed:  float64(v.GasUsed),
+				TxHash:    v.TxHash,
+				Time:      v.Time.String(),
+				Height:    v.Height,
+				Sender:    &from,
+				Receiver:  &to,
+				Amount:    modelCoins,
+				Type:      v.Type,
+				Status:    v.Status,
+				Ext:       []byte{},
+				Fee:       resFee,
+				GasLimit:  resGasLimit,
+				GasUsed:   float64(v.GasUsed),
+				ActualFee: actualFee,
 			}
 			resTxs = append(resTxs, &resTxListObj)
 		}

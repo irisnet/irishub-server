@@ -54,7 +54,6 @@ struct Tx {
 	3: Address receiver,
 	4: list<Coin> amount,
 	5: Fee fee,
-	13: double gasLimit,
 	6: Memo memo,
 	7: string type,
 
@@ -63,7 +62,9 @@ struct Tx {
 	10: i64 height,
 	11: string status,
 	12: binary ext,
-	14: double gasUsed
+	13: double gasLimit,
+	14: double gasUsed,
+	15: Fee actualFee
 }
 
 /** common exception

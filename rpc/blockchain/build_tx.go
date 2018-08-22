@@ -28,7 +28,7 @@ func (c BuildTxHandler) buildRequest(req *commonProtoc.BuildTxRequest) vo.BuildT
 	for _, amount := range reqTx.Amount {
 		coin := vo.Coin{
 			Denom:  amount.GetDenom(),
-			Amount: int64(amount.GetAmount()),
+			Amount: amount.GetAmount(),
 		}
 		coins = append(coins, coin)
 	}
@@ -36,7 +36,7 @@ func (c BuildTxHandler) buildRequest(req *commonProtoc.BuildTxRequest) vo.BuildT
 	reqVO := vo.BuildTxReqVO{
 		Fees: vo.Fee{
 			Denom:  reqTx.Fee.Denom,
-			Amount: int64(reqTx.Fee.Amount),
+			Amount: reqTx.Fee.Amount,
 		},
 		Multi:    false,
 		Sequence: reqTx.Sequence,

@@ -12,6 +12,11 @@ type Fee struct {
 	Gas    int64 `bson:"gas"`
 }
 
+type ActualFee struct {
+	Denom  string  `bson:"denom"`
+	Amount float64 `bson:"amount"`
+}
+
 // validator description
 type ValDescription struct {
 	Moniker  string `json:"moniker" bson:"moniker"`

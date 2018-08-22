@@ -4,10 +4,9 @@ import (
 	"encoding/json"
 	"strings"
 	"time"
-	
+
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/utils/constants"
-	"math"
 	"strconv"
 )
 
@@ -21,7 +20,7 @@ func ToJson(v interface{}) string {
 }
 
 // parse str to time
-func ParseTime(layout string, str string) (time.Time, error)  {
+func ParseTime(layout string, str string) (time.Time, error) {
 	return time.Parse(layout, str)
 }
 
@@ -39,13 +38,13 @@ func ParseParamSort(sort string) []string {
 	if sort != "" {
 		sorts = strings.Split(sort, ",")
 	}
-	
+
 	return sorts
 }
 
 // parse page param
 // get skip, limit variable which used in database
-func ParseParamPage(page int, perPage int) (skip int, limit int)  {
+func ParseParamPage(page int, perPage int) (skip int, limit int) {
 	if page == 0 && perPage == 0 {
 		perPage = 10
 	}
@@ -62,11 +61,7 @@ func SliceContains(s []int, e int) bool {
 	return false
 }
 
-func ConvertFloatToInt(f float64) int64 {
-	return int64(math.Floor(f + 0.5))
-}
-
-func ConvertStrToInt(s string) int64  {
+func ConvertStrToInt(s string) int64 {
 	i, err := strconv.ParseInt(s, 10, 64)
 	if err != nil {
 		logger.Error.Println("Convert str to int failed")
@@ -74,3 +69,10 @@ func ConvertStrToInt(s string) int64  {
 	return i
 }
 
+func ConvertStrToFloat(s string) float64 {
+	i, err := strconv.ParseFloat(s, 64)
+	if err != nil {
+		logger.Error.Println("Convert str to int failed")
+	}
+	return i
+}
