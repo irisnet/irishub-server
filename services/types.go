@@ -17,6 +17,7 @@ var (
 	delegatorModel document.Delegator
 	commonTxModel  document.CommonTx
 	txGasModel     document.TxGas
+	valUpTimeModel document.ValidatorUpTime
 	irisErr        errors.IrisError
 )
 

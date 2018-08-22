@@ -46,6 +46,7 @@ func BuildCandidateResponse(v document.Candidate) irisProtoc.Candidate {
 	resCandidate = irisProtoc.Candidate{
 		Address:     v.Address,
 		PubKey:      v.PubKey,
+		UpTime:      v.UpTime,
 		VotingPower: v.VotingPower,
 		Description: &resCandidateDescription,
 		Delegators:  resCandidateDelegators,

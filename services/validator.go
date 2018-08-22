@@ -18,7 +18,9 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	sorts := helper.ParseParamSort(reqVO.Sort)
 
 	var (
-		resVO vo.ValidatorListResVO
+		resVO                      vo.ValidatorListResVO
+		validatorAddrs, tmValAddrs []string
+		valUpTimes                 []document.ValidatorUpTime
 	)
 
 	skip, limit := helper.ParseParamPage(int(reqVO.Page), int(reqVO.PerPage))
@@ -41,19 +43,26 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 		return resVO, ConvertSysErr(err)
 	}
 
-	// query detail of candidate which i have delegated
-	var (
-		validatorAddrs []string
-	)
+	// query delegator info
 	for _, candidate := range candidates {
 		validatorAddrs = append(validatorAddrs, candidate.Address)
+		tmValAddrs = append(tmValAddrs, candidate.PubKeyAddr)
 	}
 	delegator, err := delegatorModel.GetDelegatorListByAddressAndValidatorAddrs(address, validatorAddrs)
 	if err != nil {
 		return resVO, ConvertSysErr(err)
 	}
+
+	// query validator upTime info
+	if len(tmValAddrs) > 0 {
+		valUpTimes, err = valUpTimeModel.GetUpTime(tmValAddrs)
+		if err != nil {
+			return resVO, ConvertSysErr(err)
+		}
+	}
+
 	for i, cd := range candidates {
-		candidates[i] = s.buildValidator(cd, delegator, totalShares)
+		candidates[i] = s.buildValidator(cd, delegator, valUpTimes, totalShares)
 	}
 
 	resVO = vo.ValidatorListResVO{
@@ -94,9 +103,10 @@ func (s ValidatorService) GetTotalShares() (float64, error) {
 }
 
 // build data
-func (s ValidatorService) buildValidator(cd document.Candidate,
-	delegators []document.Delegator, totalShares float64) document.Candidate {
+func (s ValidatorService) buildValidator(cd document.Candidate, delegators []document.Delegator,
+	valUpTimes []document.ValidatorUpTime, totalShares float64) document.Candidate {
 
+	// calculate delegator bonded tokens
 	resDelegators := make([]document.Delegator, 0)
 	for _, d := range delegators {
 		if cd.Address == d.ValidatorAddr {
@@ -116,6 +126,18 @@ func (s ValidatorService) buildValidator(cd document.Candidate,
 			break
 		}
 	}
+
+	// calculate validator upTime info
+	if len(valUpTimes) > 0 {
+		for _, v := range valUpTimes {
+			if cd.PubKeyAddr == v.ValAddress {
+				cd.UpTime = v.UpTime
+				break
+			}
+		}
+	}
+
+	// calculate validator voting power
 	if totalShares != 0 {
 		cd.VotingPower = float64(cd.Shares) / totalShares
 	}
@@ -155,7 +177,7 @@ func (s ValidatorService) Detail(reqVO vo.ValidatorDetailReqVO) (
 	if err != nil {
 		return resVO, ConvertSysErr(err)
 	}
-	candidate = s.buildValidator(candidate, delegator, totalShares)
+	candidate = s.buildValidator(candidate, delegator, nil, totalShares)
 
 	resVO = vo.ValidatorDetailResVO{
 		Candidate: candidate,
