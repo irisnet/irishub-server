@@ -41,7 +41,7 @@ func (h TxGasHandler) buildRes(resVO vo.TxGasResVO) *commonProtoc.TxGasResponse 
 		MaxGasPrice: resVO.GasPrice.MaxGasPrice,
 		AvgGasPrice: resVO.GasPrice.AvgGasPrice,
 	}
-	resGasLimit := resVO.Gas.AvgGasUsed
+	resGasLimit := resVO.Gas.MaxGasUsed * 1.5
 	response = commonProtoc.TxGasResponse{
 		TxType:   resVO.TxType,
 		GasLimit: resGasLimit,
