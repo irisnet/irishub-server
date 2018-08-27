@@ -48,13 +48,15 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) []*commonProtoc.Tx {
 			var (
 				modelCoins []*commonProtoc.Coin
 			)
-			from := BuildResAddress(v.From)
-			to := BuildResAddress(v.To)
+			from := BuildAddressRes(v.From)
+			to := BuildAddressRes(v.To)
 
-			modelCoins = BuildResCoins(v.Amount)
+			modelCoins = BuildCoinsRes(v.Amount)
 
-			resFee, resGasLimit := BuildResFeeAndGasLimit(v.Fee)
-			actualFee := BuildResActualFee(v.ActualFee)
+			resFee, resGasLimit := BuildFeeAndGasLimitRes(v.Fee)
+			actualFee := BuildActualFeeRes(v.ActualFee)
+
+			memo := BuildMemoRes(v.Memo)
 
 			resTxListObj := commonProtoc.Tx{
 				TxHash:    v.TxHash,
@@ -70,6 +72,7 @@ func (c TxListHandler) buildResponse(resVO vo.TxListResVO) []*commonProtoc.Tx {
 				GasLimit:  resGasLimit,
 				GasUsed:   float64(v.GasUsed),
 				ActualFee: actualFee,
+				Memo:      memo,
 			}
 			resTxs = append(resTxs, &resTxListObj)
 		}
