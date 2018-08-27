@@ -5,7 +5,7 @@ import (
 	"github.com/irisnet/irishub-server/models/document"
 )
 
-func BuildResAddress(address string) commonProtoc.Address {
+func BuildAddressRes(address string) commonProtoc.Address {
 	return commonProtoc.Address{
 		Chain: "",
 		App:   "",
@@ -13,7 +13,7 @@ func BuildResAddress(address string) commonProtoc.Address {
 	}
 }
 
-func BuildResCoins(coins document.Coins) []*commonProtoc.Coin {
+func BuildCoinsRes(coins document.Coins) []*commonProtoc.Coin {
 	var (
 		modelCoins []*commonProtoc.Coin
 	)
@@ -31,7 +31,7 @@ func BuildResCoins(coins document.Coins) []*commonProtoc.Coin {
 	return modelCoins
 }
 
-func BuildResFeeAndGasLimit(fee document.Fee) (*commonProtoc.Fee, float64) {
+func BuildFeeAndGasLimitRes(fee document.Fee) (*commonProtoc.Fee, float64) {
 	var (
 		resFee      commonProtoc.Fee
 		resGasLimit float64
@@ -49,7 +49,7 @@ func BuildResFeeAndGasLimit(fee document.Fee) (*commonProtoc.Fee, float64) {
 	return &resFee, resGasLimit
 }
 
-func BuildResActualFee(actualFee document.ActualFee) *commonProtoc.Fee {
+func BuildActualFeeRes(actualFee document.ActualFee) *commonProtoc.Fee {
 	var (
 		resActualFee commonProtoc.Fee
 	)
@@ -60,4 +60,16 @@ func BuildResActualFee(actualFee document.ActualFee) *commonProtoc.Fee {
 	}
 
 	return &resActualFee
+}
+
+func BuildMemoRes(memo string) *commonProtoc.Memo {
+	var (
+		resMemo commonProtoc.Memo
+	)
+	resMemo = commonProtoc.Memo{
+		ID:   0,
+		Text: []byte(memo),
+	}
+
+	return &resMemo
 }
