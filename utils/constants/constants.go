@@ -71,3 +71,12 @@ const HttpUriGetBalance = "/accounts/%s"              // accounts/{{address}}
 const HttpUriGetExRate = "/stake/validator/%s/exRate" // /stake/validator/{address}/exRate
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"
+
+// define default tx gas and gasPrice
+const DefaultMinGasPrice = 20000000000
+const DefaultAvgGasPrice = 30000000000
+const DefaultMaxGasPrice = 40000000000
+const DefaultTxGasTransfer = 8000
+const DefaultTxGasDelegate = 30000
+const DefaultTxGasBeginUbonding = 30000
+const DefaultTxGasCompleteUnbonding = 30000

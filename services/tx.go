@@ -84,12 +84,54 @@ func (s TxService) GetTxGas(reqVO vo.TxGasReqVO) (vo.TxGasResVO, errors.IrisErro
 		return resVO, ConvertSysErr(err)
 	}
 
-	resVO = vo.TxGasResVO{
-		TxType:   txGas.TxType,
-		Gas:      txGas.GasUsed,
-		GasPrice: txGas.GasPrice,
+	if txGas.TxType == "" {
+		// can't query tx gasUsed and gasPrice by valid txType
+		resVO = s.buildDefaultTxGas(reqVO.TxType)
+	} else {
+		resVO = vo.TxGasResVO{
+			TxType:   txGas.TxType,
+			Gas:      txGas.GasUsed,
+			GasPrice: txGas.GasPrice,
+		}
 	}
+
 	return resVO, irisErr
+}
+
+func (s TxService) buildDefaultTxGas(txType string) vo.TxGasResVO {
+	var (
+		defaultGasUsed float64
+	)
+	switch txType {
+	case constants.TxTypeCoinSend:
+		defaultGasUsed = constants.DefaultTxGasTransfer
+		break
+	case constants.TxTypeStakeDelegate:
+		defaultGasUsed = constants.DefaultTxGasDelegate
+		break
+	case constants.TxTypeStakeBeginUnBonding:
+		defaultGasUsed = constants.DefaultTxGasBeginUbonding
+	case constants.TxTypeStakeCompleteUnBonding:
+		defaultGasUsed = constants.DefaultTxGasCompleteUnbonding
+		break
+	default:
+		return vo.TxGasResVO{}
+	}
+
+	return vo.TxGasResVO{
+		TxType: constants.TxTypeFrontMapDb[txType],
+		Gas: document.GasUsed{
+			MinGasUsed: defaultGasUsed,
+			AvgGasUsed: defaultGasUsed,
+			MaxGasUsed: defaultGasUsed,
+		},
+		GasPrice: document.GasPrice{
+			Denom:       "iris",
+			MinGasPrice: constants.DefaultMinGasPrice,
+			AvgGasPrice: constants.DefaultAvgGasPrice,
+			MaxGasPrice: constants.DefaultMaxGasPrice,
+		},
+	}
 }
 
 func (s TxService) GetTxDetail(reqVO vo.TxDetailReqVO) (vo.TxDetailResVO, errors.IrisError) {
