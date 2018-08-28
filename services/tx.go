@@ -22,6 +22,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 		//valAddrs   []string
 		candidates []document.Candidate
 		resVO      vo.TxListResVO
+		methodName = "GetTxList"
 	)
 
 	address := reqVO.Address
@@ -33,6 +34,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	if reqVO.StartTime != "" {
 		startTime, err = helper.ParseFullTime(reqVO.StartTime)
 		if err != nil {
+			logger.Error.Printf("%v: err is %v\n", methodName, err)
 			return resVO, ConvertBadRequestErr(err)
 		}
 	}
@@ -40,6 +42,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	if reqVO.EndTime != "" {
 		endTime, err = helper.ParseFullTime(reqVO.EndTime)
 		if err != nil {
+			logger.Error.Printf("%v: err is %v\n", methodName, err)
 			return resVO, ConvertBadRequestErr(err)
 		}
 	}
@@ -47,6 +50,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	commonTxs, err := commonTxModel.GetList(address, txType, startTime, endTime,
 		skip, limit, sorts, ext)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -70,11 +74,13 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 
 func (s TxService) GetTxGas(reqVO vo.TxGasReqVO) (vo.TxGasResVO, errors.IrisError) {
 	var (
-		resVO vo.TxGasResVO
+		resVO      vo.TxGasResVO
+		methodName = "GetTxGas"
 	)
 
 	txGas, err := txGasModel.GetTxGas(reqVO.TxType)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
