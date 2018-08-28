@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/irisnet/irishub-server/errors"
+	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/constants"
 	"github.com/irisnet/irishub-server/utils/helper"
@@ -31,8 +32,9 @@ type coin struct {
 
 func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, errors.IrisError) {
 	var (
-		resVO  vo.BalanceResVO
-		accRes AccountRes
+		resVO      vo.BalanceResVO
+		accRes     AccountRes
+		methodName = "GetBalance"
 	)
 
 	address := reqVO.Address
@@ -41,6 +43,8 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 	statusCode, resBytes := HttpClientGetData(uri)
 
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
+		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
+			methodName, statusCode, string(resBytes))
 		return resVO, ConvertSysErr(fmt.Errorf(string(resBytes)))
 	}
 
@@ -49,6 +53,7 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 	}
 
 	if err := json.Unmarshal(resBytes, &accRes); err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -82,9 +87,10 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 
 func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, errors.IrisError) {
 	var (
-		resVO  vo.SequenceResVO
-		accRes AccountRes
-		err    error
+		resVO      vo.SequenceResVO
+		accRes     AccountRes
+		err        error
+		methodName = "GetSequence"
 	)
 
 	address := reqVO.Address
@@ -93,6 +99,8 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 	statusCode, res := HttpClientGetData(uri)
 
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
+		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
+			methodName, statusCode, string(res))
 		return resVO, ConvertSysErr(fmt.Errorf(string(res)))
 	}
 
@@ -105,6 +113,7 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 
 	err = json.Unmarshal(res, &accRes)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 

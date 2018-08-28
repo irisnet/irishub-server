@@ -15,14 +15,14 @@ type ValidatorService struct {
 }
 
 func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListResVO, errors.IrisError) {
-	sorts := helper.ParseParamSort(reqVO.Sort)
-
 	var (
 		resVO                      vo.ValidatorListResVO
 		validatorAddrs, tmValAddrs []string
 		valUpTimes                 []document.ValidatorUpTime
+		methodName                 = "ValidatorList"
 	)
 
+	sorts := helper.ParseParamSort(reqVO.Sort)
 	skip, limit := helper.ParseParamPage(int(reqVO.Page), int(reqVO.PerPage))
 	address := reqVO.Address
 	q := reqVO.Q
@@ -30,6 +30,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	// query all candidates
 	candidates, err := candidateModel.GetCandidatesList(q, sorts, skip, limit)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -40,6 +41,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	// get total shares
 	totalShares, err := s.GetTotalShares()
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -50,6 +52,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	}
 	delegator, err := delegatorModel.GetDelegatorListByAddressAndValidatorAddrs(address, validatorAddrs)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -57,6 +60,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	if len(tmValAddrs) > 0 {
 		valUpTimes, err = valUpTimeModel.GetUpTime(tmValAddrs)
 		if err != nil {
+			logger.Error.Printf("%v: err is %v\n", methodName, err)
 			return resVO, ConvertSysErr(err)
 		}
 	}
@@ -76,7 +80,8 @@ func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
 	vo.ValidatorExRateResVO, errors.IrisError) {
 
 	var (
-		resVO vo.ValidatorExRateResVO
+		resVO      vo.ValidatorExRateResVO
+		methodName = "GetValidatorExRate"
 	)
 
 	address := reqVO.ValidatorAddress
@@ -87,10 +92,13 @@ func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
 
 	// statusCode != 200
 	if !helper.SliceContains(constants.SuccessStatusCodes, statusCode) {
+		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
+			methodName, statusCode, string(resBytes))
 		return resVO, ConvertSysErr(fmt.Errorf(string(resBytes)))
 	}
 
 	if err := json.Unmarshal(resBytes, &resVO); err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 

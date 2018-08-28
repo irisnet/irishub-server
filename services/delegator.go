@@ -19,6 +19,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	var (
 		resVO                vo.DelegatorCandidateListResVO
 		tmValAddrs, valAddrs []string
+		methodName           = "DelegatorValidatorList"
 	)
 
 	sorts := helper.ParseParamSort(reqVO.Sort)
@@ -29,6 +30,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	// query delegator list by address
 	delegator, err := delegatorModel.GetDelegatorListByAddress(address, skip, limit, sorts)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -39,6 +41,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	// get total shares
 	totalShares, err := validatorService.GetTotalShares()
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -48,6 +51,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	}
 	candidates, err := candidateModel.GetCandidatesListByValidatorAddrs(valAddrs)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -57,6 +61,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	}
 	valUpTimes, err := valUpTimeModel.GetUpTime(tmValAddrs)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -76,6 +81,7 @@ func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReq
 	var (
 		resVO                          vo.DelegatorTotalShareResVO
 		totalShares, totalBondedTokens float64
+		methodName                     = "GetDelegatorTotalShares"
 	)
 
 	// get total shares and bonded tokens
@@ -83,6 +89,7 @@ func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReq
 	//       result is grouped by validator address
 	delegatorShares, err := delegatorModel.GetTotalSharesByAddress(reqVO.Address)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 
@@ -107,6 +114,7 @@ func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReq
 	// get total unbonding tokens
 	totalUnbondingTokens, err := delegatorModel.GetTotalUnbondingTokens(reqVO.Address)
 	if err != nil {
+		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
 

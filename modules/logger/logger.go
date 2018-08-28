@@ -12,11 +12,11 @@ var (
 )
 
 const (
-	errFile = ".iris_api_server_err.log"
+	errFile = ".irishub-server_err.log"
 )
 
 func init() {
-	errFile, err := os.OpenFile(os.ExpandEnv("$HOME/" + errFile),
+	errFile, err := os.OpenFile(os.ExpandEnv("$HOME/"+errFile),
 		os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalln("Failed to open error log file:", err)
