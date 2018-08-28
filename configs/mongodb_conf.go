@@ -43,7 +43,7 @@ func init() {
 		password = env.DbPasswd
 	}
 
-	dbName = "sync-iris-dev"
+	dbName = "sync-iris"
 	if env.DbDatabase != "" {
 		dbName = env.DbDatabase
 	}
