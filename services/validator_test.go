@@ -22,7 +22,7 @@ func TestValidatorService_List(t *testing.T) {
 			s:    ValidatorService{},
 			args: args{
 				listVo: vo.ValidatorListReqVO{
-					Address: "461B0D58301072D68EB95C54DDFCFBFF7D67DA7C",
+					Address: "faa19tyxwyj7y2sld8qy2m2wgv7cekfep229schqnn",
 					Page:    1,
 					PerPage: 50,
 					Sort:    "-voting_power",
@@ -47,14 +47,14 @@ func TestValidatorService_GetValidatorExRate(t *testing.T) {
 		reqVO vo.ValidatorExRateReqVO
 	}
 	tests := []struct {
-		name  string
-		args  args
+		name string
+		args args
 	}{
 		{
 			name: "test get validatot ex_rate",
 			args: args{
 				reqVO: vo.ValidatorExRateReqVO{
-					ValidatorAddress: "E44F06A3CF4850C078E8A805FF9743D0901894BE",
+					ValidatorAddress: "faa1r4dnf8lnakw743dwhd4nnpxatcx5v40n0vntc6",
 				},
 			},
 		},
@@ -73,7 +73,7 @@ func TestValidatorService_GetValidatorExRate(t *testing.T) {
 
 func TestValidatorService_GetTotalShares(t *testing.T) {
 	tests := []struct {
-		name    string
+		name string
 	}{
 		{
 			name: "test get validator total shares",

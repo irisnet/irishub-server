@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Test Blockchain-RPC Server</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <style type="text/css">
+        div.title p {
+            font-weight: bolder;
+            font-size: larger;
+            background-color: floralwhite;
+            color: black;
+        }
+
+        div.title {
+            margin-top: 3%;
+            margin-bottom: 3%;
+        }
+
+        div.res {
+            margin-top: 3%;
+        }
+
+        div.res p {
+            font-weight: 700;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#getSequence" aria-controls="getSequence"
+               role="tab" data-toggle="tab">获取 Sequence</a>
+        </li>
+        <li role="presentation"><a href="#getBalance" aria-controls="getBalance" role="tab"
+                                   data-toggle="tab">获取余额</a></li>
+        <li role="presentation"><a href="#getTxGas" aria-controls="getTxGas" role="tab"
+                                   data-toggle="tab">获取Gas</a></li>
+        <li role="presentation"><a href="#getTxList" aria-controls="getTxList" role="tab"
+                                   data-toggle="tab">交易列表</a></li>
+        <li role="presentation"><a href="#postTx" aria-controls="postTx" role="tab"
+                                   data-toggle="tab">提交交易</a></li>
+        <li role="presentation"><a href="#getTxDetail" aria-controls="getTxDetail" role="tab"
+                                   data-toggle="tab">交易详情</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="getSequence" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane active">
+            <div class="title">
+                <p class="bg-primary">获取 Sequence</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="sequenceReqAddress">Address</label>
+                        <input type="text" class="form-control" id="sequenceReqAddress" placeholder="请输入账户地址">
+                    </div>
+                    <button type="button" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result:</p>
+                <pre></pre>
+            </div>
+        </div>
+
+        <div id="postTx" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane">
+            <div class="title">
+                <p class="bg-primary">提交交易</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="postTxReqTx">Tx</label>
+                        <input type="text" class="form-control" id="postTxReqTx">
+                    </div>
+                    <button type="button" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result:</p>
+                <pre></pre>
+            </div>
+        </div>
+
+        <div id="getBalance" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane">
+            <div class="title">
+                <p class="bg-primary">获取账户余额</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="balanceReqAddress">Address</label>
+                        <input type="text" class="form-control" id="balanceReqAddress">
+                    </div>
+                    <button type="button" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result:</p>
+                <pre></pre>
+            </div>
+        </div>
+
+        <div id="getTxGas" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane">
+            <div class="title">
+                <p class="bg-primary">获取TxGas</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="txGasReqTxType">Tx Type</label>
+                        <select id="txGasReqTxType" style="display: block">
+                            <option value="">全部</option>
+                            <option value="send">付款</option>
+                            <option value="delegate">委托</option>
+                            <option value="beginUnbonding">开始取回</option>
+                            <option value="completeUnbonding">结束取回</option>
+                            <option value="other">其他</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result:</p>
+                <pre></pre>
+            </div>
+        </div>
+
+        <div id="getTxList" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane">
+            <div class="title">
+                <p class="bg-primary">交易列表</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="txListReqAddr">Address</label>
+                        <input type="text" class="form-control" id="txListReqAddr">
+                    </div>
+                    <div class="form-group">
+                        <label for="txListReqAddr">ValAddress</label>
+                        <input type="text" class="form-control" id="txListReqValAddr">
+                    </div>
+                    <div class="form-group">
+                        <label for="txListReqPage">Page</label>
+                        <input type="number" class="form-control" id="txListReqPage" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="txListReqPerPage">PerPage</label>
+                        <input type="number" class="form-control" id="txListReqPerPage" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="txListReqStatus">Tx status</label>
+                        <input type="text" class="form-control" disabled id="txListReqStatus">
+                    </div>
+                    <div class="form-group">
+                        <label for="txListReqType">Tx Type</label>
+                        <select id="txListReqType" style="display: block">
+                            <option value="">全部</option>
+                            <option value="send">付款</option>
+                            <option value="receive">收款</option>
+                            <option value="delegate">委托</option>
+                            <option value="unbond">取回</option>
+                            <option value="beginUnbonding">开始取回</option>
+                            <option value="completeUnbonding">结束取回</option>
+                            <option value="stake">所有 stake 类型</option>
+                            <option value="other">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="txListReqStartTime">StartTime</label>
+                        <input type="text" class="form-control" id="txListReqStartTime"
+                               placeholder="formatter: 2018-06-20 11:41:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="txListReqEndTime">EndTime</label>
+                        <input type="text" class="form-control" id="txListReqEndTime"
+                               placeholder="formatter: 2018-06-21 00:00:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="txListReqSort">Sort</label>
+                        <input type="text" class="form-control" id="txListReqSort" value="-time">
+                    </div>
+                    <div class="form-group">
+                        <label for="txListReqQ">Query</label>
+                        <input type="text" class="form-control" id="txListReqQ">
+                    </div>
+                    <button type="button" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result:</p>
+                <pre></pre>
+            </div>
+        </div>
+
+        <div id="getTxDetail" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane">
+            <div class="title">
+                <p class="bg-primary">交易详情</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="txDetailReqTxHash">TxHash</label>
+                        <input type="text" class="form-control" id="txDetailReqTxHash">
+                    </div>
+                    <button type="button" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result:</p>
+                <pre></pre>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="../thrift.js"></script>
+
+<!-- bootstrap 3.3.7 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+<script src="./gen_js/model_types.js"></script>
+<script src="./gen_js/BlockChainService.js"></script>
+
+<script>
+    transport = new Thrift.TXHRTransport("http://127.0.0.1:9080/blockchain");
+    protocol = new Thrift.Protocol(transport);
+    client = new BlockChainServiceClient(protocol);
+
+    // getSequence
+    $("#getSequence button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#getSequence").find("div.res > pre");
+
+        var address = $("#sequenceReqAddress").val();
+        var req = new SequenceRequest();
+        req.address = address;
+
+        try {
+            res = client.GetSequence(req);
+        } catch (e) {
+            res = e
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+
+    // postTx
+    $("#postTx button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#postTx").find("div.res > pre");
+
+        var tx = $("#postTxReqTx").val();
+        var req = new PostTxRequest();
+        req.tx = tx;
+
+        try {
+            res = client.PostTx(req);
+        } catch (e) {
+            res = e
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+
+    // getBalance
+    $("#getBalance button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#getBalance").find("div.res > pre");
+
+        var address = $("#balanceReqAddress").val();
+        var req = new BalanceRequest();
+        req.address = address;
+
+        try {
+            res = client.GetBalance(req);
+        } catch (e) {
+            res = e
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+
+    // getTxGas
+    $("#getTxGas button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#getTxGas").find("div.res > pre");
+
+        var txType = $("#txGasReqTxType").val();
+        var req = new TxGasRequest();
+        req.txType = txType;
+
+        try {
+            res = client.GetTxGas(req);
+        } catch (e) {
+            res = e
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+
+    // getTxList
+    $("#getTxList button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#getTxList").find("div.res > pre");
+
+        var req = new TxListRequest();
+        req.address = $("#txListReqAddr").val();
+        req.ext = $("#txListReqValAddr").val();
+        req.page = $("#txListReqPage").val();
+        req.perPage = $("#txListReqPerPage").val();
+        req.type = $("#txListReqType").val();
+        req.startTime = $("#txListReqStartTime").val();
+        req.endTime = $("#txListReqEndTime").val();
+        req.sort = $("#txListReqSort").val();
+        req.q = $("#txListReqQ").val();
+
+
+        try {
+            res = client.GetTxList(req);
+        } catch (e) {
+            res = e
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+
+    // getTxDetail
+    $("#getTxDetail button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#getTxDetail").find("div.res > pre");
+
+        var req = new TxDetailRequest();
+        req.txHash = $("#txDetailReqTxHash").val();
+
+        try {
+            res = client.GetTxDetail(req);
+        } catch (e) {
+            res = e
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+</script>
+</body>
+</html>

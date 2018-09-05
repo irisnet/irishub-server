@@ -2,43 +2,41 @@ package blockchain
 
 import (
 	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
-	"github.com/irisnet/irishub-server/rpc"
-	vo "github.com/irisnet/irishub-server/rpc/vo"
+	"github.com/irisnet/irishub-server/rpc/vo"
 	"golang.org/x/net/context"
 )
 
 type BuildTxHandler struct {
 }
 
-
+// Deprecated: no longer used
 func (c BuildTxHandler) Handler(ctx context.Context, request *commonProtoc.BuildTxRequest) (
 	*commonProtoc.BuildTxResponse, error) {
-	
+
 	buildTxVO := c.buildRequest(request)
 	resVO, err := buildTxService.BuildTx(buildTxVO)
-	
+
 	if err.IsNotNull() {
-		return nil, rpc.ConvertIrisErrToGRPCErr(err)
+		return nil, BuildException(err)
 	}
 	return c.buildResponse(resVO), nil
 }
 
-func (c BuildTxHandler) buildRequest(req *commonProtoc.BuildTxRequest) (vo.BuildTxReqVO) {
+func (c BuildTxHandler) buildRequest(req *commonProtoc.BuildTxRequest) vo.BuildTxReqVO {
 	reqTx := req.GetTx()
 	var coins []vo.Coin
 	for _, amount := range reqTx.Amount {
 		coin := vo.Coin{
-			Denom: amount.GetDenom(),
-			Amount: int64(amount.GetAmount()),
+			Denom:  amount.GetDenom(),
+			Amount: amount.GetAmount(),
 		}
 		coins = append(coins, coin)
 	}
-	
-	
+
 	reqVO := vo.BuildTxReqVO{
 		Fees: vo.Fee{
 			Denom:  reqTx.Fee.Denom,
-			Amount: int64(reqTx.Fee.Amount),
+			Amount: reqTx.Fee.Amount,
 		},
 		Multi:    false,
 		Sequence: reqTx.Sequence,
@@ -55,20 +53,20 @@ func (c BuildTxHandler) buildRequest(req *commonProtoc.BuildTxRequest) (vo.Build
 		Amount: coins,
 		TxType: reqTx.Type,
 	}
-	
+
 	if reqTx.Memo != nil {
 		reqVO.Memo = vo.Memo{
-			Id: reqTx.Memo.ID,
+			Id:   reqTx.Memo.ID,
 			Text: reqTx.Memo.Text,
 		}
 	}
-	
+
 	return reqVO
 }
 
-func (c BuildTxHandler) buildResponse(resVO vo.BuildTxResVO) (*commonProtoc.BuildTxResponse) {
+func (c BuildTxHandler) buildResponse(resVO vo.BuildTxResVO) *commonProtoc.BuildTxResponse {
 	return &commonProtoc.BuildTxResponse{
 		Data: resVO.Data,
-		Ext: resVO.Ext,
+		Ext:  resVO.Ext,
 	}
 }

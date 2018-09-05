@@ -10,7 +10,7 @@ import (
 
 func TestCommonTx_GetList(t *testing.T) {
 	startTime, _ := helper.ParseFullTime("2018-05-08 00:00:00")
-	endTime, _ := helper.ParseFullTime("2018-09-08 00:00:00")
+	endTime, _ := helper.ParseFullTime("2019-09-08 00:00:00")
 
 	type args struct {
 		address   string
@@ -28,8 +28,8 @@ func TestCommonTx_GetList(t *testing.T) {
 		{
 			name: "test get list",
 			args: args{
-				address:   "D770D45DEA7548076F8A27F9C9749B200934F1B4",
-				txType:    "",
+				address:   "faa19tyxwyj7y2sld8qy2m2wgv7cekfep229schqnn",
+				txType:    "unbond",
 				startTime: startTime,
 				endTime:   endTime,
 				skip:      0,
@@ -51,13 +51,13 @@ func TestCommonTx_GetList(t *testing.T) {
 }
 
 func TestCommonTx_GetDetail(t *testing.T) {
-	
+
 	type args struct {
 		txHash string
 	}
 	tests := []struct {
-		name    string
-		args    args
+		name string
+		args args
 	}{
 		{
 			name: "Test get tx detail",
@@ -68,8 +68,7 @@ func TestCommonTx_GetDetail(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			d := CommonTx{
-			}
+			d := CommonTx{}
 			res, err := d.GetDetail(tt.args.txHash)
 			if err != nil {
 				logger.Error.Fatalln(err)

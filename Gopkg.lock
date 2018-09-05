@@ -8,61 +8,28 @@
   version = "0.11.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/btcsuite/btcutil"
-  packages = ["bech32"]
-  revision = "ab6388e0c60ae4834a1f57511e20c17b5f78be4b"
-
-[[projects]]
-  name = "github.com/golang/protobuf"
-  packages = [
-    "proto",
-    "ptypes",
-    "ptypes/any",
-    "ptypes/duration",
-    "ptypes/timestamp"
-  ]
-  revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
-  version = "v1.1.0"
-
-[[projects]]
   branch = "develop"
   name = "github.com/irisnet/blockchain-rpc"
   packages = ["codegen/server/model"]
-  revision = "df7ef08b5508ee156359ee09a22e3661cf784630"
+  revision = "d81c412e827038a89d1ca56d3f5d4ead80e0f8f7"
 
 [[projects]]
   branch = "develop"
   name = "github.com/irisnet/irishub-rpc"
   packages = ["codegen/server/model"]
-  revision = "a0ab709bb5a6c6547eb4c585434fd64a17931e7e"
+  revision = "c502bb9f2b74772433a61d023f30320e847133ce"
 
 [[projects]]
   name = "github.com/rs/cors"
   packages = ["."]
-  revision = "ca016a06a5753f8ba03029c0aa5e54afb1bf713f"
-  version = "v1.4.0"
+  revision = "3fb1b69b103a84de38a19c3c6ec073dd6caa4d3f"
+  version = "v1.5.0"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context"]
-  revision = "3673e40ba22529d22c3fd7c93e97b0ce50fa7bdd"
-
-[[projects]]
-  branch = "master"
-  name = "google.golang.org/genproto"
-  packages = ["googleapis/rpc/status"]
-  revision = "02b4e95473316948020af0b7a4f0f22c73929b0e"
-
-[[projects]]
-  name = "google.golang.org/grpc"
-  packages = [
-    "codes",
-    "status"
-  ]
-  revision = "168a6198bcb0ef175f7dacec0b8691fc141dc9b8"
-  version = "v1.13.0"
+  revision = "922f4815f713f213882e8ef45e0d315b164d705c"
 
 [[projects]]
   branch = "v2"
@@ -79,6 +46,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "7321be6a274e75ec368ff5a28db209de1c0d03fdc46136b3394a9a44202afc7a"
+  inputs-digest = "76ddd7d2c44efbaec5bd2cd9cce3fb01c8ebb4d5b848f4ebc1ba067f2a80833e"
   solver-name = "gps-cdcl"
   solver-version = 1

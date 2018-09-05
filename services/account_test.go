@@ -3,8 +3,8 @@ package services
 import (
 	"testing"
 
-	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/modules/logger"
+	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/helper"
 )
 
@@ -13,16 +13,16 @@ func TestAccountService_GetBalance(t *testing.T) {
 		reqVO vo.BalanceReqVO
 	}
 	tests := []struct {
-		name  string
-		s     AccountService
-		args  args
+		name string
+		s    AccountService
+		args args
 	}{
 		{
 			name: "test get balance",
-			s: AccountService{},
+			s:    AccountService{},
 			args: args{
 				reqVO: vo.BalanceReqVO{
-					Address: "ADA14398D8FA297E29AB7BA241C7B955F2680C46",
+					Address: "faa1j29yg75chqnvggpzpxrz2akc8caqh3mvfm8asj",
 				},
 			},
 		},
@@ -44,16 +44,16 @@ func TestAccountService_GetSequence(t *testing.T) {
 		reqVO vo.SequenceReqVO
 	}
 	tests := []struct {
-		name  string
-		s     AccountService
-		args  args
+		name string
+		s    AccountService
+		args args
 	}{
 		{
 			name: "test get sequence",
-			s: AccountService{},
+			s:    AccountService{},
 			args: args{
 				reqVO: vo.SequenceReqVO{
-					Address: "ADA14398D8FA297E29AB7BA241C7B955F2680C46",
+					Address: "faa1j29yg75chqnvggpzpxrz2akc8caqh3mvfm8ajj",
 				},
 			},
 		},

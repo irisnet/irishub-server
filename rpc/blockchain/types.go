@@ -2,53 +2,74 @@ package blockchain
 
 import (
 	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
-	"github.com/irisnet/irishub-server/services"
-	"golang.org/x/net/context"
+	"github.com/irisnet/irishub-server/models/document"
 )
 
-var (
-	buildTxHandler BuildTxHandler
-	buildTxService services.BuildTxService
-	
-	postTxHandler PostTxHandler
-	postTxService services.PostTxService
-
-	accountService  services.AccountService
-	sequenceHandler SequenceHandler
-	balanceHandler BalanceHandler
-
-	txListHandler TxListHandler
-	txService     services.TxService
-	
-	txDetailHandler TxDetailHandler
-)
-
-func Handler(ctx context.Context, req interface{}) (interface{}, error) {
-	var (
-		res interface{}
-		err error
-	)
-	
-	switch req.(type) {
-	case *commonProtoc.BuildTxRequest:
-		res, err = buildTxHandler.Handler(ctx, req.(*commonProtoc.BuildTxRequest))
-		break
-	case *commonProtoc.PostTxRequest:
-		res, err = postTxHandler.Handler(ctx, req.(*commonProtoc.PostTxRequest))
-		break
-	case *commonProtoc.SequenceRequest:
-		res, err = sequenceHandler.Handler(ctx, req.(*commonProtoc.SequenceRequest))
-		break
-	case *commonProtoc.BalanceRequest:
-		res, err = balanceHandler.Handler(ctx, req.(*commonProtoc.BalanceRequest))
-		break
-	case *commonProtoc.TxListRequest:
-		res, err = txListHandler.Handler(ctx, req.(*commonProtoc.TxListRequest))
-		break
-	case *commonProtoc.TxDetailRequest:
-		res, err = txDetailHandler.Handler(ctx, req.(*commonProtoc.TxDetailRequest))
-		break
+func BuildAddressRes(address string) commonProtoc.Address {
+	return commonProtoc.Address{
+		Chain: "",
+		App:   "",
+		Addr:  address,
 	}
-	
-	return res, err
+}
+
+func BuildCoinsRes(coins document.Coins) []*commonProtoc.Coin {
+	var (
+		modelCoins []*commonProtoc.Coin
+	)
+
+	if len(coins) > 0 {
+		for _, v := range coins {
+			modelCoin := commonProtoc.Coin{
+				Denom:  v.Denom,
+				Amount: float64(v.Amount),
+			}
+			modelCoins = append(modelCoins, &modelCoin)
+		}
+	}
+
+	return modelCoins
+}
+
+func BuildFeeAndGasLimitRes(fee document.Fee) (*commonProtoc.Fee, float64) {
+	var (
+		resFee      commonProtoc.Fee
+		resGasLimit float64
+	)
+	resGasLimit = float64(fee.Gas)
+
+	if len(fee.Amount) > 0 {
+		feeAmount := fee.Amount[0]
+		resFee = commonProtoc.Fee{
+			Amount: feeAmount.Amount,
+			Denom:  feeAmount.Denom,
+		}
+	}
+
+	return &resFee, resGasLimit
+}
+
+func BuildActualFeeRes(actualFee document.ActualFee) *commonProtoc.Fee {
+	var (
+		resActualFee commonProtoc.Fee
+	)
+
+	resActualFee = commonProtoc.Fee{
+		Amount: actualFee.Amount,
+		Denom:  actualFee.Denom,
+	}
+
+	return &resActualFee
+}
+
+func BuildMemoRes(memo string) *commonProtoc.Memo {
+	var (
+		resMemo commonProtoc.Memo
+	)
+	resMemo = commonProtoc.Memo{
+		ID:   0,
+		Text: []byte(memo),
+	}
+
+	return &resMemo
 }
