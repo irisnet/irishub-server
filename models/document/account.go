@@ -10,10 +10,10 @@ const (
 )
 
 type Account struct {
-	Address string     `bson:"address"`
-	Amount  Coins `bson:"amount"`
-	Time    time.Time  `bson:"time"`
-	Height  int64      `bson:"height"`
+	Address string    `bson:"address"`
+	Amount  Coins     `bson:"amount"`
+	Time    time.Time `bson:"time"`
+	Height  int64     `bson:"height"`
 }
 
 func (a Account) Name() string {
