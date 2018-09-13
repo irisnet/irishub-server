@@ -14,7 +14,7 @@ type SequenceReqVO struct {
 
 type SequenceResVO struct {
 	Sequence int64 `json:"data"`
-	Ext []byte
+	Ext      []byte
 }
 
 type BalanceReqVO struct {
@@ -22,13 +22,10 @@ type BalanceReqVO struct {
 }
 
 type BalanceResVO struct {
-	Height int64 `json:"height"`
-	Data BalanceResDataVO `json:"data"`
-
+	Height int64            `json:"height"`
+	Data   BalanceResDataVO `json:"data"`
 }
 
 type BalanceResDataVO struct {
 	Coins []*Coin `json:"coins"`
 }
-
-

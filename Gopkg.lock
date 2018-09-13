@@ -10,20 +10,15 @@
   version = "0.11.0"
 
 [[projects]]
-  branch = "develop"
-  digest = "1:5428ce12ff9aaa15b770730ac400fd1cee013af87fbc3d96248f652a8e343cf3"
-  name = "github.com/irisnet/blockchain-rpc"
-  packages = ["codegen/server/model"]
+  digest = "1:18f4530229e99043b0425d6fe83e4d2c16943e2c35ca9506f50a45eed53f7681"
+  name = "github.com/irisnet/irisnet-rpc"
+  packages = [
+    "common/codegen/server/model",
+    "irishub/codegen/server/model",
+  ]
   pruneopts = "UT"
-  revision = "d81c412e827038a89d1ca56d3f5d4ead80e0f8f7"
-
-[[projects]]
-  branch = "develop"
-  digest = "1:b9607a691314824e4508a8bf234f93048c53d342d98ea120910401e7c55fec4b"
-  name = "github.com/irisnet/irishub-rpc"
-  packages = ["codegen/server/model"]
-  pruneopts = "UT"
-  revision = "c502bb9f2b74772433a61d023f30320e847133ce"
+  revision = "c8b87963333e621ae8932b6387e4485efa91c2a6"
+  version = "v1.0.0"
 
 [[projects]]
   digest = "1:0b8dd7447e420afff0260179dc892711e837edd1d446bc78dab924624a3c3c81"
@@ -60,8 +55,8 @@
   analyzer-version = 1
   input-imports = [
     "git.apache.org/thrift.git/lib/go/thrift",
-    "github.com/irisnet/blockchain-rpc/codegen/server/model",
-    "github.com/irisnet/irishub-rpc/codegen/server/model",
+    "github.com/irisnet/irisnet-rpc/common/codegen/server/model",
+    "github.com/irisnet/irisnet-rpc/irishub/codegen/server/model",
     "github.com/rs/cors",
     "golang.org/x/net/context",
     "gopkg.in/mgo.v2",

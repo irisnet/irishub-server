@@ -5,16 +5,16 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	
+
 	"git.apache.org/thrift.git/lib/go/thrift"
-	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
-	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server/model"
 	conf "github.com/irisnet/irishub-server/configs"
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc/blockchain"
 	"github.com/irisnet/irishub-server/rpc/irishub"
 	"github.com/irisnet/irishub-server/utils/constants"
-	
+	commonProtoc "github.com/irisnet/irisnet-rpc/common/codegen/server/model"
+	irisProtoc "github.com/irisnet/irisnet-rpc/irishub/codegen/server/model"
+
 	"github.com/rs/cors"
 	"regexp"
 )
@@ -23,9 +23,9 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", Handler)
 	handler := cors.Default().Handler(mux)
-	
+
 	port := strconv.Itoa(int(conf.ServerConfig.RpcServerPort))
-	if err := http.ListenAndServe(":" + port, handler); err != nil {
+	if err := http.ListenAndServe(":"+port, handler); err != nil {
 		logger.Error.Fatalln("ListenAndServe: ", err)
 	}
 }
@@ -37,7 +37,6 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 	)
 	uri = req.RequestURI
 
-
 	body, err := ioutil.ReadAll(req.Body)
 	body = convertReqBody(body)
 
@@ -45,7 +44,7 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 		logger.Error.Println(err)
 		return
 	}
-	
+
 	out := process(body, uri)
 	w.WriteHeader(constants.STATUS_CODE_OK)
 	w.Write(out)
@@ -53,26 +52,26 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 
 func process(input []byte, uri string) []byte {
 	var (
-		inProtocol *thrift.TJSONProtocol
+		inProtocol  *thrift.TJSONProtocol
 		outProtocol *thrift.TJSONProtocol
-		inBuffer thrift.TTransport
-		outBuffer thrift.TTransport
+		inBuffer    thrift.TTransport
+		outBuffer   thrift.TTransport
 	)
-	
+
 	inBuffer = thrift.NewTMemoryBuffer()
 	inBuffer.Write(input)
 	if inBuffer != nil {
 		defer inBuffer.Close()
 	}
-	
+
 	outBuffer = thrift.NewTMemoryBuffer()
 	if outBuffer != nil {
 		defer outBuffer.Close()
 	}
-	
+
 	inProtocol = thrift.NewTJSONProtocol(inBuffer)
 	outProtocol = thrift.NewTJSONProtocol(outBuffer)
-	
+
 	switch uri {
 	case constants.UriBlockChainRPC:
 		var (
@@ -91,7 +90,7 @@ func process(input []byte, uri string) []byte {
 	default:
 		return []byte("unsupported uri")
 	}
-	
+
 	out := make([]byte, outBuffer.RemainingBytes())
 	outBuffer.Read(out)
 	return out
