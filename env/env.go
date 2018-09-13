@@ -2,22 +2,22 @@ package env
 
 import (
 	"os"
-	
+
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/utils/constants"
 )
 
 var (
-	ENV        string
-	DbHost     string
-	DbPort     string
-	DbUser     string
-	DbPasswd   string
-	DbDatabase string
+	ENV            string
+	DbHost         string
+	DbPort         string
+	DbUser         string
+	DbPasswd       string
+	DbDatabase     string
 	AddrNodeServer string
 )
 
-func init()  {
+func init() {
 	env, found := os.LookupEnv(constants.ENV_NAME_ENV)
 	if !found {
 		ENV = constants.ENV_DEV
@@ -27,12 +27,12 @@ func init()  {
 		ENV = env
 		logger.Info.Printf("Environment has been set to %v\n", ENV)
 	}
-	
+
 	dbHost, found := os.LookupEnv(constants.ENV_NAME_DB_HOST)
 	if found {
 		DbHost = dbHost
 	}
-	
+
 	dbPort, found := os.LookupEnv(constants.ENV_NAME_DB_PORT)
 	if found {
 		DbPort = dbPort
@@ -52,12 +52,10 @@ func init()  {
 	if found {
 		DbDatabase = dbDatabase
 	}
-	
+
 	addrNodeServer, found := os.LookupEnv(constants.ENV_NAME_ADDR_NODE_SERVER)
 	if found {
 		AddrNodeServer = addrNodeServer
 	}
-	
-	
-	
+
 }

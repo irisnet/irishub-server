@@ -1,8 +1,8 @@
 package blockchain
 
 import (
-	commonProtoc "github.com/irisnet/blockchain-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/models/document"
+	commonProtoc "github.com/irisnet/irisnet-rpc/common/codegen/server/model"
 )
 
 func BuildAddressRes(address string) commonProtoc.Address {

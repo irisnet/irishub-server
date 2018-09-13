@@ -12,17 +12,15 @@ func TestPostTxService_PostTx(t *testing.T) {
 		vo vo.PostTxReqVO
 	}
 	tests := []struct {
-		name  string
-		s     PostTxService
-		args  args
+		name string
+		s    PostTxService
+		args args
 	}{
 		{
 			name: "Test post tx",
-			s: PostTxService{},
+			s:    PostTxService{},
 			args: args{
-				vo: vo.PostTxReqVO{
-				
-				},
+				vo: vo.PostTxReqVO{},
 			},
 		},
 	}
@@ -34,7 +32,7 @@ func TestPostTxService_PostTx(t *testing.T) {
 				logger.Error.Fatalln(err)
 			}
 			logger.Info.Println(res)
-			
+
 		})
 	}
 }

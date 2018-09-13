@@ -2,8 +2,8 @@ package irishub
 
 import (
 	"fmt"
-	irisProtoc "github.com/irisnet/irishub-rpc/codegen/server/model"
 	"github.com/irisnet/irishub-server/models/document"
+	irisProtoc "github.com/irisnet/irisnet-rpc/irishub/codegen/server/model"
 )
 
 func BuildCandidateResponse(v document.Candidate) irisProtoc.Candidate {

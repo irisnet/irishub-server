@@ -7,5 +7,3 @@ type PostTxReqVO struct {
 type PostTxResVO struct {
 	TxHash string
 }
-
-

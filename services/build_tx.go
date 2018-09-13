@@ -6,7 +6,6 @@ import (
 )
 
 type BuildTxService struct {
-
 }
 
 // Deprecated: no longer use
@@ -14,6 +13,6 @@ func (s BuildTxService) BuildTx(reqVO vo.BuildTxReqVO) (vo.BuildTxResVO, errors.
 	var (
 		resVO vo.BuildTxResVO
 	)
-	
+
 	return resVO, irisErr
 }
