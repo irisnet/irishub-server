@@ -14,7 +14,7 @@ A Thrift RPC server that allows light clients to interact with IRIS hub
 
 # RPC Structure
 
-please see [blockchain-rpc](https://github.com/irisnet/blockchain-rpc) and [irishub-rpc](https://github.com/irisnet/irishub-rpc) 
+please see [irisnet-rpc](https://github.com/irisnet/irisnet-rpc) 
 
 # Build And Run
 
