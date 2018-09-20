@@ -130,7 +130,17 @@ func (d CommonTx) GetList(address string, txType string,
 	}
 	fields := bson.M{}
 
-	return d.Query(query, fields, skip, limit, sorts...)
+	var txs []CommonTx
+	commTxs, err := d.Query(query, fields, skip, limit, sorts...)
+	if err == nil {
+		for _, tx := range commTxs {
+			if tx.Type != constants.TxTypeFrontMapDb[constants.TxTypeStakeDelegate] || tx.To != address {
+				txs = append(txs, tx)
+			}
+		}
+	}
+
+	return txs, err
 }
 
 func (d CommonTx) GetDetail(txHash string) (CommonTx, error) {
