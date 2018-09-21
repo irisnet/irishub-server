@@ -134,7 +134,15 @@ func (d CommonTx) GetList(address string, txType string,
 	commTxs, err := d.Query(query, fields, skip, limit, sorts...)
 	if err == nil {
 		for _, tx := range commTxs {
-			if tx.Type != constants.TxTypeFrontMapDb[constants.TxTypeStakeDelegate] || tx.To != address {
+			if txType == "" {
+				if tx.Type != constants.TxTypeFrontMapDb[constants.TxTypeStakeDelegate] {
+					txs = append(txs, tx)
+				} else {
+					if tx.From == address {
+						txs = append(txs, tx)
+					}
+				}
+			} else {
 				txs = append(txs, tx)
 			}
 		}
