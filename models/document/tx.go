@@ -53,7 +53,7 @@ func (d CommonTx) Query(
 
 func (d CommonTx) GetList(address string, txType string,
 	startTime time.Time, endTime time.Time,
-	skip int, limit int, sorts []string, ext string) (
+	skip int, limit int, sorts []string, ext string, height int64) (
 	[]CommonTx, error) {
 
 	query := bson.M{}
@@ -128,6 +128,10 @@ func (d CommonTx) GetList(address string, txType string,
 		"$gte": startTime,
 		"$lte": endTime,
 	}
+	if height > 0 {
+		query["height"] = height
+	}
+
 	fields := bson.M{}
 
 	var txs []CommonTx
