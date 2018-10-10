@@ -29,7 +29,8 @@
   name = "gopkg.in/mgo.v2"
 
 [[constraint]]
-  version = "v1.0.0"
+  #version = "v1.0.0"
+  branch = "develop"
   name = "github.com/irisnet/irisnet-rpc"
 [prune]
   go-tests = true
