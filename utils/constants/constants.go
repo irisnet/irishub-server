@@ -76,7 +76,8 @@ const HeaderContentTypeJson = "application/json;charset=utf-8"
 const DefaultMinGasPrice = 20000000000
 const DefaultAvgGasPrice = 30000000000
 const DefaultMaxGasPrice = 40000000000
-const DefaultTxGasTransfer = 8000
-const DefaultTxGasDelegate = 30000
-const DefaultTxGasBeginUbonding = 30000
-const DefaultTxGasCompleteUnbonding = 30000
+
+const DefaultTxGasTransfer = 200000
+const DefaultTxGasDelegate = 200000
+const DefaultTxGasBeginUbonding = 200000
+const DefaultTxGasCompleteUnbonding = 200000
