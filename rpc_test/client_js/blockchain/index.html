@@ -199,6 +199,10 @@
                         <input type="text" class="form-control" id="txListReqSort" value="-time">
                     </div>
                     <div class="form-group">
+                        <label for="txListReqHeight">Height</label>
+                        <input type="text" class="form-control" id="txListReqHeight">
+                    </div>
+                    <div class="form-group">
                         <label for="txListReqQ">Query</label>
                         <input type="text" class="form-control" id="txListReqQ">
                     </div>
@@ -337,6 +341,7 @@
         req.endTime = $("#txListReqEndTime").val();
         req.sort = $("#txListReqSort").val();
         req.q = $("#txListReqQ").val();
+        req.height = $("#txListReqHeight").val();
 
 
         try {

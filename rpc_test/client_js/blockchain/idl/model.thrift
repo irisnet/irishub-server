@@ -176,7 +176,8 @@ struct TxListRequest {
 	7: string endTime,
 	8: string sort,
 	9: string q,
-	10: binary ext
+	10: binary ext,
+	11: i64 height
 }
 
 /** txDetail request
@@ -185,7 +186,3 @@ struct TxListRequest {
 struct TxDetailRequest {
 	1: required string txHash
 }
-
-
-
-

@@ -129,7 +129,9 @@ func (d CommonTx) GetList(address string, txType string,
 		"$lte": endTime,
 	}
 	if height > 0 {
-		query["height"] = height
+		query["height"] = bson.M{
+			"$gte": height,
+		}
 	}
 
 	fields := bson.M{}
