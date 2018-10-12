@@ -130,7 +130,7 @@ func (d CommonTx) GetList(address string, txType string,
 	}
 	if height > 0 {
 		query["height"] = bson.M{
-			"$gte": height,
+			"$gt": height,
 		}
 	}
 
