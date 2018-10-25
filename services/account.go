@@ -15,14 +15,9 @@ type AccountService struct {
 }
 
 type AccountRes struct {
-	Type  string `json:"type"`
-	Value Value  `json:"value"`
-}
-
-type Value struct {
-	Coins      []coin `json:"coins"`
-	AccountNum string `json:"account_number"`
-	Sequence   string `json:"sequence"`
+	Coins      []string `json:"coins"`
+	AccountNum string   `json:"account_number"`
+	Sequence   string   `json:"sequence"`
 }
 
 type coin struct {
@@ -57,28 +52,20 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 		return resVO, ConvertSysErr(err)
 	}
 
-	funBuildCoins := func(coins []coin) []*vo.Coin {
-		var (
-			resCoins []*vo.Coin
-		)
-
-		if len(coins) > 0 {
-			for _, v := range coins {
-				coin := vo.Coin{
-					Denom:  v.Denom,
-					Amount: helper.ConvertStrToFloat(v.Amount),
-				}
-
-				resCoins = append(resCoins, &coin)
-			}
+	var coins []*vo.Coin
+	for _, str := range accRes.Coins {
+		demon, amt, err := helper.ParseCoin(str)
+		if err == nil {
+			coins = append(coins, &vo.Coin{
+				Denom:  demon,
+				Amount: helper.ConvertStrToFloat(amt),
+			})
 		}
-
-		return resCoins
 	}
 
 	resVO = vo.BalanceResVO{
 		Data: vo.BalanceResDataVO{
-			Coins: funBuildCoins(accRes.Value.Coins),
+			Coins: coins,
 		},
 	}
 
@@ -118,8 +105,8 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 	}
 
 	resVO = vo.SequenceResVO{
-		Sequence: helper.ConvertStrToInt(accRes.Value.Sequence),
-		Ext:      []byte(strconv.Itoa(int(helper.ConvertStrToInt(accRes.Value.AccountNum)))),
+		Sequence: helper.ConvertStrToInt(accRes.Sequence),
+		Ext:      []byte(strconv.Itoa(int(helper.ConvertStrToInt(accRes.AccountNum)))),
 	}
 
 	return resVO, irisErr
