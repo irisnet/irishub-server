@@ -56,10 +56,11 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 	for _, str := range accRes.Coins {
 		demon, amt, err := helper.ParseCoin(str)
 		if err == nil {
-			coins = append(coins, &vo.Coin{
+			coin := vo.Coin{
 				Denom:  demon,
-				Amount: helper.ConvertStrToFloat(amt),
-			})
+				Amount: helper.ConvertStrToFloat(amt)}
+			destCoin := coin.Covert(vo.CoinTypeAtto)
+			coins = append(coins, &destCoin)
 		}
 	}
 
