@@ -11,22 +11,22 @@
 
 [[projects]]
   branch = "develop"
-  digest = "1:3a0d6afa38dcbf47ac4d527ca819971c6229fb67641ea1ab67c7f9ca822c83f4"
+  digest = "1:e02ea91408ca80c32a97696c2550e7515d354ba96d5cd21df51f03b074db0dc5"
   name = "github.com/irisnet/irisnet-rpc"
   packages = [
     "common/codegen/server/model",
     "irishub/codegen/server/model",
   ]
   pruneopts = "UT"
-  revision = "ff58d9b28e76b25447508f79f87d69756a90c8b2"
+  revision = "fc1342de701430790f8a2786c411c39aea5d62d9"
 
 [[projects]]
-  digest = "1:0b8dd7447e420afff0260179dc892711e837edd1d446bc78dab924624a3c3c81"
+  digest = "1:b0c25f00bad20d783d259af2af8666969e2fc343fa0dc9efe52936bbd67fb758"
   name = "github.com/rs/cors"
   packages = ["."]
   pruneopts = "UT"
-  revision = "3fb1b69b103a84de38a19c3c6ec073dd6caa4d3f"
-  version = "v1.5.0"
+  revision = "9a47f48565a795472d43519dd49aac781f3034fb"
+  version = "v1.6.0"
 
 [[projects]]
   branch = "master"
@@ -34,7 +34,7 @@
   name = "golang.org/x/net"
   packages = ["context"]
   pruneopts = "UT"
-  revision = "922f4815f713f213882e8ef45e0d315b164d705c"
+  revision = "c44066c5c816ec500d459a2a324a753f78531ae0"
 
 [[projects]]
   branch = "v2"
