@@ -23,9 +23,25 @@ type ResultBroadcastTx struct {
 	Hash string `json:"hash"`
 }
 
+type ResultBroadcastTxCommit struct {
+	CheckTx   Response `json:"check_tx"`
+	DeliverTx Response `json:"deliver_tx"`
+	Hash      string   `json:"hash"`
+	Height    string   `json:"height"`
+}
+
+type Response struct {
+	Code      uint32 `json:"code"`
+	Data      []byte `json:"data"`
+	Log       string `json:"log"`
+	Info      string `json:"info"`
+	GasWanted int64  `json:"gas_wanted"`
+	GasUsed   int64  `json:"gas_used"`
+}
+
 func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) (vo.PostTxResVO, errors.IrisError) {
 	var (
-		res        ResultBroadcastTx
+		res        ResultBroadcastTxCommit
 		resVO      vo.PostTxResVO
 		methodName = "PostTx"
 	)
@@ -47,9 +63,14 @@ func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) (vo.PostTxResVO, errors.Iris
 		return resVO, ConvertSysErr(err)
 	}
 
-	if res.Code != 0 {
+	if res.CheckTx.Code != 0 {
 		logger.Error.Printf("%v: err is %v\n", methodName, helper.ToJson(res))
-		return resVO, NewIrisErr(res.Code, res.Log, nil)
+		return resVO, NewIrisErr(res.CheckTx.Code, res.CheckTx.Log, nil)
+	}
+
+	if res.DeliverTx.Code != 0 {
+		logger.Error.Printf("%v: err is %v\n", methodName, helper.ToJson(res))
+		return resVO, NewIrisErr(res.DeliverTx.Code, res.DeliverTx.Log, nil)
 	}
 
 	resVO = vo.PostTxResVO{

@@ -23,12 +23,12 @@ func init() {
 		dbName   string
 	)
 
-	host = "192.168.150.7"
+	host = "127.0.0.1"
 	if env.DbHost != "" {
 		host = env.DbHost
 	}
 
-	port = "30000"
+	port = "27017"
 	if env.DbPort != "" {
 		port = env.DbPort
 	}

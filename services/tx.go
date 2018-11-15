@@ -48,7 +48,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 	}
 
 	commonTxs, err := commonTxModel.GetList(address, txType, startTime, endTime,
-		skip, limit, sorts, ext)
+		skip, limit, sorts, ext, reqVO.Height)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)

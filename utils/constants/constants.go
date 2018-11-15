@@ -65,9 +65,9 @@ const HttpUriBuildCoinTx = "/build/send"
 const HttpUriBuildDelegateTx = "/build/stake/delegate"
 const HttpUriBuildUnBondTx = "/build/stake/unbond"
 const HttpUriByteTx = "/byteTx"
-const HttpUriPostTx = "/tx/send"
-const HttpUriGetSequence = "/accounts/%s"             // accounts/{{address}}
-const HttpUriGetBalance = "/accounts/%s"              // accounts/{{address}}
+const HttpUriPostTx = "/txs/send"
+const HttpUriGetSequence = "/bank/accounts/%s"        // accounts/{{address}}
+const HttpUriGetBalance = "/bank/accounts/%s"         // accounts/{{address}}
 const HttpUriGetExRate = "/stake/validator/%s/exRate" // /stake/validator/{address}/exRate
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"

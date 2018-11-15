@@ -13,6 +13,7 @@ type TxListReqVO struct {
 	Sort      string `json:"sort,omitempty"`
 	Q         string `json:"q,omitempty"`
 	Ext       []byte
+	Height    int64 `json:"height,omitempty"`
 }
 
 type TxListResVO struct {
