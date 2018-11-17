@@ -91,6 +91,7 @@ func (d Candidate) GetTotalShares() (float64, error) {
 			{
 				"$match": bson.M{
 					"revoked": false,
+					"status":  "Bonded",
 				},
 			},
 			{
