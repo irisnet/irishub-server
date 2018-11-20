@@ -146,9 +146,10 @@ func (s ValidatorService) buildValidator(cd document.Candidate, delegators []doc
 	}
 
 	// calculate validator voting power
-	if totalShares != 0 {
-		cd.VotingPower = float64(cd.Shares) / totalShares
-	}
+	//if totalShares != 0 {
+	//cd.VotingPower = float64(cd.Shares) / totalShares
+	cd.VotingPower = float64(cd.Shares)
+	//}
 
 	return cd
 }
