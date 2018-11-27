@@ -16,7 +16,7 @@ type Candidate struct {
 	PubKey      string         `json:"pub_key" bson:"pub_key"`
 	PubKeyAddr  string         `bson:"pub_key_addr"` // validator address
 	Shares      float64        `json:"shares" bson:"tokens"`
-	Revoked     bool           `bson:"revoked"`
+	Jailed      bool           `bson:"jailed"`
 	Description ValDescription `json:"description" bson:"description"` // Description terms for the candidate
 
 	VotingPower float64 `json:"voting_power"` // Voting power if pubKey is a considered a validator
@@ -43,7 +43,7 @@ func (d Candidate) Query(
 
 func (d Candidate) GetCandidatesList(q string, sorts []string, skip int, limit int) ([]Candidate, error) {
 	query := bson.M{
-		"revoked": false,
+		"jailed": false,
 	}
 	if q != "" {
 		query["description.moniker"] = &bson.M{
@@ -65,7 +65,7 @@ func (d Candidate) GetCandidatesListByValidatorAddrs(valAddrs []string) ([]Candi
 		"address": &bson.M{
 			"$in": valAddrs,
 		},
-		"revoked": false,
+		"jailed": false,
 	}
 	sorts := make([]string, 0)
 
@@ -89,8 +89,8 @@ func (d Candidate) GetTotalShares() (float64, error) {
 		m := []bson.M{
 			{
 				"$match": bson.M{
-					"revoked": false,
-					"status":  "Bonded",
+					"jailed": false,
+					"status": "Bonded",
 				},
 			},
 			{
