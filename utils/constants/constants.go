@@ -67,9 +67,9 @@ const HttpUriBuildUnBondTx = "/build/stake/unbond"
 const HttpUriByteTx = "/byteTx"
 const HttpUriPostTx = "/txs/send"
 
-const HttpUriGetSequence = "/auth/accounts/%s"        // accounts/{{address}}
-const HttpUriGetBalance = "/auth/accounts/%s"         // accounts/{{address}}
-const HttpUriGetValidators = "/stake/validators/%s
+const HttpUriGetSequence = "/auth/accounts/%s" // accounts/{{address}}
+const HttpUriGetBalance = "/auth/accounts/%s"  // accounts/{{address}}
+const HttpUriGetValidators = "/stake/validators/%s"
 
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"
