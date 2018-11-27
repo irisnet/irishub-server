@@ -82,11 +82,12 @@ func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
 	var (
 		resVO      vo.ValidatorExRateResVO
 		methodName = "GetValidatorExRate"
+		validator  vo.Validator
 	)
 
 	address := reqVO.ValidatorAddress
 
-	uri := fmt.Sprintf(constants.HttpUriGetExRate, address)
+	uri := fmt.Sprintf(constants.HttpUriGetValidators, address)
 
 	statusCode, resBytes := HttpClientGetData(uri)
 
@@ -97,10 +98,12 @@ func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
 		return resVO, ConvertSysErr(fmt.Errorf(string(resBytes)))
 	}
 
-	if err := json.Unmarshal(resBytes, &resVO); err != nil {
+	if err := json.Unmarshal(resBytes, &validator); err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
 		return resVO, ConvertSysErr(err)
 	}
+
+	resVO.ExRate = helper.ConvertStrToFloat(validator.Tokens) / helper.ConvertStrToFloat(validator.DelegatorShares)
 
 	return resVO, irisErr
 }
