@@ -6,6 +6,12 @@ import (
 	irisProtoc "github.com/irisnet/irisnet-rpc/irishub/codegen/server/model"
 )
 
+const (
+	CandidateTypeConsensus = "consensus"
+	CandidateTypeCandidate = "candidate"
+	CandidateTypeJailed    = "jailed"
+)
+
 func BuildCandidateResponse(v document.Candidate) irisProtoc.Candidate {
 	var (
 		resCandidate            irisProtoc.Candidate
@@ -43,6 +49,15 @@ func BuildCandidateResponse(v document.Candidate) irisProtoc.Candidate {
 		resCandidateDelegators = append(resCandidateDelegators, &resCandidateDelegator)
 	}
 
+	var cType string
+	if v.Jailed {
+		cType = CandidateTypeJailed
+	} else if v.Status == "Bonded" {
+		cType = CandidateTypeConsensus
+	} else if v.Status == "Unbonded" || v.Status == "Unbonding" {
+		cType = CandidateTypeCandidate
+	}
+
 	resCandidate = irisProtoc.Candidate{
 		Address:     v.Address,
 		PubKey:      v.PubKey,
@@ -50,6 +65,9 @@ func BuildCandidateResponse(v document.Candidate) irisProtoc.Candidate {
 		VotingPower: v.VotingPower,
 		Description: &resCandidateDescription,
 		Delegators:  resCandidateDelegators,
+		Type:        cType,
+		Number:      int8(v.Rank.Number),
+		Lift:        int8(v.Rank.Lift),
 	}
 
 	return resCandidate

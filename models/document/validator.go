@@ -9,20 +9,31 @@ import (
 
 const (
 	CollectionNmStakeRoleCandidate = "stake_role_candidate"
+	LiftUp                         = 1
+	LiftNotChange                  = 0
+	LiftDown                       = -1
 )
 
-type Candidate struct {
-	Address     string         `json:"address" bson:"address"` // owner
-	PubKey      string         `json:"pub_key" bson:"pub_key"`
-	PubKeyAddr  string         `bson:"pub_key_addr"` // validator address
-	Shares      float64        `json:"shares" bson:"tokens"`
-	Jailed      bool           `bson:"jailed"`
-	Description ValDescription `json:"description" bson:"description"` // Description terms for the candidate
+type (
+	Candidate struct {
+		Address     string         `json:"address" bson:"address"` // owner
+		PubKey      string         `json:"pub_key" bson:"pub_key"`
+		PubKeyAddr  string         `bson:"pub_key_addr"` // validator address
+		Shares      float64        `json:"shares" bson:"tokens"`
+		Jailed      bool           `bson:"jailed"`
+		Description ValDescription `json:"description" bson:"description"` // Description terms for the candidate
 
-	VotingPower float64 `json:"voting_power"` // Voting power if pubKey is a considered a validator
-	UpTime      float64
-	Delegators  []Delegator `json:"delegators"`
-}
+		VotingPower float64 `json:"voting_power"` // Voting power if pubKey is a considered a validator
+		UpTime      float64
+		Delegators  []Delegator `json:"delegators"`
+		Status      string      `bson:"status"`
+		Rank        Rank        `bson:"rank"`
+	}
+	Rank struct {
+		Number int `json:"number" bson:"number"`
+		Lift   int `json:"lift" bson:"lift"` // 1:up,0:not change,-1:down
+	}
+)
 
 func (d Candidate) Name() string {
 	return CollectionNmStakeRoleCandidate
