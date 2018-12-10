@@ -53,9 +53,7 @@ func (d Candidate) Query(
 }
 
 func (d Candidate) GetCandidatesList(q string, sorts []string, skip int, limit int) ([]Candidate, error) {
-	query := bson.M{
-		"jailed": false,
-	}
+	query := bson.M{}
 	if q != "" {
 		query["description.moniker"] = &bson.M{
 			"$regex":   q,
