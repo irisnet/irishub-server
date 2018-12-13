@@ -5,8 +5,7 @@ import (
 )
 
 type configMongodb struct {
-	Host     string
-	Port     string
+	Addr     string
 	User     string
 	Password string
 	DbName   string
@@ -16,22 +15,17 @@ var ConfMongodb configMongodb
 
 func init() {
 	var (
-		host     string
-		port     string
+		addr     string
 		user     string
 		password string
 		dbName   string
 	)
 
-	host = "127.0.0.1"
-	if env.DbHost != "" {
-		host = env.DbHost
+	addr = "127.0.0.1:27017"
+	if env.DbAddr != "" {
+		addr = env.DbAddr
 	}
 
-	port = "27017"
-	if env.DbPort != "" {
-		port = env.DbPort
-	}
 
 	user = "iris"
 	if env.DbUser != "" {
@@ -49,8 +43,7 @@ func init() {
 	}
 
 	ConfMongodb = configMongodb{
-		Host:     host,
-		Port:     port,
+		Addr:     addr,
 		User:     user,
 		Password: password,
 		DbName:   dbName,

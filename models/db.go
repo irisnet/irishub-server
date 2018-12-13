@@ -3,7 +3,6 @@
 package models
 
 import (
-	"fmt"
 	"time"
 
 	conf "github.com/irisnet/irishub-server/configs"
@@ -11,6 +10,7 @@ import (
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"strings"
 )
 
 var (
@@ -22,8 +22,7 @@ func init() {
 }
 
 func InitWithAuth() {
-	addr := fmt.Sprintf("%s:%s", conf.ConfMongodb.Host, conf.ConfMongodb.Port)
-	addrs := []string{addr}
+	addrs := strings.Split(conf.ConfMongodb.Addr,",")
 
 	dialInfo := &mgo.DialInfo{
 		Addrs:     addrs,

@@ -9,8 +9,7 @@ import (
 
 var (
 	ENV            string
-	DbHost         string
-	DbPort         string
+	DbAddr         string
 	DbUser         string
 	DbPasswd       string
 	DbDatabase     string
@@ -28,14 +27,9 @@ func init() {
 		logger.Info.Printf("Environment has been set to %v\n", ENV)
 	}
 
-	dbHost, found := os.LookupEnv(constants.ENV_NAME_DB_HOST)
+	dbAddr, found := os.LookupEnv(constants.ENV_NAME_DB_ADDR)
 	if found {
-		DbHost = dbHost
-	}
-
-	dbPort, found := os.LookupEnv(constants.ENV_NAME_DB_PORT)
-	if found {
-		DbPort = dbPort
+		DbAddr = dbAddr
 	}
 
 	dbUser, found := os.LookupEnv(constants.ENV_NAME_DB_User)
