@@ -5,7 +5,7 @@ import (
 )
 
 type configServer struct {
-	AddrNodeServer string
+	LCDServer string
 	RpcServerPort  uint64
 }
 
@@ -14,15 +14,15 @@ var ServerConfig configServer
 func init() {
 	var (
 		rpcServerPort  uint64 = 9080
-		addrNodeServer        = "http://192.168.150.7:1317"
+		lcdServer        = "http://192.168.150.7:1317"
 	)
 
-	if env.AddrNodeServer != "" {
-		addrNodeServer = env.AddrNodeServer
+	if env.LCDServer != "" {
+		lcdServer = env.LCDServer
 	}
 
 	ServerConfig = configServer{
-		AddrNodeServer: addrNodeServer,
+		LCDServer: lcdServer,
 		RpcServerPort:  rpcServerPort,
 	}
 }

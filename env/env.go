@@ -13,7 +13,7 @@ var (
 	DbUser         string
 	DbPasswd       string
 	DbDatabase     string
-	AddrNodeServer string
+	LCDServer string
 )
 
 func init() {
@@ -47,9 +47,9 @@ func init() {
 		DbDatabase = dbDatabase
 	}
 
-	addrNodeServer, found := os.LookupEnv(constants.ENV_NAME_ADDR_NODE_SERVER)
+	lcdServer, found := os.LookupEnv(constants.ENV_NAME_LCD_SERVER)
 	if found {
-		AddrNodeServer = addrNodeServer
+		LCDServer = lcdServer
 	}
 
 }
