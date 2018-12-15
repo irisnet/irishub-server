@@ -66,7 +66,7 @@ func GetShareTokenRatio() float64 {
 // post json data use http client
 func HttpClientPostJsonData(uri string, requestBody *bytes.Buffer) (int, []byte) {
 	res, err := http.Post(
-		conf.ServerConfig.AddrNodeServer+uri,
+		conf.ServerConfig.LCDServer + uri,
 		constants.HeaderContentTypeJson,
 		requestBody)
 	defer res.Body.Close()
@@ -87,7 +87,7 @@ func HttpClientPostJsonData(uri string, requestBody *bytes.Buffer) (int, []byte)
 
 // get data use http client
 func HttpClientGetData(uri string) (int, []byte) {
-	res, err := http.Get(conf.ServerConfig.AddrNodeServer + uri)
+	res, err := http.Get(conf.ServerConfig.LCDServer + uri)
 	defer res.Body.Close()
 
 	if err != nil {
