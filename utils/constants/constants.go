@@ -65,7 +65,7 @@ const HttpUriBuildCoinTx = "/build/send"
 const HttpUriBuildDelegateTx = "/build/stake/delegate"
 const HttpUriBuildUnBondTx = "/build/stake/unbond"
 const HttpUriByteTx = "/byteTx"
-const HttpUriPostTx = "/txs/send"
+const HttpUriPostTx = "/txs/send?async=true"
 
 const HttpUriGetSequence = "/auth/accounts/%s" // auth/{{address}}
 const HttpUriGetBalance = "/auth/accounts/%s"  // auth/{{address}}
