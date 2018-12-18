@@ -41,7 +41,7 @@ type Response struct {
 
 func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) (vo.PostTxResVO, errors.IrisError) {
 	var (
-		res        ResultBroadcastTxCommit
+		res        ResultBroadcastTx
 		resVO      vo.PostTxResVO
 		methodName = "PostTx"
 	)
@@ -63,14 +63,9 @@ func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) (vo.PostTxResVO, errors.Iris
 		return resVO, ConvertSysErr(err)
 	}
 
-	if res.CheckTx.Code != 0 {
+	if res.Code != 0 {
 		logger.Error.Printf("%v: err is %v\n", methodName, helper.ToJson(res))
-		return resVO, NewIrisErr(res.CheckTx.Code, res.CheckTx.Log, nil)
-	}
-
-	if res.DeliverTx.Code != 0 {
-		logger.Error.Printf("%v: err is %v\n", methodName, helper.ToJson(res))
-		return resVO, NewIrisErr(res.DeliverTx.Code, res.DeliverTx.Log, nil)
+		return resVO, NewIrisErr(res.Code, res.Log, nil)
 	}
 
 	resVO = vo.PostTxResVO{
