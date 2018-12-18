@@ -58,7 +58,7 @@ const UriIrisHubRpc = "/irishub"
 
 // define success status code and fail status code
 var SuccessStatusCodes = []int{200}
-var ErrorStatusCodes = []int{400, 401, 403, 404, 500}
+var ErrorStatusCodes = []int{400, 401, 403, 404}
 
 // define uri of server which expose by block chain
 const HttpUriBuildCoinTx = "/build/send"
