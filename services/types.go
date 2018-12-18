@@ -2,6 +2,9 @@ package services
 
 import (
 	"bytes"
+	"encoding/json"
+	"fmt"
+	"github.com/irisnet/irishub-server/utils/helper"
 	"io/ioutil"
 	"net/http"
 
@@ -100,4 +103,47 @@ func HttpClientGetData(uri string) (int, []byte) {
 	}
 
 	return res.StatusCode, resByte
+}
+
+type SdkError struct {
+	CodeSpace uint16 `json:"codespace"`
+	Code      uint16 `json:"code"`
+	AbciCode  uint32 `json:"abci_code"`
+	Message   string `json:"message"`
+}
+
+func PostTx(uri string, requestBody *bytes.Buffer) (resByte []byte, irisErr errors.IrisError) {
+	res, err := http.Post(
+		conf.ServerConfig.AddrNodeServer+uri,
+		constants.HeaderContentTypeJson,
+		requestBody)
+	defer res.Body.Close()
+
+	if err != nil {
+		return nil, ConvertSysErr(err)
+	}
+
+	resByte, err = ioutil.ReadAll(res.Body)
+
+	if err != nil {
+		return nil, ConvertSysErr(err)
+	}
+
+	statusCode := res.StatusCode
+	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
+		return nil, ConvertBadRequestErr(err)
+	}
+
+	var sdkErr SdkError
+	if statusCode == http.StatusInternalServerError {
+		logger.Info.Println(fmt.Sprintf("hub response data:%s", string(resByte)))
+		err := json.Unmarshal(resByte, &sdkErr)
+		if err != nil {
+			return nil, ConvertSysErr(err)
+		}
+		return nil, NewIrisErr(sdkErr.AbciCode, sdkErr.Message, nil)
+	}
+
+	return resByte, irisErr
+
 }
