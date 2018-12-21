@@ -111,8 +111,6 @@ func (s TxService) buildDefaultTxGas(txType string) vo.TxGasResVO {
 		break
 	case constants.TxTypeStakeBeginUnBonding:
 		defaultGasUsed = constants.DefaultTxGasBeginUbonding
-	case constants.TxTypeStakeCompleteUnBonding:
-		defaultGasUsed = constants.DefaultTxGasCompleteUnbonding
 		break
 	default:
 		return vo.TxGasResVO{}
@@ -179,8 +177,7 @@ func (s TxService) buildData(commonTx document.CommonTx,
 
 	// get candidate info
 	if txType == constants.DbTxTypeStakeDelegate ||
-		txType == constants.DbTxTypeStakeBeginUnBonding ||
-		txType == constants.DbTxTypeStakeCompleteUnBonding {
+		txType == constants.DbTxTypeStakeBeginUnBonding {
 
 		for _, candidate := range candidates {
 			if commonTx.To == candidate.Address {
@@ -205,8 +202,6 @@ func (s TxService) buildData(commonTx document.CommonTx,
 	case constants.DbTxTypeStakeBeginUnBonding:
 		txTypeDisplay = constants.TxTypeStakeBeginUnBonding
 		break
-	case constants.DbTxTypeStakeCompleteUnBonding:
-		txTypeDisplay = constants.TxTypeStakeCompleteUnBonding
 	default:
 		logger.Info.Println("unsupported tx type")
 	}
