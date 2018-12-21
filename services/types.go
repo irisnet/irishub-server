@@ -108,22 +108,25 @@ func HttpClientGetData(uri string) (int, []byte) {
 type SdkError struct {
 	CodeSpace uint16 `json:"codespace"`
 	Code      uint16 `json:"code"`
-	AbciCode  uint32 `json:"abci_code"`
+	ABCICode  uint32 `json:"abci_code"`
 	Message   string `json:"message"`
 }
 
-func PostTx(uri string, requestBody *bytes.Buffer) (resByte []byte, irisErr errors.IrisError) {
-	res, err := http.Post(
-		conf.ServerConfig.LCDServer+uri,
+func broadcastTx(async bool, requestBody *bytes.Buffer) (resByte []byte, irisErr errors.IrisError) {
+	var url = conf.ServerConfig.LCDServer + constants.HttpUriPostTx
+	if async {
+		url = conf.ServerConfig.LCDServer + constants.HttpUriPostTxAsync
+	}
+
+	res, err := http.Post(url,
 		constants.HeaderContentTypeJson,
 		requestBody)
-	defer res.Body.Close()
-
 	if err != nil {
 		return nil, ConvertSysErr(err)
 	}
 
 	resByte, err = ioutil.ReadAll(res.Body)
+	logger.Info.Println(fmt.Sprintf("hub response data:%s", string(resByte)))
 
 	if err != nil {
 		return nil, ConvertSysErr(err)
@@ -136,14 +139,11 @@ func PostTx(uri string, requestBody *bytes.Buffer) (resByte []byte, irisErr erro
 
 	var sdkErr SdkError
 	if statusCode == http.StatusInternalServerError {
-		logger.Info.Println(fmt.Sprintf("hub response data:%s", string(resByte)))
 		err := json.Unmarshal(resByte, &sdkErr)
 		if err != nil {
 			return nil, ConvertSysErr(err)
 		}
-		return nil, NewIrisErr(sdkErr.AbciCode, sdkErr.Message, nil)
+		return nil, NewIrisErr(sdkErr.ABCICode, sdkErr.Message, nil)
 	}
-
 	return resByte, irisErr
-
 }

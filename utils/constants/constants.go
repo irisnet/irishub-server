@@ -29,20 +29,32 @@ const TxTypeStake = "stake"
 const TxTypeStakeDelegate = "delegate"
 const TxTypeStakeUnbond = "unbond"
 const TxTypeStakeBeginUnBonding = "beginUnbonding"
-const TxTypeStakeCompleteUnBonding = "completeUnbonding"
+const TxTypeStakeBeginRedelegate = "redelegate"
+const TxTypeSetWithdrawAddress = "setWithdrawAddress"
+const TxTypeWithdrawDelegatorReward = "withdrawDelegatorReward"
+const TxTypeWithdrawDelegatorRewardsAll = "withdrawDelegatorRewardsAll"
+const TxTypeWithdrawValidatorRewardsAll = "withdrawValidatorRewardsAll"
 
 // define tx type store in db
 const DbTxTypeTransfer = "Transfer"
 const DbTxTypeStakeDelegate = "Delegate"
 const DbTxTypeStakeBeginUnBonding = "BeginUnbonding"
-const DbTxTypeStakeCompleteUnBonding = "CompleteUnbonding"
+const DbTxTypeBeginRedelegate = "BeginRedelegate"
+const DbTxTypeSetWithdrawAddress = "SetWithdrawAddress"
+const DbTxTypeWithdrawDelegatorReward = "WithdrawDelegatorReward"
+const DbTxTypeWithdrawDelegatorRewardsAll = "WithdrawDelegatorRewardsAll"
+const DbTxTypeWithdrawValidatorRewardsAll = "WithdrawValidatorRewardsAll"
 
 var TxTypeFrontMapDb = map[string]string{
-	TxTypeCoinReceive:            DbTxTypeTransfer,
-	TxTypeCoinSend:               DbTxTypeTransfer,
-	TxTypeStakeDelegate:          DbTxTypeStakeDelegate,
-	TxTypeStakeBeginUnBonding:    DbTxTypeStakeBeginUnBonding,
-	TxTypeStakeCompleteUnBonding: DbTxTypeStakeCompleteUnBonding,
+	TxTypeCoinReceive:                 DbTxTypeTransfer,
+	TxTypeCoinSend:                    DbTxTypeTransfer,
+	TxTypeStakeDelegate:               DbTxTypeStakeDelegate,
+	TxTypeStakeBeginUnBonding:         DbTxTypeStakeBeginUnBonding,
+	TxTypeStakeBeginRedelegate:        DbTxTypeBeginRedelegate,
+	TxTypeSetWithdrawAddress:          DbTxTypeSetWithdrawAddress,
+	TxTypeWithdrawDelegatorReward:     DbTxTypeWithdrawDelegatorReward,
+	TxTypeWithdrawDelegatorRewardsAll: DbTxTypeWithdrawDelegatorRewardsAll,
+	TxTypeWithdrawValidatorRewardsAll: DbTxTypeWithdrawValidatorRewardsAll,
 }
 
 // define tx status
@@ -59,7 +71,7 @@ const UriIrisHubRpc = "/irishub"
 var SuccessStatusCodes = []int{200}
 var ErrorStatusCodes = []int{400, 401, 403, 404}
 
-//const HttpUriPostTx = "/txs/send?async=true"
+const HttpUriPostTxAsync = "/txs/send?async=true"
 const HttpUriPostTx = "/txs/send"
 
 const HttpUriGetSequence = "/auth/accounts/%s" // auth/{{address}}
