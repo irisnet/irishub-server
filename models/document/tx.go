@@ -70,8 +70,7 @@ func (d CommonTx) GetList(address string, txType string,
 				constants.TxTypeFrontMapDb[constants.TxTypeCoinSend],
 				constants.TxTypeFrontMapDb[constants.TxTypeCoinReceive],
 				constants.TxTypeFrontMapDb[constants.TxTypeStakeDelegate],
-				//constants.TxTypeFrontMapDb[constants.TxTypeStakeBeginUnBonding],
-				//constants.TxTypeFrontMapDb[constants.TxTypeStakeCompleteUnBonding],
+				constants.TxTypeFrontMapDb[constants.TxTypeStakeBeginUnBonding],
 			},
 		}
 	} else {
