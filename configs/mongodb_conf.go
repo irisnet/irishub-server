@@ -26,7 +26,6 @@ func init() {
 		addr = env.DbAddr
 	}
 
-
 	user = "iris"
 	if env.DbUser != "" {
 		user = env.DbUser

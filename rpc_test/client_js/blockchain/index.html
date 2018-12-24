@@ -46,6 +46,8 @@
                                    data-toggle="tab">交易列表</a></li>
         <li role="presentation"><a href="#postTx" aria-controls="postTx" role="tab"
                                    data-toggle="tab">提交交易</a></li>
+        <li role="presentation"><a href="#simulateTx" aria-controls="postTx" role="tab"
+                                   data-toggle="tab">试算交易</a></li>
         <li role="presentation"><a href="#getTxDetail" aria-controls="getTxDetail" role="tab"
                                    data-toggle="tab">交易详情</a>
         </li>
@@ -62,6 +64,27 @@
                     <div class="form-group">
                         <label for="sequenceReqAddress">Address</label>
                         <input type="text" class="form-control" id="sequenceReqAddress" placeholder="请输入账户地址">
+                    </div>
+                    <button type="button" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+
+            <div class="res">
+                <p>Result:</p>
+                <pre></pre>
+            </div>
+        </div>
+
+        <div id="simulateTx" role="tabpanel" class="row col-md-8 col-md-offset-2 tab-pane">
+            <div class="title">
+                <p class="bg-primary">试算交易</p>
+            </div>
+
+            <div class="req">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="simulateTxReqTx">Tx</label>
+                        <input type="text" class="form-control" id="simulateTxReqTx">
                     </div>
                     <button type="button" class="btn btn-default">Submit</button>
                 </form>
@@ -286,6 +309,23 @@
 
         try {
             res = client.PostTx(req);
+        } catch (e) {
+            res = e
+        }
+        domRes.text(JSON.stringify(res, null, 2));
+    });
+
+    // postTx
+    $("#simulateTx button").click(function () {
+        var res;
+        var domRes = $(this).parents("div#simulateTx").find("div.res > pre");
+
+        var tx = $("#simulateTxReqTx").val();
+        var req = new SimulateTxRequest();
+        req.tx = tx;
+
+        try {
+            res = client.SimulateTx(req);
         } catch (e) {
             res = e
         }

@@ -16,8 +16,8 @@ import (
 	irisProtoc "github.com/irisnet/irisnet-rpc/irishub/codegen/server/model"
 
 	"github.com/rs/cors"
-	"regexp"
 	"net/http/pprof"
+	"regexp"
 )
 
 func main() {

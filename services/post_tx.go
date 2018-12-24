@@ -55,7 +55,7 @@ func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) (vo.PostTxResVO, errors.Iris
 }
 
 func postTx(requestBody *bytes.Buffer) (hash string, irisErr errors.IrisError) {
-	resByte, err := broadcastTx(false, requestBody)
+	resByte, err := broadcastTx(false, false, requestBody)
 	if err.IsNotNull() {
 		return hash, err
 	}
@@ -81,7 +81,7 @@ func postTx(requestBody *bytes.Buffer) (hash string, irisErr errors.IrisError) {
 }
 
 func postTxAsync(requestBody *bytes.Buffer) (hash string, irisErr errors.IrisError) {
-	resByte, err := broadcastTx(true, requestBody)
+	resByte, err := broadcastTx(true, false, requestBody)
 	if err.IsNotNull() {
 		return hash, err
 	}
