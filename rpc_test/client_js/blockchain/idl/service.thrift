@@ -15,6 +15,9 @@ service BlockChainService {
 	// post tx
 	model.PostTxResponse PostTx(1: model.PostTxRequest req) throws (1:model.Exception e),
 
+	// simulate tx
+    model.SimulateTxResponse SimulateTx(1: model.SimulateTxRequest req) throws (1:model.Exception e),
+
 	// get balance
 	model.BalanceResponse GetBalance(1: model.BalanceRequest req) throws (1:model.Exception e),
 

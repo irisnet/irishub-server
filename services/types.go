@@ -112,15 +112,13 @@ type SdkError struct {
 	Message   string `json:"message"`
 }
 
-func broadcastTx(async bool, requestBody *bytes.Buffer) (resByte []byte, irisErr errors.IrisError) {
-	var url = conf.ServerConfig.LCDServer + constants.HttpUriPostTx
-	if async {
-		url = conf.ServerConfig.LCDServer + constants.HttpUriPostTxAsync
-	}
+func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, irisErr errors.IrisError) {
+	var uri = fmt.Sprintf(constants.HttpUriPostTxAsync, async, simulate)
+	var reqUrl = fmt.Sprintf("%s%s", conf.ServerConfig.LCDServer, uri)
 
-	res, err := http.Post(url,
+	res, err := http.Post(reqUrl,
 		constants.HeaderContentTypeJson,
-		requestBody)
+		data)
 	if err != nil {
 		return nil, ConvertSysErr(err)
 	}

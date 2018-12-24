@@ -35,6 +35,10 @@ const TxTypeWithdrawDelegatorReward = "withdrawDelegatorReward"
 const TxTypeWithdrawDelegatorRewardsAll = "withdrawDelegatorRewardsAll"
 const TxTypeWithdrawValidatorRewardsAll = "withdrawValidatorRewardsAll"
 
+const TxTagAction = "action"
+const TxTagWithdrawDelegatorRewardsAll = "withdraw-delegator-rewards-all"
+const TxTagWithdrawRewardTotal = "withdraw-reward-total"
+
 // define tx type store in db
 const DbTxTypeTransfer = "Transfer"
 const DbTxTypeStakeDelegate = "Delegate"
@@ -71,7 +75,7 @@ const UriIrisHubRpc = "/irishub"
 var SuccessStatusCodes = []int{200}
 var ErrorStatusCodes = []int{400, 401, 403, 404}
 
-const HttpUriPostTxAsync = "/txs/send?async=true"
+const HttpUriPostTxAsync = "/txs/send?async=%v&simulate=%v"
 const HttpUriPostTx = "/txs/send"
 
 const HttpUriGetSequence = "/auth/accounts/%s" // auth/{{address}}

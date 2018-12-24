@@ -16,6 +16,9 @@ var (
 	postTxHandler PostTxHandler
 	postTxService services.PostTxService
 
+	simulateTxHandler SimulateTxHandler
+	simulateTxService services.SimulateTxService
+
 	accountService  services.AccountService
 	sequenceHandler SequenceHandler
 	balanceHandler  BalanceHandler
@@ -41,6 +44,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 		break
 	case *commonProtoc.PostTxRequest:
 		res, err = postTxHandler.Handler(ctx, req.(*commonProtoc.PostTxRequest))
+		break
+	case *commonProtoc.SimulateTxRequest:
+		res, err = simulateTxHandler.Handler(ctx, req.(*commonProtoc.SimulateTxRequest))
 		break
 	case *commonProtoc.SequenceRequest:
 		res, err = sequenceHandler.Handler(ctx, req.(*commonProtoc.SequenceRequest))
