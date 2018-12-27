@@ -70,3 +70,11 @@ func (s BlockChainRPCServices) GetTxDetail(ctx context.Context, req *commonProto
 	res, err := Handler(ctx, req)
 	return res.(*commonProtoc.Tx), err
 }
+
+// GetRewardInfo
+func (s BlockChainRPCServices) GetRewardInfo(ctx context.Context, req *commonProtoc.RewardInfoRequest) (
+	*commonProtoc.RewardInfoResponse, error) {
+
+	res, err := Handler(ctx, req)
+	return res.(*commonProtoc.RewardInfoResponse), err
+}

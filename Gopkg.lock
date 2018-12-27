@@ -11,14 +11,14 @@
 
 [[projects]]
   branch = "develop"
-  digest = "1:b4d8571b60097ec03640d36350a88e32d06d88e4c4de0d68fa7359fc26a690be"
+  digest = "1:ae375d17bdec86a66d7043ae4c37306f3cdc0f0c7998bf13161950b96f7cc554"
   name = "github.com/irisnet/irisnet-rpc"
   packages = [
     "common/codegen/server/model",
     "irishub/codegen/server/model",
   ]
   pruneopts = "UT"
-  revision = "3b948001073a5f3f71d8cb554e2815ed9903ed20"
+  revision = "f0223b562bbe7bb8c7966568cdf8209751fc5e65"
 
 [[projects]]
   digest = "1:b0c25f00bad20d783d259af2af8666969e2fc343fa0dc9efe52936bbd67fb758"

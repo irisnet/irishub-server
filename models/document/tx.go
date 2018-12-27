@@ -15,20 +15,21 @@ const (
 )
 
 type CommonTx struct {
-	TxHash    string    `json:"tx_hash" bson:"tx_hash"`
-	Time      time.Time `json:"time" bson:"time"`
-	Height    int64     `json:"height" bson:"height"`
-	From      string    `json:"from" bson:"from"`
-	To        string    `json:"to" bson:"to"`
-	Amount    Coins     `json:"amount" bson:"amount"`
-	Type      string    `json:"type" bson:"type"`
-	Fee       Fee       `bson:"fee"`
-	Memo      string    `bson:"memo"`
-	Status    string    `bson:"status"`
-	Log       string    `bson:"log"`
-	GasUsed   int64     `bson:"gas_used"`
-	GasPrice  float64   `bson:"gas_price"`
-	ActualFee ActualFee `bson:"actual_fee"`
+	TxHash    string            `json:"tx_hash" bson:"tx_hash"`
+	Time      time.Time         `json:"time" bson:"time"`
+	Height    int64             `json:"height" bson:"height"`
+	From      string            `json:"from" bson:"from"`
+	To        string            `json:"to" bson:"to"`
+	Amount    Coins             `json:"amount" bson:"amount"`
+	Type      string            `json:"type" bson:"type"`
+	Fee       Fee               `bson:"fee"`
+	Memo      string            `bson:"memo"`
+	Status    string            `bson:"status"`
+	Log       string            `bson:"log"`
+	GasUsed   int64             `bson:"gas_used"`
+	GasPrice  float64           `bson:"gas_price"`
+	ActualFee ActualFee         `bson:"actual_fee"`
+	Tags      map[string]string `bson:"tags"`
 
 	Candidate Candidate `json:"candidate"`
 }
@@ -151,6 +152,21 @@ func (d CommonTx) GetList(address string, txType string,
 	}
 
 	return txs, err
+}
+
+func (d CommonTx) GetRewardList(delAddr string) (results []CommonTx) {
+	query := bson.M{}
+	query["from"] = delAddr
+	query["type"] = bson.M{
+		"$in": []string{
+			constants.DbTxTypeSetWithdrawAddress,
+			constants.DbTxTypeWithdrawDelegatorReward,
+			constants.DbTxTypeWithdrawDelegatorRewardsAll,
+		},
+	}
+	fields := bson.M{}
+	results, _ = d.Query(query, fields, 0, 1000, "-time")
+	return results
 }
 
 func (d CommonTx) GetDetail(txHash string) (CommonTx, error) {

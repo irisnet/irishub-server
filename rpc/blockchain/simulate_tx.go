@@ -32,8 +32,8 @@ func (c SimulateTxHandler) buildResponse(resVO vo.SimulateTxResVO) *commonProtoc
 	var details = make([]*commonProtoc.RewardDetail, len(resVO.Records))
 	for i, record := range resVO.Records {
 		details[i] = &commonProtoc.RewardDetail{
-			ValAddress: record.ValAddress,
-			Name:       record.Name,
+			ValAddr: record.ValAddress,
+			Name:    record.Name,
 			Amount: &commonProtoc.Coin{
 				Amount: record.Amount.Amount,
 				Denom:  record.Amount.Denom,

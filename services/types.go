@@ -90,7 +90,9 @@ func HttpClientPostJsonData(uri string, requestBody *bytes.Buffer) (int, []byte)
 
 // get data use http client
 func HttpClientGetData(uri string) (int, []byte) {
-	res, err := http.Get(conf.ServerConfig.LCDServer + uri)
+	var reqUrl = fmt.Sprintf("%s%s", conf.ServerConfig.LCDServer, uri)
+	res, err := http.Get(reqUrl)
+	logger.Info.Println(fmt.Sprintf("request uri:%s", reqUrl))
 	defer res.Body.Close()
 
 	if err != nil {
@@ -101,6 +103,7 @@ func HttpClientGetData(uri string) (int, []byte) {
 	if err != nil {
 		logger.Error.Println(err)
 	}
+	logger.Info.Println(fmt.Sprintf("hub response data:%s", string(resByte)))
 
 	return res.StatusCode, resByte
 }
@@ -115,7 +118,7 @@ type SdkError struct {
 func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, irisErr errors.IrisError) {
 	var uri = fmt.Sprintf(constants.HttpUriPostTxAsync, async, simulate)
 	var reqUrl = fmt.Sprintf("%s%s", conf.ServerConfig.LCDServer, uri)
-
+	logger.Info.Println(fmt.Sprintf("request uri:%s", reqUrl))
 	res, err := http.Post(reqUrl,
 		constants.HeaderContentTypeJson,
 		data)
