@@ -112,3 +112,32 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 
 	return resVO, irisErr
 }
+
+func (s AccountService) GetRewardInfo(req vo.RewardInfoReqVO) (res vo.RewardInfoResVo, e errors.IrisError) {
+	addr, err := queryWithdrawAddr(req.DelAddr)
+	if err.IsNotNull() {
+		return res, err
+	}
+
+	txList := commonTxModel.GetRewardList(req.DelAddr)
+	return vo.RewardInfoResVo{
+		DelAddr:      req.DelAddr,
+		WithdrawAddr: addr,
+		Txs:          txList,
+	}, irisErr
+}
+
+func queryWithdrawAddr(delAddr string) (string, errors.IrisError) {
+	//查询用户的提现地址
+	uri := fmt.Sprintf(constants.HttpUriGetWithdrawAddr, delAddr)
+	statusCode, res := HttpClientGetData(uri)
+	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
+		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
+			"queryWithdrawAddr", statusCode, string(res))
+		return "", ConvertSysErr(fmt.Errorf(string(res)))
+	}
+	if statusCode == constants.StatusCodeNotContent {
+		return delAddr, irisErr
+	}
+	return string(res), irisErr
+}

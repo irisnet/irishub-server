@@ -26,7 +26,8 @@ var (
 	txListHandler TxListHandler
 	txService     services.TxService
 
-	txDetailHandler TxDetailHandler
+	txDetailHandler        TxDetailHandler
+	queryRewardInfoHandler QueryRewardInfoHandler
 )
 
 func Handler(ctx context.Context, req interface{}) (interface{}, error) {
@@ -59,6 +60,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 		break
 	case *commonProtoc.TxDetailRequest:
 		res, err = txDetailHandler.Handler(ctx, req.(*commonProtoc.TxDetailRequest))
+		break
+	case *commonProtoc.RewardInfoRequest:
+		res, err = queryRewardInfoHandler.Handler(ctx, req.(*commonProtoc.RewardInfoRequest))
 		break
 	}
 

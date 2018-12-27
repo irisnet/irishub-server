@@ -35,9 +35,12 @@ const TxTypeWithdrawDelegatorReward = "withdrawDelegatorReward"
 const TxTypeWithdrawDelegatorRewardsAll = "withdrawDelegatorRewardsAll"
 const TxTypeWithdrawValidatorRewardsAll = "withdrawValidatorRewardsAll"
 
-const TxTagAction = "action"
-const TxTagWithdrawDelegatorRewardsAll = "withdraw-delegator-rewards-all"
-const TxTagWithdrawRewardTotal = "withdraw-reward-total"
+const TagNmAction = "action"
+const TagNmDistributionWithdrawDelegatorRewardsAll = "withdraw_delegation_rewards_all"
+const TagNmDistributionWithdrawDelegationReward = "withdraw_delegation_reward"
+const TagNmDistributionWithdrawRewardFromValidator = "withdraw-reward-from-validator-"
+const TagNmDistributionSourceValidator = "source-validator"
+const TagNmDistributionWithdrawRewardTotal = "withdraw-reward-total"
 
 // define tx type store in db
 const DbTxTypeTransfer = "Transfer"
@@ -81,6 +84,7 @@ const HttpUriPostTx = "/txs/send"
 const HttpUriGetSequence = "/auth/accounts/%s" // auth/{{address}}
 const HttpUriGetBalance = "/auth/accounts/%s"  // auth/{{address}}
 const HttpUriGetValidators = "/stake/validators/%s"
+const HttpUriGetWithdrawAddr = "/distribution/%s/withdrawAddress"
 
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"
