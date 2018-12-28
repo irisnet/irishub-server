@@ -16,12 +16,13 @@ import (
 )
 
 var (
-	candidateModel document.Candidate
-	delegatorModel document.Delegator
-	commonTxModel  document.CommonTx
-	txGasModel     document.TxGas
-	valUpTimeModel document.ValidatorUpTime
-	irisErr        errors.IrisError
+	candidateModel        document.Candidate
+	validatorHistoryModel document.ValidatorHistory
+	delegatorModel        document.Delegator
+	commonTxModel         document.CommonTx
+	txGasModel            document.TxGas
+	valUpTimeModel        document.ValidatorUpTime
+	irisErr               errors.IrisError
 )
 
 func ConvertSysErr(err error) errors.IrisError {
