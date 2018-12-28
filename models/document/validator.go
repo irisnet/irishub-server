@@ -27,11 +27,8 @@ type (
 		UpTime      float64
 		Delegators  []Delegator `json:"delegators"`
 		Status      string      `bson:"status"`
-		Rank        Rank        `bson:"rank"`
-	}
-	Rank struct {
-		Number int `json:"number" bson:"number"`
-		Lift   int `json:"lift" bson:"lift"` // 1:up,0:not change,-1:down
+		Rank        int         `bson:"rank"`
+		Lift        int         `bson:"-"`
 	}
 )
 

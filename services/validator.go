@@ -45,6 +45,12 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 		return resVO, ConvertSysErr(err)
 	}
 
+	var cMap = make(map[string]document.Candidate)
+	vh := validatorHistoryModel.QueryAll()
+	for _, validator := range vh {
+		cMap[validator.Address] = validator.Candidate
+	}
+
 	// query delegator info
 	for _, candidate := range candidates {
 		validatorAddrs = append(validatorAddrs, candidate.Address)
@@ -67,6 +73,20 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 
 	for i, cd := range candidates {
 		candidates[i] = s.buildValidator(cd, delegator, valUpTimes, totalShares)
+		lastCandidate, ok := cMap[cd.Address]
+		var lift int
+		if !ok {
+			lift = document.LiftUp
+		} else {
+			if lastCandidate.Rank > cd.Rank {
+				lift = document.LiftUp
+			} else if lastCandidate.Rank < cd.Rank {
+				lift = document.LiftDown
+			} else {
+				lift = document.LiftNotChange
+			}
+		}
+		candidates[i].Lift = lift
 	}
 
 	resVO = vo.ValidatorListResVO{

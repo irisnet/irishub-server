@@ -7,6 +7,7 @@ import (
 	"github.com/irisnet/irishub-server/utils/helper"
 	"io/ioutil"
 	"net/http"
+	"strings"
 
 	conf "github.com/irisnet/irishub-server/configs"
 	"github.com/irisnet/irishub-server/errors"
@@ -16,13 +17,18 @@ import (
 )
 
 var (
-	candidateModel document.Candidate
-	delegatorModel document.Delegator
-	commonTxModel  document.CommonTx
-	txGasModel     document.TxGas
-	valUpTimeModel document.ValidatorUpTime
-	irisErr        errors.IrisError
+	candidateModel        document.Candidate
+	validatorHistoryModel document.ValidatorHistory
+	delegatorModel        document.Delegator
+	commonTxModel         document.CommonTx
+	txGasModel            document.TxGas
+	valUpTimeModel        document.ValidatorUpTime
+	irisErr               errors.IrisError
 )
+
+func ConvertExtSysErr(err error) errors.IrisError {
+	return irisErr.New(errors.EC60001, errors.EM60001+err.Error())
+}
 
 func ConvertSysErr(err error) errors.IrisError {
 	return irisErr.New(errors.EC50001, errors.EM50001+err.Error())
@@ -142,6 +148,10 @@ func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, iris
 	if statusCode == http.StatusInternalServerError {
 		err := json.Unmarshal(resByte, &sdkErr)
 		if err != nil {
+			//TODO
+			if strings.Contains(string(resByte), "32603") {
+				return nil, ConvertExtSysErr(err)
+			}
 			return nil, ConvertSysErr(err)
 		}
 		return nil, NewIrisErr(sdkErr.ABCICode, sdkErr.Message, nil)

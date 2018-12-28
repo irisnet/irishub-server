@@ -67,8 +67,8 @@ func BuildCandidateResponse(v document.Candidate) irisProtoc.Candidate {
 		Description: &resCandidateDescription,
 		Delegators:  resCandidateDelegators,
 		Type:        cType,
-		Number:      int8(v.Rank.Number),
-		Lift:        int8(v.Rank.Lift),
+		Number:      int8(v.Rank),
+		Lift:        int8(v.Lift),
 	}
 
 	return resCandidate
