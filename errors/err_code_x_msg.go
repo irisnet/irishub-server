@@ -8,3 +8,6 @@ const EM40002 = "参数转化异常: "
 
 const EC50001 = 50001
 const EM50001 = "系统异常: "
+
+const EC60001 = 60001
+const EM60001 = "下游系统(irishub)异常: "
