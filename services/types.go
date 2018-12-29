@@ -115,7 +115,7 @@ func HttpClientGetData(uri string) (int, []byte) {
 }
 
 type SdkError struct {
-	CodeSpace uint16 `json:"codespace"`
+	CodeSpace string `json:"codespace"`
 	Code      uint16 `json:"code"`
 	ABCICode  uint32 `json:"abci_code"`
 	Message   string `json:"message"`

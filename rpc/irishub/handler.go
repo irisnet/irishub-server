@@ -15,8 +15,11 @@ var (
 	delegatorCandidateListHandler DelegatorCandidateListHandler
 	delegatorTotalSharesHandler   DelegatorTotalSharesHandler
 
+	withdrawInfoHandler WithdrawInfoHandler
+
 	validatorService services.ValidatorService
 	delegatorService services.DelegatorService
+	accountService   services.AccountService
 )
 
 func Handler(ctx context.Context, req interface{}) (interface{}, error) {
@@ -41,6 +44,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 		break
 	case *irisProtoc.TotalShareRequest:
 		res, err = delegatorTotalSharesHandler.Handler(ctx, req.(*irisProtoc.TotalShareRequest))
+		break
+	case *irisProtoc.WithdrawAddrRequest:
+		res, err = withdrawInfoHandler.Handler(ctx, req.(*irisProtoc.WithdrawAddrRequest))
 		break
 	}
 
