@@ -27,7 +27,7 @@ var (
 )
 
 func ConvertTimeOutErr(err error) errors.IrisError {
-	return irisErr.New(errors.EC60001, errors.EM60001+err.Error())
+	return irisErr.New(errors.EC60002, errors.EM60002+err.Error())
 }
 
 func ConvertTxExistedErr(err error) errors.IrisError {
