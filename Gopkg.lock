@@ -21,6 +21,14 @@
   revision = "130ae6fbe8454cc5eb2186782260c87369d34faf"
 
 [[projects]]
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
+
+[[projects]]
   digest = "1:b0c25f00bad20d783d259af2af8666969e2fc343fa0dc9efe52936bbd67fb758"
   name = "github.com/rs/cors"
   packages = ["."]
@@ -57,6 +65,7 @@
     "git.apache.org/thrift.git/lib/go/thrift",
     "github.com/irisnet/irisnet-rpc/common/codegen/server/model",
     "github.com/irisnet/irisnet-rpc/irishub/codegen/server/model",
+    "github.com/pkg/errors",
     "github.com/rs/cors",
     "golang.org/x/net/context",
     "gopkg.in/mgo.v2",

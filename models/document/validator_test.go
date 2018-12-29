@@ -1,7 +1,6 @@
 package document
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/irisnet/irishub-server/modules/logger"

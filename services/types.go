@@ -24,6 +24,7 @@ var (
 	txGasModel            document.TxGas
 	valUpTimeModel        document.ValidatorUpTime
 	irisErr               errors.IrisError
+	syncResult			  document.SyncResult
 )
 
 func ConvertExtSysErr(err error) errors.IrisError {
