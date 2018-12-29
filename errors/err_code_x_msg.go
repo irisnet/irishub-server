@@ -10,4 +10,7 @@ const EC50001 = 50001
 const EM50001 = "系统异常: "
 
 const EC60001 = 60001
-const EM60001 = "下游系统(irishub)异常: "
+const EM60001 = "交易已存在 "
+
+const EC60002 = 60002
+const EM60002 = "交易超时"

@@ -27,7 +27,11 @@ var (
 	syncResult			  document.SyncResult
 )
 
-func ConvertExtSysErr(err error) errors.IrisError {
+func ConvertTimeOutErr(err error) errors.IrisError {
+	return irisErr.New(errors.EC60002, errors.EM60002+err.Error())
+}
+
+func ConvertTxExistedErr(err error) errors.IrisError {
 	return irisErr.New(errors.EC60001, errors.EM60001+err.Error())
 }
 
@@ -150,8 +154,10 @@ func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, iris
 		err := json.Unmarshal(resByte, &sdkErr)
 		if err != nil {
 			//TODO
-			if strings.Contains(string(resByte), "32603") {
-				return nil, ConvertExtSysErr(err)
+			if strings.Contains(string(resByte), "already exists") {
+				return nil, ConvertTxExistedErr(err)
+			} else if strings.Contains(string(resByte), "timeout") {
+				return nil, ConvertTimeOutErr(err)
 			}
 			return nil, ConvertSysErr(err)
 		}
