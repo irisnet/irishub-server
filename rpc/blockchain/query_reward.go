@@ -35,8 +35,7 @@ func (c QueryRewardInfoHandler) buildRequest(req *commonProtoc.RewardInfoRequest
 func (c QueryRewardInfoHandler) buildResponse(resVO vo.RewardInfoResVo, valAddr string) *commonProtoc.RewardInfoResponse {
 	txList := resVO.Txs
 	resp := &commonProtoc.RewardInfoResponse{
-		DelAddr:      resVO.DelAddr,
-		WithdrawAddr: resVO.WithdrawAddr,
+		DelAddr: resVO.DelAddr,
 	}
 	if len(txList) == 0 {
 		return resp
