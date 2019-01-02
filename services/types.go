@@ -27,14 +27,6 @@ var (
 	syncResult			  document.SyncResult
 )
 
-func ConvertTimeOutErr(err error) errors.IrisError {
-	return irisErr.New(errors.EC60002, errors.EM60002+err.Error())
-}
-
-func ConvertTxExistedErr(err error) errors.IrisError {
-	return irisErr.New(errors.EC60001, errors.EM60001+err.Error())
-}
-
 func ConvertSysErr(err error) errors.IrisError {
 	return irisErr.New(errors.EC50001, errors.EM50001+err.Error())
 }
@@ -122,7 +114,6 @@ func HttpClientGetData(uri string) (int, []byte) {
 type SdkError struct {
 	CodeSpace string `json:"codespace"`
 	Code      uint16 `json:"code"`
-	ABCICode  uint32 `json:"abci_code"`
 	Message   string `json:"message"`
 }
 
@@ -134,19 +125,19 @@ func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, iris
 		constants.HeaderContentTypeJson,
 		data)
 	if err != nil {
-		return nil, ConvertSysErr(err)
+		return nil, errors.SysErr(err)
 	}
 
 	resByte, err = ioutil.ReadAll(res.Body)
 	logger.Info.Println(fmt.Sprintf("hub response data:%s", string(resByte)))
 
 	if err != nil {
-		return nil, ConvertSysErr(err)
+		return nil, errors.SysErr(err)
 	}
 
 	statusCode := res.StatusCode
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
-		return nil, ConvertBadRequestErr(err)
+		return nil, errors.InvalidReqParamsErr(err)
 	}
 
 	var sdkErr SdkError
@@ -155,13 +146,13 @@ func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, iris
 		if err != nil {
 			//TODO
 			if strings.Contains(string(resByte), "already exists") {
-				return nil, ConvertTxExistedErr(err)
+				return nil, errors.TxExistedErr(err)
 			} else if strings.Contains(string(resByte), "timeout") {
-				return nil, ConvertTimeOutErr(err)
+				return nil, errors.TxTimeoutErr(err)
 			}
 			return nil, ConvertSysErr(err)
 		}
-		return nil, NewIrisErr(sdkErr.ABCICode, sdkErr.Message, nil)
+		return nil, errors.SdkCodeToIrisErr(sdkErr.Code)
 	}
 	return resByte, irisErr
 }
