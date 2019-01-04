@@ -18,9 +18,6 @@ const (
 	EC60002 = 60002
 	EC60003 = 60003
 	EC60004 = 60004
-	EC60005 = 60005
-	EC60006 = 60006
-	EC60007 = 60007
 )
 
 var (
@@ -65,7 +62,7 @@ var sdkCodeToIrisCodeMap = map[string]IrisError{
 	sdkCode(RootCodeSpace, CodeOutOfGas): errFun(EC60003, IrishubErrMsg)(e.New("out of gas")),
 
 	sdkCode(StakeCodeSpace, CodeInvalidValidator):  errFun(EC50002, IrishubErrMsg)(e.New("validator does not exist for that address")),
-	sdkCode(StakeCodeSpace, CodeInvalidDelegation): errFun(EC50002, IrishubErrMsg)(e.New("no delegation for this validator")),
+	sdkCode(StakeCodeSpace, CodeInvalidDelegation): errFun(EC60004, IrishubErrMsg)(e.New("no delegation for this validator")),
 	sdkCode(StakeCodeSpace, CodeInvalidInput):      errFun(EC50002, IrishubErrMsg)(e.New("validator address is nil")),
 	sdkCode(StakeCodeSpace, CodeValidatorJailed):   errFun(EC50002, IrishubErrMsg)(e.New("validator jailed")),
 
