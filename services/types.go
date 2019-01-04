@@ -26,14 +26,6 @@ var (
 	irisErr               errors.IrisError
 )
 
-func ConvertSysErr(err error) errors.IrisError {
-	return irisErr.New(errors.EC50001, errors.EM50001+err.Error())
-}
-
-func ConvertBadRequestErr(err error) errors.IrisError {
-	return irisErr.New(errors.EC40001, errors.EM40001+err.Error())
-}
-
 func NewIrisErr(errCode uint32, errMsg string, err error) errors.IrisError {
 	if err != nil {
 		errMsg = errMsg + err.Error()
@@ -136,7 +128,7 @@ func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, iris
 
 	statusCode := res.StatusCode
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
-		return nil, errors.InvalidReqParamsErr(err)
+		return nil, errors.InvalidParamsErr(err)
 	}
 
 	var sdkErr SdkError
@@ -146,12 +138,12 @@ func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, iris
 			//TODO
 			if strings.Contains(string(resByte), "already exists") {
 				return nil, errors.TxExistedErr(err)
-			} else if strings.Contains(string(resByte), "timeout") {
+			} else if strings.Contains(string(resByte), "Timed out") {
 				return nil, errors.TxTimeoutErr(err)
 			}
-			return nil, ConvertSysErr(err)
+			return nil, errors.SysErr(err)
 		}
-		return nil, errors.SdkCodeToIrisErr(sdkErr.Code)
+		return nil, errors.SdkCodeToIrisErr(sdkErr.CodeSpace, sdkErr.Code)
 	}
 	return resByte, irisErr
 }
