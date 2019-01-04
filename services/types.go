@@ -4,16 +4,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/irisnet/irishub-server/utils/helper"
-	"io/ioutil"
-	"net/http"
-	"strings"
-
 	conf "github.com/irisnet/irishub-server/configs"
 	"github.com/irisnet/irishub-server/errors"
 	"github.com/irisnet/irishub-server/models/document"
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/utils/constants"
+	"github.com/irisnet/irishub-server/utils/helper"
+	"io/ioutil"
+	"net/http"
+	"strings"
 )
 
 var (
@@ -134,15 +133,19 @@ func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, iris
 
 	var sdkErr SdkError
 	if statusCode == http.StatusInternalServerError {
-		err := json.Unmarshal(resByte, &sdkErr)
-		if err != nil {
+		jsonByte, err := helper.ParseJson(resByte)
+		if err != nil || len(jsonByte) == 0 {
 			//TODO
 			if strings.Contains(string(resByte), "already exists") {
-				return nil, errors.TxExistedErr(err)
+				return nil, errors.TxExistedErr(fmt.Errorf(string(resByte)))
 			} else if strings.Contains(string(resByte), "Timed out") {
-				return nil, errors.TxTimeoutErr(err)
+				return nil, errors.TxTimeoutErr(fmt.Errorf(string(resByte)))
 			}
 			return nil, errors.SysErr(err)
+		}
+		err = json.Unmarshal(jsonByte[0], &sdkErr)
+		if err != nil {
+			return nil, errors.UnKnownErr(err)
 		}
 		return nil, errors.SdkCodeToIrisErr(sdkErr.CodeSpace, sdkErr.Code)
 	}

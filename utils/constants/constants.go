@@ -79,6 +79,7 @@ var SuccessStatusCodes = []int{200}
 var ErrorStatusCodes = []int{400, 401, 403, 404}
 
 const HttpUriPostTxAsync = "/txs/send?async=%v&simulate=%v"
+const HttpUriBroadcastTx = "/tx/broadcast?async=%v&simulate=%v"
 const HttpUriPostTx = "/txs/send"
 
 const HttpUriGetSequence = "/auth/accounts/%s" // auth/{{address}}
