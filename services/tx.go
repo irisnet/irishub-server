@@ -35,7 +35,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 		startTime, err = helper.ParseFullTime(reqVO.StartTime)
 		if err != nil {
 			logger.Error.Printf("%v: err is %v\n", methodName, err)
-			return resVO, ConvertBadRequestErr(err)
+			return resVO, errors.InvalidParamsErr(err)
 		}
 	}
 
@@ -43,7 +43,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 		endTime, err = helper.ParseFullTime(reqVO.EndTime)
 		if err != nil {
 			logger.Error.Printf("%v: err is %v\n", methodName, err)
-			return resVO, ConvertBadRequestErr(err)
+			return resVO, errors.InvalidParamsErr(err)
 		}
 	}
 
@@ -51,7 +51,7 @@ func (s TxService) GetTxList(reqVO vo.TxListReqVO) (vo.TxListResVO, errors.IrisE
 		skip, limit, sorts, ext, reqVO.Height)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	//for _, commonTx := range commonTxs {
@@ -81,7 +81,7 @@ func (s TxService) GetTxGas(reqVO vo.TxGasReqVO) (vo.TxGasResVO, errors.IrisErro
 	txGas, err := txGasModel.GetTxGas(reqVO.TxType)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	if txGas.TxType == "" {
@@ -143,7 +143,7 @@ func (s TxService) GetTxDetail(reqVO vo.TxDetailReqVO) (vo.TxDetailResVO, errors
 	commonTx, err := commonTxModel.GetDetail(reqVO.TxHash)
 
 	if err != nil {
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	if commonTx.TxHash != "" {
@@ -157,7 +157,7 @@ func (s TxService) GetTxDetail(reqVO vo.TxDetailReqVO) (vo.TxDetailResVO, errors
 	if pubKeys != nil {
 		candidates, err = candidateModel.GetCandidatesListByValidatorAddrs(pubKeys)
 		if err != nil {
-			return resVO, ConvertSysErr(err)
+			return resVO, errors.SysErr(err)
 		}
 	}
 

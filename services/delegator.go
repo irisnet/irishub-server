@@ -31,7 +31,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	delegator, err := delegatorModel.GetDelegatorListByAddress(address, skip, limit, sorts)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	if delegator == nil {
@@ -42,7 +42,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	totalShares, err := validatorService.GetTotalShares()
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	// query all candidate which delegator have delegated
@@ -52,7 +52,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	candidates, err := candidateModel.GetCandidatesListByValidatorAddrs(valAddrs)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	// get validator up time info
@@ -62,7 +62,7 @@ func (s DelegatorService) DelegatorCandidateList(reqVO vo.DelegatorCandidateList
 	valUpTimes, err := valUpTimeModel.GetUpTime(tmValAddrs)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	for i, cd := range candidates {
@@ -90,7 +90,7 @@ func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReq
 	delegatorShares, err := delegatorModel.GetTotalSharesByAddress(reqVO.Address)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	if len(delegatorShares) > 0 {
@@ -115,7 +115,7 @@ func (s DelegatorService) GetDelegatorTotalShare(reqVO vo.DelegatorTotalShareReq
 	totalUnbondingTokens, err := delegatorModel.GetTotalUnbondingTokens(reqVO.Address)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	resVO = vo.DelegatorTotalShareResVO{

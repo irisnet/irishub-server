@@ -31,7 +31,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	candidates, err := candidateModel.GetCandidatesList(q, sorts, skip, limit)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	if candidates == nil {
@@ -42,7 +42,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	totalShares, err := s.GetTotalShares()
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	var cMap = make(map[string]document.Candidate)
@@ -59,7 +59,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	delegator, err := delegatorModel.GetDelegatorListByAddressAndValidatorAddrs(address, validatorAddrs)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	// query validator upTime info
@@ -67,7 +67,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 		valUpTimes, err = valUpTimeModel.GetUpTime(tmValAddrs)
 		if err != nil {
 			logger.Error.Printf("%v: err is %v\n", methodName, err)
-			return resVO, ConvertSysErr(err)
+			return resVO, errors.SysErr(err)
 		}
 	}
 
@@ -115,12 +115,12 @@ func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
 	if !helper.SliceContains(constants.SuccessStatusCodes, statusCode) {
 		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
 			methodName, statusCode, string(resBytes))
-		return resVO, ConvertSysErr(fmt.Errorf(string(resBytes)))
+		return resVO, errors.SysErr(fmt.Errorf(string(resBytes)))
 	}
 
 	if err := json.Unmarshal(resBytes, &validator); err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	resVO.ExRate = helper.ConvertStrToFloat(validator.Tokens) / helper.ConvertStrToFloat(validator.DelegatorShares)
@@ -187,7 +187,7 @@ func (s ValidatorService) Detail(reqVO vo.ValidatorDetailReqVO) (
 	// query detail info of candidate
 	candidate, err := candidateModel.GetCandidateDetail(reqVO.ValAddr)
 	if err != nil {
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	// not found
@@ -198,7 +198,7 @@ func (s ValidatorService) Detail(reqVO vo.ValidatorDetailReqVO) (
 	// get total shares
 	totalShares, err := candidateModel.GetTotalShares()
 	if err != nil {
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	// query detail of candidate which i have delegated
@@ -207,7 +207,7 @@ func (s ValidatorService) Detail(reqVO vo.ValidatorDetailReqVO) (
 	)
 	delegator, err := delegatorModel.GetDelegatorListByAddressAndValidatorAddrs(reqVO.DelAddr, validatorAddrs)
 	if err != nil {
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 	candidate = s.buildValidator(candidate, delegator, nil, totalShares)
 

@@ -1,5 +1,9 @@
 package errors
 
+import "fmt"
+
+type CodeType uint32
+
 type IrisError struct {
 	ErrCode uint32
 	ErrMsg  string
@@ -23,19 +27,15 @@ func (e IrisError) New(errCode uint32, errMsg string) IrisError {
 	}
 }
 
-func IrisErr(errCode uint32, errMsg string) func(errMsg error) IrisError {
-	return func(err error) IrisError {
-		msg := errMsg
-		if err != nil {
-			msg = errMsg + err.Error()
-		}
-		return IrisError{
-			ErrCode: errCode,
-			ErrMsg:  msg,
-		}
+func SdkCodeToIrisErr(space string, code uint16) IrisError {
+	c := sdkCode(space, CodeType(code))
+	err, ok := sdkCodeToIrisCodeMap[c]
+	if ok {
+		return err
 	}
+	return UnKnownErr(fmt.Errorf("not existed code difine,space:%s,code:%d", space, code))
 }
 
-func SdkCodeToIrisErr(code uint16) IrisError {
-	return sdkCodeToIrisCodeMap[code]
+func sdkCode(space string, code CodeType) string {
+	return fmt.Sprintf("%s-%d", space, code)
 }

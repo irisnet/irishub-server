@@ -64,7 +64,7 @@ func postTx(requestBody *bytes.Buffer) (hash string, irisErr errors.IrisError) {
 
 	er := json.Unmarshal(resByte, &resp)
 	if er != nil {
-		return hash, ConvertSysErr(err)
+		return hash, errors.SysErr(err)
 	}
 
 	if resp.CheckTx.Code != 0 {
@@ -90,7 +90,7 @@ func postTxAsync(requestBody *bytes.Buffer) (hash string, irisErr errors.IrisErr
 
 	er := json.Unmarshal(resByte, &resp)
 	if er != nil {
-		return hash, ConvertSysErr(err)
+		return hash, errors.SysErr(err)
 	}
 
 	if resp.Code != 0 {
