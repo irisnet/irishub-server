@@ -1,12 +1,11 @@
 package errors
 
 import (
-	e "errors"
 	"fmt"
 )
 
 const (
-	IrishubErrMsg = "irishub error:%s"
+	IrisHubErrMsg = "irishub error:%s"
 
 	EC40001 = 40001
 	EC40002 = 40002
@@ -52,30 +51,33 @@ const (
 	CodeNoDistributionInfo CodeType = 104
 )
 
-var sdkCodeToIrisCodeMap = map[string]IrisError{
-	sdkCode(RootCodeSpace, CodeInternal):        errFun(EC50002, IrishubErrMsg)(e.New("internal error")),
-	sdkCode(RootCodeSpace, CodeUnauthorized):    errFun(EC50002, IrishubErrMsg)(e.New("unauthorized")),
-	sdkCode(RootCodeSpace, CodeUnknownRequest):  errFun(EC50002, IrishubErrMsg)(e.New("unknown request")),
-	sdkCode(RootCodeSpace, CodeInvalidAddress):  errFun(EC50002, IrishubErrMsg)(e.New("invalid address")),
-	sdkCode(RootCodeSpace, CodeInvalidSequence): errFun(EC50002, IrishubErrMsg)(e.New("Invalid sequence")),
+type ErrFunc func(msg string, args ...interface{}) IrisError
+
+var sdkCodeToErrFunc = map[string]ErrFunc{
+	sdkCode(RootCodeSpace, CodeInternal):        errFun(EC50002, IrisHubErrMsg),
+	sdkCode(RootCodeSpace, CodeUnauthorized):    errFun(EC50002, IrisHubErrMsg),
+	sdkCode(RootCodeSpace, CodeUnknownRequest):  errFun(EC50002, IrisHubErrMsg),
+	sdkCode(RootCodeSpace, CodeInvalidAddress):  errFun(EC50002, IrisHubErrMsg),
+	sdkCode(RootCodeSpace, CodeInvalidSequence): errFun(EC50002, IrisHubErrMsg),
 	//distinct
-	sdkCode(RootCodeSpace, CodeOutOfGas): errFun(EC60003, IrishubErrMsg)(e.New("out of gas")),
+	sdkCode(RootCodeSpace, CodeOutOfGas): errFun(EC60003, IrisHubErrMsg),
 
-	sdkCode(StakeCodeSpace, CodeInvalidValidator):  errFun(EC50002, IrishubErrMsg)(e.New("validator does not exist for that address")),
-	sdkCode(StakeCodeSpace, CodeInvalidDelegation): errFun(EC60004, IrishubErrMsg)(e.New("no delegation for this validator")),
-	sdkCode(StakeCodeSpace, CodeInvalidInput):      errFun(EC50002, IrishubErrMsg)(e.New("validator address is nil")),
-	sdkCode(StakeCodeSpace, CodeValidatorJailed):   errFun(EC50002, IrishubErrMsg)(e.New("validator jailed")),
+	sdkCode(StakeCodeSpace, CodeInvalidValidator):  errFun(EC50002, IrisHubErrMsg),
+	sdkCode(StakeCodeSpace, CodeInvalidDelegation): errFun(EC60004, IrisHubErrMsg),
+	sdkCode(StakeCodeSpace, CodeInvalidInput):      errFun(EC50002, IrisHubErrMsg),
+	sdkCode(StakeCodeSpace, CodeValidatorJailed):   errFun(EC50002, IrisHubErrMsg),
 
-	sdkCode(DistrCodeSpace, CodeInvalidInput):       errFun(EC50002, IrishubErrMsg)(e.New("no delegation distribution info")),
-	sdkCode(DistrCodeSpace, CodeNoDistributionInfo): errFun(EC50002, IrishubErrMsg)(e.New("no delegation distribution info")),
+	sdkCode(DistrCodeSpace, CodeInvalidInput):       errFun(EC50002, IrisHubErrMsg),
+	sdkCode(DistrCodeSpace, CodeNoDistributionInfo): errFun(EC50002, IrisHubErrMsg),
 }
 
-func errFun(errCode uint32, errMsg string) func(errMsg error) IrisError {
-	return func(err error) IrisError {
-		msg := errMsg
-		if err != nil {
-			msg = fmt.Sprintf(errMsg, err.Error())
+func errFun(errCode uint32, errMsg string) func(msg string, args ...interface{}) IrisError {
+	return func(msg string, args ...interface{}) IrisError {
+		message := msg
+		if len(args) > 0 {
+			message = fmt.Sprintf(msg, args)
 		}
+		msg = fmt.Sprintf(errMsg, message)
 		return IrisError{
 			ErrCode: errCode,
 			ErrMsg:  msg,

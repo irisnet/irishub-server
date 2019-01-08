@@ -58,7 +58,7 @@ func (s SimulateTxService) simulate(requestBody *bytes.Buffer) (res vo.SimulateT
 
 	er := json.Unmarshal(resByte, &resp)
 	if er != nil {
-		return res, errors.SysErr(er)
+		return res, errors.SysErr(er.Error())
 	}
 
 	if resp.Result.Code != 0 {
@@ -68,7 +68,7 @@ func (s SimulateTxService) simulate(requestBody *bytes.Buffer) (res vo.SimulateT
 
 	records, er := s.ParseTags(resp.Result.Tags)
 	if er != nil {
-		return res, errors.SysErr(er)
+		return res, errors.SysErr(er.Error())
 	}
 	res.Gas = helper.ConvertStrToInt(resp.GasEstimate)
 	res.Records = records
