@@ -4,7 +4,6 @@ import (
 	iris "github.com/irisnet/irishub-server/errors"
 
 	irisProtoc "github.com/irisnet/irisnet-rpc/irishub/codegen/server/model"
-	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 )
 
@@ -15,7 +14,7 @@ func (c WithdrawInfoHandler) Handler(ctx context.Context, req *irisProtoc.Withdr
 	*irisProtoc.WithdrawAddrResponse, error) {
 
 	if len(req.DelAddrs) == 0 {
-		return nil, iris.InvalidParamsErr(errors.New("delAddr is empty"))
+		return nil, iris.InvalidParamsErr("delAddr is empty")
 	}
 
 	var results = make([]*irisProtoc.WithdrawInfo, len(req.DelAddrs))

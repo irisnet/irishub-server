@@ -27,13 +27,13 @@ func (e IrisError) New(errCode uint32, errMsg string) IrisError {
 	}
 }
 
-func SdkCodeToIrisErr(space string, code uint16) IrisError {
+func SdkCodeToIrisErr(space string, code uint16, msg string) IrisError {
 	c := sdkCode(space, CodeType(code))
-	err, ok := sdkCodeToIrisCodeMap[c]
+	errFun, ok := sdkCodeToErrFunc[c]
 	if ok {
-		return err
+		return errFun(msg)
 	}
-	return UnKnownErr(fmt.Errorf("not existed code difine,space:%s,code:%d", space, code))
+	return UnKnownErr("not existed code difine,space:%s,code:%d", space, code)
 }
 
 func sdkCode(space string, code CodeType) string {

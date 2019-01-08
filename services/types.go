@@ -10,6 +10,7 @@ import (
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/utils/constants"
 	"github.com/irisnet/irishub-server/utils/helper"
+	h "github.com/irisnet/irishub-server/utils/http"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -30,55 +31,6 @@ func NewIrisErr(errCode uint32, errMsg string, err error) errors.IrisError {
 		errMsg = errMsg + err.Error()
 	}
 	return irisErr.New(errCode, errMsg)
-}
-
-func RemoveRepetitionStrValueFromSlice(strSlice []string) []string {
-	keys := make(map[string]bool)
-	var list []string
-	for _, entry := range strSlice {
-		if _, value := keys[entry]; !value {
-			keys[entry] = true
-			list = append(list, entry)
-		}
-	}
-
-	return list
-}
-
-// calculate unBond token
-func CalculateUnBondToken(coin document.Coin) document.Coin {
-	token := coin.Amount * GetShareTokenRatio()
-	return document.Coin{
-		Amount: token,
-		Denom:  constants.Denom,
-	}
-}
-
-// get ratio of share/token
-func GetShareTokenRatio() float64 {
-	return 1
-}
-
-// post json data use http client
-func HttpClientPostJsonData(uri string, requestBody *bytes.Buffer) (int, []byte) {
-	res, err := http.Post(
-		conf.ServerConfig.LCDServer+uri,
-		constants.HeaderContentTypeJson,
-		requestBody)
-	defer res.Body.Close()
-
-	if err != nil {
-		logger.Error.Println(err)
-	}
-
-	resByte, err := ioutil.ReadAll(res.Body)
-
-	if err != nil {
-		logger.Error.Println(err)
-	}
-
-	return res.StatusCode, resByte
-
 }
 
 // get data use http client
@@ -110,43 +62,34 @@ type SdkError struct {
 func broadcastTx(async, simulate bool, data *bytes.Buffer) (resByte []byte, irisErr errors.IrisError) {
 	var uri = fmt.Sprintf(constants.HttpUriPostTxAsync, async, simulate)
 	var reqUrl = fmt.Sprintf("%s%s", conf.ServerConfig.LCDServer, uri)
-	logger.Info.Println(fmt.Sprintf("request uri:%s", reqUrl))
-	res, err := http.Post(reqUrl,
-		constants.HeaderContentTypeJson,
-		data)
-	if err != nil {
-		return nil, errors.SysErr(err)
+	resp := h.Post(reqUrl, constants.HeaderContentTypeJson, data)
+	if resp.Error != nil {
+		return nil, errors.SysErr(resp.Error.Error())
 	}
 
-	resByte, err = ioutil.ReadAll(res.Body)
-	logger.Info.Println(fmt.Sprintf("hub response data:%s", string(resByte)))
-
-	if err != nil {
-		return nil, errors.SysErr(err)
+	if helper.SliceContains(constants.ErrorStatusCodes, resp.Code) {
+		return nil, errors.InvalidParamsErr(resp.Error.Error())
 	}
 
-	statusCode := res.StatusCode
-	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
-		return nil, errors.InvalidParamsErr(err)
-	}
+	resByte = resp.Data
 
 	var sdkErr SdkError
-	if statusCode == http.StatusInternalServerError {
+	if resp.Code == http.StatusInternalServerError {
 		jsonByte, err := helper.ParseJson(resByte)
 		if err != nil || len(jsonByte) == 0 {
 			//TODO
 			if strings.Contains(string(resByte), "already exists") {
-				return nil, errors.TxExistedErr(fmt.Errorf(string(resByte)))
+				return nil, errors.TxExistedErr(string(resByte))
 			} else if strings.Contains(string(resByte), "Timed out") {
-				return nil, errors.TxTimeoutErr(fmt.Errorf(string(resByte)))
+				return nil, errors.TxTimeoutErr(string(resByte))
 			}
-			return nil, errors.SysErr(err)
+			return nil, errors.SysErr(err.Error())
 		}
 		err = json.Unmarshal(jsonByte[0], &sdkErr)
 		if err != nil {
-			return nil, errors.UnKnownErr(err)
+			return nil, errors.UnKnownErr(err.Error())
 		}
-		return nil, errors.SdkCodeToIrisErr(sdkErr.CodeSpace, sdkErr.Code)
+		return nil, errors.SdkCodeToIrisErr(sdkErr.CodeSpace, sdkErr.Code, sdkErr.Message)
 	}
 	return resByte, irisErr
 }
