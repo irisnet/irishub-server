@@ -1,6 +1,8 @@
 package services
 
 import (
+	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/irisnet/irishub-server/modules/logger"
@@ -34,5 +36,15 @@ func TestPostTxService_PostTx(t *testing.T) {
 			logger.Info.Println(res)
 
 		})
+	}
+}
+
+func TestTrimStr(t *testing.T) {
+	key := "withdraw-reward-from-validator-fva1pmazgz5652uy9v3esana6rq54e7tuup7fv6evk"
+	//value := "1466.7412168003iris-atto"
+
+	if strings.HasPrefix(key, "withdraw-reward-from-validator-") {
+		valAddr := strings.TrimPrefix(key, "withdraw-reward-from-validator-")
+		fmt.Println(valAddr)
 	}
 }

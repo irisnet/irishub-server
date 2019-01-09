@@ -132,7 +132,7 @@ func (d Delegator) GetTotalUnbondingTokens(address string) (float64, error) {
 			},
 			{
 				"$group": bson.M{
-					"_id": "test",
+					"_id":                    "test",
 					"total_unbonding_tokens": bson.M{"$sum": "$unbonding_delegation.balance.amount"},
 				},
 			},

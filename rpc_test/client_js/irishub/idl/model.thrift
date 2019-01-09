@@ -28,6 +28,9 @@ struct Candidate {
 	5: CandidateDescription description,
 	6: list<Delegator> delegators,
 	7: double upTime
+	8: string type
+	9: i8 number
+	10: i8 lift
 }
 
 /** common exception

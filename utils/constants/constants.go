@@ -29,20 +29,39 @@ const TxTypeStake = "stake"
 const TxTypeStakeDelegate = "delegate"
 const TxTypeStakeUnbond = "unbond"
 const TxTypeStakeBeginUnBonding = "beginUnbonding"
-const TxTypeStakeCompleteUnBonding = "completeUnbonding"
+const TxTypeStakeBeginRedelegate = "redelegate"
+const TxTypeSetWithdrawAddress = "setWithdrawAddress"
+const TxTypeWithdrawDelegatorReward = "withdrawDelegatorReward"
+const TxTypeWithdrawDelegatorRewardsAll = "withdrawDelegatorRewardsAll"
+const TxTypeWithdrawValidatorRewardsAll = "withdrawValidatorRewardsAll"
+
+const TagNmAction = "action"
+const TagNmDistributionWithdrawDelegatorRewardsAll = "withdraw_delegation_rewards_all"
+const TagNmDistributionWithdrawDelegationReward = "withdraw_delegation_reward"
+const TagNmDistributionWithdrawRewardFromValidator = "withdraw-reward-from-validator-"
+const TagNmDistributionSourceValidator = "source-validator"
+const TagNmDistributionWithdrawRewardTotal = "withdraw-reward-total"
 
 // define tx type store in db
 const DbTxTypeTransfer = "Transfer"
 const DbTxTypeStakeDelegate = "Delegate"
 const DbTxTypeStakeBeginUnBonding = "BeginUnbonding"
-const DbTxTypeStakeCompleteUnBonding = "CompleteUnbonding"
+const DbTxTypeBeginRedelegate = "BeginRedelegate"
+const DbTxTypeSetWithdrawAddress = "SetWithdrawAddress"
+const DbTxTypeWithdrawDelegatorReward = "WithdrawDelegatorReward"
+const DbTxTypeWithdrawDelegatorRewardsAll = "WithdrawDelegatorRewardsAll"
+const DbTxTypeWithdrawValidatorRewardsAll = "WithdrawValidatorRewardsAll"
 
 var TxTypeFrontMapDb = map[string]string{
-	TxTypeCoinReceive:            DbTxTypeTransfer,
-	TxTypeCoinSend:               DbTxTypeTransfer,
-	TxTypeStakeDelegate:          DbTxTypeStakeDelegate,
-	TxTypeStakeBeginUnBonding:    DbTxTypeStakeBeginUnBonding,
-	TxTypeStakeCompleteUnBonding: DbTxTypeStakeCompleteUnBonding,
+	TxTypeCoinReceive:                 DbTxTypeTransfer,
+	TxTypeCoinSend:                    DbTxTypeTransfer,
+	TxTypeStakeDelegate:               DbTxTypeStakeDelegate,
+	TxTypeStakeBeginUnBonding:         DbTxTypeStakeBeginUnBonding,
+	TxTypeStakeBeginRedelegate:        DbTxTypeBeginRedelegate,
+	TxTypeSetWithdrawAddress:          DbTxTypeSetWithdrawAddress,
+	TxTypeWithdrawDelegatorReward:     DbTxTypeWithdrawDelegatorReward,
+	TxTypeWithdrawDelegatorRewardsAll: DbTxTypeWithdrawDelegatorRewardsAll,
+	TxTypeWithdrawValidatorRewardsAll: DbTxTypeWithdrawValidatorRewardsAll,
 }
 
 // define tx status
@@ -57,18 +76,16 @@ const UriIrisHubRpc = "/irishub"
 
 // define success status code and fail status code
 var SuccessStatusCodes = []int{200}
-var ErrorStatusCodes = []int{400, 401, 403, 404, 500}
+var ErrorStatusCodes = []int{400, 401, 403, 404}
 
-// define uri of server which expose by block chain
-const HttpUriBuildCoinTx = "/build/send"
-const HttpUriBuildDelegateTx = "/build/stake/delegate"
-const HttpUriBuildUnBondTx = "/build/stake/unbond"
-const HttpUriByteTx = "/byteTx"
+const HttpUriPostTxAsync = "/txs/send?async=%v&simulate=%v"
+const HttpUriBroadcastTx = "/tx/broadcast?async=%v&simulate=%v"
 const HttpUriPostTx = "/txs/send"
 
-const HttpUriGetSequence = "/auth/accounts/%s" // accounts/{{address}}
-const HttpUriGetBalance = "/auth/accounts/%s"  // accounts/{{address}}
+const HttpUriGetSequence = "/auth/accounts/%s" // auth/{{address}}
+const HttpUriGetBalance = "/auth/accounts/%s"  // auth/{{address}}
 const HttpUriGetValidators = "/stake/validators/%s"
+const HttpUriGetWithdrawAddr = "/distribution/%s/withdrawAddress"
 
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"

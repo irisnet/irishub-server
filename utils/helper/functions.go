@@ -3,6 +3,7 @@ package helper
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/pkg/errors"
 	"regexp"
 	"strings"
 	"time"
@@ -96,4 +97,13 @@ func ParseCoin(coinStr string) (denom, amount string, err error) {
 	}
 	denom, amount = matches[2], matches[1]
 	return
+}
+
+func ParseJson(bz []byte) (jsonByte [][]byte, e error) {
+	re2, err := regexp.Compile("{.*}")
+	if err != nil {
+		return jsonByte, errors.New("no json string")
+	}
+	jsonByte = re2.FindSubmatch(bz)
+	return jsonByte, nil
 }

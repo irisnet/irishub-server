@@ -42,3 +42,10 @@ func (s IRISHubRPCServices) GetValidatorExRate(ctx context.Context, req *irisPro
 	res, err := Handler(ctx, req)
 	return res.(*irisProtoc.ValidatorExRateResponse), err
 }
+
+func (s IRISHubRPCServices) GetWithdrawInfo(ctx context.Context, req *irisProtoc.WithdrawAddrRequest) (
+	r *irisProtoc.WithdrawAddrResponse, err error) {
+
+	res, err := Handler(ctx, req)
+	return res.(*irisProtoc.WithdrawAddrResponse), err
+}

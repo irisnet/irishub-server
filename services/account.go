@@ -40,7 +40,7 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
 		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
 			methodName, statusCode, string(resBytes))
-		return resVO, ConvertSysErr(fmt.Errorf(string(resBytes)))
+		return resVO, errors.SysErr(fmt.Errorf(string(resBytes)))
 	}
 
 	if statusCode == constants.StatusCodeNotContent {
@@ -49,7 +49,7 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 
 	if err := json.Unmarshal(resBytes, &accRes); err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	var coins []*vo.Coin
@@ -89,7 +89,7 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
 		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
 			methodName, statusCode, string(res))
-		return resVO, ConvertSysErr(fmt.Errorf(string(res)))
+		return resVO, errors.SysErr(fmt.Errorf(string(res)))
 	}
 
 	// handle nonce is empty
@@ -102,7 +102,7 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 	err = json.Unmarshal(res, &accRes)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, ConvertSysErr(err)
+		return resVO, errors.SysErr(err)
 	}
 
 	resVO = vo.SequenceResVO{
@@ -111,4 +111,27 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 	}
 
 	return resVO, irisErr
+}
+
+func (s AccountService) GetRewardInfo(req vo.RewardInfoReqVO) (res vo.RewardInfoResVo, e errors.IrisError) {
+	txList := commonTxModel.GetRewardList(req.DelAddr)
+	return vo.RewardInfoResVo{
+		DelAddr: req.DelAddr,
+		Txs:     txList,
+	}, irisErr
+}
+
+func (s AccountService) QueryWithdrawAddr(delAddr string) (string, errors.IrisError) {
+	//查询用户的提现地址
+	uri := fmt.Sprintf(constants.HttpUriGetWithdrawAddr, delAddr)
+	statusCode, res := HttpClientGetData(uri)
+	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
+		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
+			"queryWithdrawAddr", statusCode, string(res))
+		return "", errors.SysErr(fmt.Errorf(string(res)))
+	}
+	if statusCode == constants.StatusCodeNotContent {
+		return delAddr, irisErr
+	}
+	return string(res), irisErr
 }

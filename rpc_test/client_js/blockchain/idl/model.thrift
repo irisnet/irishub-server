@@ -141,6 +141,26 @@ struct PostTxResponse {
 	1: string txHash
 }
 
+/** SimulateTxRequest request
+ * @param tx, tx which has been signed
+ */
+struct SimulateTxRequest {
+	1: binary tx
+}
+
+struct RewardDetail {
+    1: string valAddr
+    2: string name
+    3: Coin   amount
+}
+/** SimulateTxRequest request
+ * @param tx, tx which has been signed
+ */
+struct SimulateTxResponse {
+    1: i64  gas
+    2: list<RewardDetail> details
+}
+
 /** balance request
  * @param address, address of blockchain
  */
@@ -186,3 +206,33 @@ struct TxListRequest {
 struct TxDetailRequest {
 	1: required string txHash
 }
+
+struct Reward {
+    1: string delAddr
+    2: list<Coin> amount,
+    3: Fee fee,
+    4: Memo memo,
+    5: string type,
+    6: string txHash,
+    7: string time,
+    8: i64 height,
+    9: string status,
+    10:string withdrawAddr,
+    11: list<RewardDetail> details
+}
+
+struct RewardInfoRequest {
+	1: string delAddr
+	2: string valAddr,
+}
+
+struct RewardInfoResponse {
+	1: string delAddr
+	2: string withdrawAddr
+	3: Coin totalRetrieveReward
+	4: list<Reward> rewards
+}
+
+
+
+

@@ -39,6 +39,14 @@ func (s BlockChainRPCServices) PostTx(ctx context.Context, req *commonProtoc.Pos
 	return res.(*commonProtoc.PostTxResponse), err
 }
 
+// post tx
+func (s BlockChainRPCServices) SimulateTx(ctx context.Context, req *commonProtoc.SimulateTxRequest) (
+	*commonProtoc.SimulateTxResponse, error) {
+
+	res, err := Handler(ctx, req)
+	return res.(*commonProtoc.SimulateTxResponse), err
+}
+
 // get balance
 func (s BlockChainRPCServices) GetBalance(ctx context.Context, req *commonProtoc.BalanceRequest) (
 	*commonProtoc.BalanceResponse, error) {
@@ -61,4 +69,12 @@ func (s BlockChainRPCServices) GetTxDetail(ctx context.Context, req *commonProto
 
 	res, err := Handler(ctx, req)
 	return res.(*commonProtoc.Tx), err
+}
+
+// GetRewardInfo
+func (s BlockChainRPCServices) GetRewardInfo(ctx context.Context, req *commonProtoc.RewardInfoRequest) (
+	*commonProtoc.RewardInfoResponse, error) {
+
+	res, err := Handler(ctx, req)
+	return res.(*commonProtoc.RewardInfoResponse), err
 }

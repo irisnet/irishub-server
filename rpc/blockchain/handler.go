@@ -16,6 +16,9 @@ var (
 	postTxHandler PostTxHandler
 	postTxService services.PostTxService
 
+	simulateTxHandler SimulateTxHandler
+	simulateTxService services.SimulateTxService
+
 	accountService  services.AccountService
 	sequenceHandler SequenceHandler
 	balanceHandler  BalanceHandler
@@ -23,7 +26,8 @@ var (
 	txListHandler TxListHandler
 	txService     services.TxService
 
-	txDetailHandler TxDetailHandler
+	txDetailHandler        TxDetailHandler
+	queryRewardInfoHandler QueryRewardInfoHandler
 )
 
 func Handler(ctx context.Context, req interface{}) (interface{}, error) {
@@ -42,6 +46,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 	case *commonProtoc.PostTxRequest:
 		res, err = postTxHandler.Handler(ctx, req.(*commonProtoc.PostTxRequest))
 		break
+	case *commonProtoc.SimulateTxRequest:
+		res, err = simulateTxHandler.Handler(ctx, req.(*commonProtoc.SimulateTxRequest))
+		break
 	case *commonProtoc.SequenceRequest:
 		res, err = sequenceHandler.Handler(ctx, req.(*commonProtoc.SequenceRequest))
 		break
@@ -53,6 +60,9 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 		break
 	case *commonProtoc.TxDetailRequest:
 		res, err = txDetailHandler.Handler(ctx, req.(*commonProtoc.TxDetailRequest))
+		break
+	case *commonProtoc.RewardInfoRequest:
+		res, err = queryRewardInfoHandler.Handler(ctx, req.(*commonProtoc.RewardInfoRequest))
 		break
 	}
 

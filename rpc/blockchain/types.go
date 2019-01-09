@@ -31,6 +31,20 @@ func BuildCoinsRes(coins document.Coins) []*commonProtoc.Coin {
 	return modelCoins
 }
 
+func AddCoin(coinA commonProtoc.Coin, coinB commonProtoc.Coin) (coin commonProtoc.Coin) {
+	if coinA.Denom == "" {
+		coinA.Denom = coinB.Denom
+	}
+	if coinB.Denom == "" {
+		coinB.Denom = coinA.Denom
+	}
+	if coinA.Denom == coinB.Denom {
+		coin.Amount = coinA.Amount + coinB.Amount
+		coin.Denom = coinA.Denom
+	}
+	return coin
+}
+
 func BuildFeeAndGasLimitRes(fee document.Fee) (*commonProtoc.Fee, float64) {
 	var (
 		resFee      commonProtoc.Fee
