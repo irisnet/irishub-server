@@ -7,6 +7,7 @@ import (
 type configServer struct {
 	LCDServer     string
 	RpcServerPort uint64
+	RainbowServer string
 }
 
 var ServerConfig configServer
@@ -14,15 +15,21 @@ var ServerConfig configServer
 func init() {
 	var (
 		rpcServerPort uint64 = 9080
-		lcdServer            = "http://127.0.0.1:1317"
+		lcdServer            = "http://192.168.150.7:30317"
+		rainbowServer        = "http://192.168.150.7:9180"
 	)
 
 	if env.LCDServer != "" {
 		lcdServer = env.LCDServer
 	}
 
+	if env.LCDServer != "" {
+		rainbowServer = env.RainbowServer
+	}
+
 	ServerConfig = configServer{
 		LCDServer:     lcdServer,
 		RpcServerPort: rpcServerPort,
+		RainbowServer: rainbowServer,
 	}
 }

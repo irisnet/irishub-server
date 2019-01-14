@@ -5,6 +5,8 @@ import (
 )
 
 const (
+	EC10000 = 10000
+
 	EC40000 = 40000
 	EC40001 = 40001
 	EC40002 = 40002
@@ -17,6 +19,7 @@ const (
 
 var (
 	irisErr = map[int]string{
+		EC10000: "the system is under maintenance",
 		EC40000: "system error: %s",
 		EC40001: "invalid param error: %s",
 		EC40002: "param convert error: %s",
@@ -25,6 +28,7 @@ var (
 		EC60000: "tx timeout: %s",
 	}
 
+	SysMaintenance   = errFun(EC10000, irisErr[EC10000])
 	SysErr           = errFun(EC40000, irisErr[EC40000])
 	InvalidParamsErr = errFun(EC40001, irisErr[EC40001])
 	ParamConvertErr  = errFun(EC40002, irisErr[EC40002])

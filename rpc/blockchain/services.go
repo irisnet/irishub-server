@@ -20,6 +20,9 @@ func (s BlockChainRPCServices) GetSequence(ctx context.Context, req *commonProto
 	*commonProtoc.SequenceResponse, error) {
 
 	res, err := Handler(ctx, req)
+	if err != nil {
+		return &commonProtoc.SequenceResponse{}, err
+	}
 	return res.(*commonProtoc.SequenceResponse), err
 }
 
@@ -28,6 +31,9 @@ func (s BlockChainRPCServices) BuildTx(ctx context.Context, req *commonProtoc.Bu
 	*commonProtoc.BuildTxResponse, error) {
 
 	res, err := Handler(ctx, req)
+	if err != nil {
+		return &commonProtoc.BuildTxResponse{}, err
+	}
 	return res.(*commonProtoc.BuildTxResponse), err
 }
 
@@ -36,6 +42,9 @@ func (s BlockChainRPCServices) PostTx(ctx context.Context, req *commonProtoc.Pos
 	*commonProtoc.PostTxResponse, error) {
 
 	res, err := Handler(ctx, req)
+	if err != nil {
+		return &commonProtoc.PostTxResponse{}, err
+	}
 	return res.(*commonProtoc.PostTxResponse), err
 }
 
@@ -44,6 +53,9 @@ func (s BlockChainRPCServices) SimulateTx(ctx context.Context, req *commonProtoc
 	*commonProtoc.SimulateTxResponse, error) {
 
 	res, err := Handler(ctx, req)
+	if err != nil {
+		return &commonProtoc.SimulateTxResponse{}, err
+	}
 	return res.(*commonProtoc.SimulateTxResponse), err
 }
 
@@ -52,6 +64,9 @@ func (s BlockChainRPCServices) GetBalance(ctx context.Context, req *commonProtoc
 	*commonProtoc.BalanceResponse, error) {
 
 	res, err := Handler(ctx, req)
+	if err != nil {
+		return &commonProtoc.BalanceResponse{}, err
+	}
 	return res.(*commonProtoc.BalanceResponse), err
 }
 
@@ -60,6 +75,9 @@ func (s BlockChainRPCServices) GetTxList(ctx context.Context, req *commonProtoc.
 	[]*commonProtoc.Tx, error) {
 
 	res, err := Handler(ctx, req)
+	if err != nil {
+		return []*commonProtoc.Tx{}, err
+	}
 	return res.([]*commonProtoc.Tx), err
 }
 
@@ -68,6 +86,9 @@ func (s BlockChainRPCServices) GetTxDetail(ctx context.Context, req *commonProto
 	*commonProtoc.Tx, error) {
 
 	res, err := Handler(ctx, req)
+	if err != nil {
+		return &commonProtoc.Tx{}, err
+	}
 	return res.(*commonProtoc.Tx), err
 }
 
@@ -76,5 +97,8 @@ func (s BlockChainRPCServices) GetRewardInfo(ctx context.Context, req *commonPro
 	*commonProtoc.RewardInfoResponse, error) {
 
 	res, err := Handler(ctx, req)
+	if err != nil {
+		return &commonProtoc.RewardInfoResponse{}, err
+	}
 	return res.(*commonProtoc.RewardInfoResponse), err
 }
