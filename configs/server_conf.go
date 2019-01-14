@@ -23,7 +23,7 @@ func init() {
 		lcdServer = env.LCDServer
 	}
 
-	if env.LCDServer != "" {
+	if env.RainbowServer != "" {
 		rainbowServer = env.RainbowServer
 	}
 
