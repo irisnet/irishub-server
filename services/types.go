@@ -20,6 +20,7 @@ var (
 	txGasModel            document.TxGas
 	valUpTimeModel        document.ValidatorUpTime
 	irisErr               errors.IrisError
+	syncResult            document.SyncResult
 )
 
 // get data use http client

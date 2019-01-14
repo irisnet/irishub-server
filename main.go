@@ -15,6 +15,9 @@ import (
 	commonProtoc "github.com/irisnet/irisnet-rpc/common/codegen/server/model"
 	irisProtoc "github.com/irisnet/irisnet-rpc/irishub/codegen/server/model"
 
+	"encoding/json"
+	"fmt"
+	"github.com/irisnet/irishub-server/services"
 	"github.com/rs/cors"
 	"net/http/pprof"
 	"regexp"
@@ -28,12 +31,22 @@ func main() {
 	mux.HandleFunc("/debug/pprof/profile", pprof.Profile)
 	mux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
 	mux.HandleFunc("/debug/pprof/trace", pprof.Trace)
+
+	mux.HandleFunc("/sync", syncHandler)
 	handler := cors.Default().Handler(mux)
 
 	port := strconv.Itoa(int(conf.ServerConfig.RpcServerPort))
 	if err := http.ListenAndServe(":"+port, handler); err != nil {
 		logger.Error.Fatalln("ListenAndServe: ", err)
 	}
+}
+
+func syncHandler(w http.ResponseWriter, rep *http.Request) {
+	result := services.SyncService{}.GetCurrentSyncResult()
+
+	str, _ := json.Marshal(result)
+	w.WriteHeader(constants.STATUS_CODE_OK)
+	fmt.Fprintln(w, string(str))
 }
 
 func Handler(w http.ResponseWriter, req *http.Request) {
