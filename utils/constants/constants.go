@@ -12,6 +12,7 @@ const ENV_NAME_DB_User = "DB_USER"
 const ENV_NAME_DB_Passwd = "DB_PASSWD"
 const ENV_NAME_DB_DATABASE = "DB_DATABASE"
 const ENV_NAME_LCD_SERVER = "LCD_SERVER"
+const ENV_NAME_RAINBOW_SERVER = "RAINBOW_SERVER"
 
 // response status
 const STATUS_CODE_OK = 200
@@ -86,6 +87,7 @@ const HttpUriGetSequence = "/auth/accounts/%s" // auth/{{address}}
 const HttpUriGetBalance = "/auth/accounts/%s"  // auth/{{address}}
 const HttpUriGetValidators = "/stake/validators/%s"
 const HttpUriGetWithdrawAddr = "/distribution/%s/withdrawAddress"
+const HttpApiHealthCheck = "/ops_ctl/latest"
 
 // define http header
 const HeaderContentTypeJson = "application/json;charset=utf-8"
