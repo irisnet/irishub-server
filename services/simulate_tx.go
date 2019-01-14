@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/irisnet/irishub-server/errors"
-	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	"github.com/irisnet/irishub-server/utils/constants"
 	"github.com/irisnet/irishub-server/utils/helper"
@@ -49,9 +48,9 @@ func (s SimulateTxService) SimulateTx(reqVO vo.SimulateTxReqVO) (vo.SimulateTxRe
 }
 
 func (s SimulateTxService) simulate(requestBody *bytes.Buffer) (res vo.SimulateTxResVO, irisErr errors.IrisError) {
-	resByte, err := broadcastTx(false, true, requestBody)
-	if err.IsNotNull() {
-		return res, err
+	resByte, err := postTxToLCD(false, true, requestBody)
+	if err != nil {
+		return res, err.(errors.IrisError)
 	}
 
 	var resp simulateResult
@@ -62,8 +61,7 @@ func (s SimulateTxService) simulate(requestBody *bytes.Buffer) (res vo.SimulateT
 	}
 
 	if resp.Result.Code != 0 {
-		logger.Error.Printf("%v: err is %v\n", "simulate", resp.Result.Log)
-		return res, NewIrisErr(resp.Result.Code, resp.Result.Log, nil)
+		return res, errors.SdkCodeToIrisErr(resp.Result.Code, resp.Result.Log)
 	}
 
 	records, er := s.ParseTags(resp.Result.Tags)

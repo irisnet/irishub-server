@@ -5,70 +5,87 @@ import (
 )
 
 const (
-	IrisHubErrMsg = "irishub error:%s"
+	EC10000 = 10000
 
+	EC40000 = 40000
 	EC40001 = 40001
 	EC40002 = 40002
 
+	EC50000 = 50000
 	EC50001 = 50001
-	EC50002 = 50002
 
-	EC60001 = 60001
-	EC60002 = 60002
-	EC60003 = 60003
-	EC60004 = 60004
+	EC60000 = 60000
 )
 
 var (
-	InvalidParamsErr = errFun(EC40001, "invalid param error: %s")
-	ParamConvertErr  = errFun(EC40002, "param convert error: %s")
-	SysErr           = errFun(EC50001, "system error: %s")
-	UnKnownErr       = errFun(EC50002, "unKnown error: %s")
-	TxExistedErr     = errFun(EC60001, "tx alreay existed error: %s ")
-	TxTimeoutErr     = errFun(EC60002, "tx timeout error: %s")
+	irisErr = map[int]string{
+		EC10000: "the system is under maintenance",
+		EC40000: "system error: %s",
+		EC40001: "invalid param error: %s",
+		EC40002: "param convert error: %s",
+		EC50000: "external system error: %s",
+		EC50001: "external system unknown error: %s",
+		EC60000: "tx timeout: %s",
+	}
+
+	SysMaintenance   = errFun(EC10000, irisErr[EC10000])
+	SysErr           = errFun(EC40000, irisErr[EC40000])
+	InvalidParamsErr = errFun(EC40001, irisErr[EC40001])
+	ParamConvertErr  = errFun(EC40002, irisErr[EC40002])
+	ExtSysUnKnownErr = errFun(EC50001, irisErr[EC50001])
+	TimeoutErr       = errFun(EC60000, irisErr[EC60000])
 )
+
+type CodeType uint32
 
 //sdkCode
 const (
-	//commom
-	RootCodeSpace                = "sdk"
-	CodeInternal        CodeType = 1
-	CodeInvalidSequence CodeType = 3
-	CodeUnauthorized    CodeType = 4
-	CodeUnknownRequest  CodeType = 6
-	CodeInvalidAddress  CodeType = 7
-	CodeOutOfGas        CodeType = 12
-
-	//stake
-	StakeCodeSpace                 = "stake"
-	CodeInvalidValidator  CodeType = 101
-	CodeInvalidDelegation CodeType = 102
-	CodeInvalidInput      CodeType = 103
-	CodeValidatorJailed   CodeType = 104
-
-	//distribution
-	DistrCodeSpace                  = "distr"
-	CodeNoDistributionInfo CodeType = 104
+	//sdk common code
+	CodeInternal          CodeType = 1
+	CodeTxDecode          CodeType = 2
+	CodeInvalidSequence   CodeType = 3
+	CodeUnauthorized      CodeType = 4
+	CodeInsufficientFunds CodeType = 5
+	CodeUnknownRequest    CodeType = 6
+	CodeInvalidAddress    CodeType = 7
+	CodeInvalidPubKey     CodeType = 8
+	CodeUnknownAddress    CodeType = 9
+	CodeInsufficientCoins CodeType = 10
+	CodeInvalidCoins      CodeType = 11
+	CodeOutOfGas          CodeType = 12
+	CodeMemoTooLarge      CodeType = 13
+	CodeInsufficientFee   CodeType = 14
+	CodeOutOfService      CodeType = 15
+	CodeTooManySignatures CodeType = 16
+	CodeGasPriceTooLow    CodeType = 17
+	CodeInvalidGas        CodeType = 18
+	CodeInvalidTxFee      CodeType = 19
+	CodeInvalidFeeDenom   CodeType = 20
 )
 
 type ErrFunc func(msg string, args ...interface{}) IrisError
 
-var sdkCodeToErrFunc = map[string]ErrFunc{
-	sdkCode(RootCodeSpace, CodeInternal):        errFun(EC50002, IrisHubErrMsg),
-	sdkCode(RootCodeSpace, CodeUnauthorized):    errFun(EC50002, IrisHubErrMsg),
-	sdkCode(RootCodeSpace, CodeUnknownRequest):  errFun(EC50002, IrisHubErrMsg),
-	sdkCode(RootCodeSpace, CodeInvalidAddress):  errFun(EC50002, IrisHubErrMsg),
-	sdkCode(RootCodeSpace, CodeInvalidSequence): errFun(EC50002, IrisHubErrMsg),
-	//distinct
-	sdkCode(RootCodeSpace, CodeOutOfGas): errFun(EC60003, IrisHubErrMsg),
-
-	sdkCode(StakeCodeSpace, CodeInvalidValidator):  errFun(EC50002, IrisHubErrMsg),
-	sdkCode(StakeCodeSpace, CodeInvalidDelegation): errFun(EC60004, IrisHubErrMsg),
-	sdkCode(StakeCodeSpace, CodeInvalidInput):      errFun(EC50002, IrisHubErrMsg),
-	sdkCode(StakeCodeSpace, CodeValidatorJailed):   errFun(EC50002, IrisHubErrMsg),
-
-	sdkCode(DistrCodeSpace, CodeInvalidInput):       errFun(EC50002, IrisHubErrMsg),
-	sdkCode(DistrCodeSpace, CodeNoDistributionInfo): errFun(EC50002, IrisHubErrMsg),
+var sdkCodeToErrFunc = map[CodeType]ErrFunc{
+	CodeInternal:          errFun(EC50000, irisErr[EC50000]),
+	CodeTxDecode:          errFun(EC50000, irisErr[EC50000]),
+	CodeInvalidSequence:   errFun(EC50000, irisErr[EC50000]),
+	CodeUnauthorized:      errFun(EC50000, irisErr[EC50000]),
+	CodeInsufficientFunds: errFun(EC50000, irisErr[EC50000]),
+	CodeUnknownRequest:    errFun(EC50000, irisErr[EC50000]),
+	CodeInvalidAddress:    errFun(EC50000, irisErr[EC50000]),
+	CodeInvalidPubKey:     errFun(EC50000, irisErr[EC50000]),
+	CodeUnknownAddress:    errFun(EC50000, irisErr[EC50000]),
+	CodeInsufficientCoins: errFun(EC50000, irisErr[EC50000]),
+	CodeInvalidCoins:      errFun(EC50000, irisErr[EC50000]),
+	CodeOutOfGas:          errFun(EC50000, irisErr[EC50000]),
+	CodeMemoTooLarge:      errFun(EC50000, irisErr[EC50000]),
+	CodeInsufficientFee:   errFun(EC50000, irisErr[EC50000]),
+	CodeOutOfService:      errFun(EC50000, irisErr[EC50000]),
+	CodeTooManySignatures: errFun(EC50000, irisErr[EC50000]),
+	CodeGasPriceTooLow:    errFun(EC50000, irisErr[EC50000]),
+	CodeInvalidGas:        errFun(EC50000, irisErr[EC50000]),
+	CodeInvalidTxFee:      errFun(EC50000, irisErr[EC50000]),
+	CodeInvalidFeeDenom:   errFun(EC50000, irisErr[EC50000]),
 }
 
 func errFun(errCode uint32, errMsg string) func(msg string, args ...interface{}) IrisError {

@@ -18,6 +18,7 @@ const ENV_NAME_RAINBOW_SERVER = "RAINBOW_SERVER"
 const STATUS_CODE_OK = 200
 const StatusCodeNotContent = 204
 const StatusCodeBadRequest = 400
+const StatusInternalServerError = 500
 
 // time layout
 const TIME_START = "1970-01-01 00:00:00"
@@ -79,9 +80,7 @@ const UriIrisHubRpc = "/irishub"
 var SuccessStatusCodes = []int{200}
 var ErrorStatusCodes = []int{400, 401, 403, 404}
 
-const HttpUriPostTxAsync = "/txs/send?async=%v&simulate=%v"
-const HttpUriBroadcastTx = "/tx/broadcast?async=%v&simulate=%v"
-const HttpUriPostTx = "/txs/send"
+const HttpUriBroadcastTx = "/tx/broadcast?commit=false&async=%v&simulate=%v"
 
 const HttpUriGetSequence = "/auth/accounts/%s" // auth/{{address}}
 const HttpUriGetBalance = "/auth/accounts/%s"  // auth/{{address}}
