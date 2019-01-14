@@ -109,7 +109,7 @@ func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
 
 	uri := fmt.Sprintf(constants.HttpUriGetValidators, address)
 
-	statusCode, resBytes := HttpClientGetData(uri)
+	statusCode, resBytes := queryFromLCD(uri)
 
 	// statusCode != 200
 	if !helper.SliceContains(constants.SuccessStatusCodes, statusCode) {

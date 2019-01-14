@@ -35,7 +35,7 @@ func (s AccountService) GetBalance(reqVO vo.BalanceReqVO) (vo.BalanceResVO, erro
 	address := reqVO.Address
 
 	uri := fmt.Sprintf(constants.HttpUriGetBalance, address)
-	statusCode, resBytes := HttpClientGetData(uri)
+	statusCode, resBytes := queryFromLCD(uri)
 
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
 		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
@@ -84,7 +84,7 @@ func (s AccountService) GetSequence(reqVO vo.SequenceReqVO) (vo.SequenceResVO, e
 	address := reqVO.Address
 
 	uri := fmt.Sprintf(constants.HttpUriGetSequence, address)
-	statusCode, res := HttpClientGetData(uri)
+	statusCode, res := queryFromLCD(uri)
 
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
 		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
@@ -124,7 +124,7 @@ func (s AccountService) GetRewardInfo(req vo.RewardInfoReqVO) (res vo.RewardInfo
 func (s AccountService) QueryWithdrawAddr(delAddr string) (string, errors.IrisError) {
 	//查询用户的提现地址
 	uri := fmt.Sprintf(constants.HttpUriGetWithdrawAddr, delAddr)
-	statusCode, res := HttpClientGetData(uri)
+	statusCode, res := queryFromLCD(uri)
 	if helper.SliceContains(constants.ErrorStatusCodes, statusCode) {
 		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
 			"queryWithdrawAddr", statusCode, string(res))

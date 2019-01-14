@@ -2,9 +2,11 @@ package blockchain
 
 import (
 	"github.com/irisnet/irishub-server/errors"
+	"github.com/irisnet/irishub-server/rpc"
 	"github.com/irisnet/irishub-server/services"
 	commonProtoc "github.com/irisnet/irisnet-rpc/common/codegen/server/model"
 	"golang.org/x/net/context"
+	"reflect"
 )
 
 var (
@@ -35,6 +37,11 @@ func Handler(ctx context.Context, req interface{}) (interface{}, error) {
 		res interface{}
 		err error
 	)
+
+	ok, er := rpc.DoFilters(reflect.TypeOf(req).String())
+	if !ok {
+		return nil, BuildException(er)
+	}
 
 	switch req.(type) {
 	case *commonProtoc.TxGasRequest:

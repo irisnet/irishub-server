@@ -8,12 +8,13 @@ import (
 )
 
 var (
-	ENV            string
-	DbAddr         string
-	DbUser         string
-	DbPasswd       string
-	DbDatabase     string
-	LCDServer string
+	ENV           string
+	DbAddr        string
+	DbUser        string
+	DbPasswd      string
+	DbDatabase    string
+	LCDServer     string
+	RainbowServer string
 )
 
 func init() {
@@ -50,6 +51,11 @@ func init() {
 	lcdServer, found := os.LookupEnv(constants.ENV_NAME_LCD_SERVER)
 	if found {
 		LCDServer = lcdServer
+	}
+
+	rainbowServer, found := os.LookupEnv(constants.ENV_NAME_RAINBOW_SERVER)
+	if found {
+		RainbowServer = rainbowServer
 	}
 
 }
