@@ -39,7 +39,7 @@ func postTxToLCD(async, simulate bool, data *bytes.Buffer) ([]byte, error) {
 	}
 
 	if helper.SliceContains(constants.ErrorStatusCodes, resp.Code) {
-		return nil, errors.InvalidParamsErr(resp.Error.Error())
+		return nil, errors.InvalidParamsErr(string(resp.Data))
 	}
 
 	if resp.Code == constants.StatusInternalServerError {
