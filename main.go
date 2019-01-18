@@ -15,12 +15,12 @@ import (
 	commonProtoc "github.com/irisnet/irisnet-rpc/common/codegen/server/model"
 	irisProtoc "github.com/irisnet/irisnet-rpc/irishub/codegen/server/model"
 
+	"encoding/json"
+	"fmt"
+	"github.com/irisnet/irishub-server/services"
 	"github.com/rs/cors"
 	"net/http/pprof"
 	"regexp"
-	"fmt"
-	"github.com/irisnet/irishub-server/services"
-	"encoding/json"
 )
 
 func main() {
@@ -41,12 +41,12 @@ func main() {
 	}
 }
 
-func syncHandler(w http.ResponseWriter, rep *http.Request)  {
+func syncHandler(w http.ResponseWriter, rep *http.Request) {
 	result := services.SyncService{}.GetCurrentSyncResult()
 
 	str, _ := json.Marshal(result)
 	w.WriteHeader(constants.STATUS_CODE_OK)
-	fmt.Fprintln(w,string(str))
+	fmt.Fprintln(w, string(str))
 }
 
 func Handler(w http.ResponseWriter, req *http.Request) {

@@ -31,7 +31,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	candidates, err := candidateModel.GetCandidatesList(q, sorts, skip, limit)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, errors.SysErr(err)
+		return resVO, errors.SysErr(err.Error())
 	}
 
 	if candidates == nil {
@@ -42,7 +42,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	totalShares, err := s.GetTotalShares()
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, errors.SysErr(err)
+		return resVO, errors.SysErr(err.Error())
 	}
 
 	var cMap = make(map[string]document.Candidate)
@@ -59,7 +59,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 	delegator, err := delegatorModel.GetDelegatorListByAddressAndValidatorAddrs(address, validatorAddrs)
 	if err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, errors.SysErr(err)
+		return resVO, errors.SysErr(err.Error())
 	}
 
 	// query validator upTime info
@@ -67,7 +67,7 @@ func (s ValidatorService) List(reqVO vo.ValidatorListReqVO) (vo.ValidatorListRes
 		valUpTimes, err = valUpTimeModel.GetUpTime(tmValAddrs)
 		if err != nil {
 			logger.Error.Printf("%v: err is %v\n", methodName, err)
-			return resVO, errors.SysErr(err)
+			return resVO, errors.SysErr(err.Error())
 		}
 	}
 
@@ -109,18 +109,18 @@ func (s ValidatorService) GetValidatorExRate(reqVO vo.ValidatorExRateReqVO) (
 
 	uri := fmt.Sprintf(constants.HttpUriGetValidators, address)
 
-	statusCode, resBytes := HttpClientGetData(uri)
+	statusCode, resBytes := queryFromLCD(uri)
 
 	// statusCode != 200
 	if !helper.SliceContains(constants.SuccessStatusCodes, statusCode) {
 		logger.Error.Printf("%v: statusCode is %v, err is %v\n",
 			methodName, statusCode, string(resBytes))
-		return resVO, errors.SysErr(fmt.Errorf(string(resBytes)))
+		return resVO, errors.SysErr(string(resBytes))
 	}
 
 	if err := json.Unmarshal(resBytes, &validator); err != nil {
 		logger.Error.Printf("%v: err is %v\n", methodName, err)
-		return resVO, errors.SysErr(err)
+		return resVO, errors.SysErr(err.Error())
 	}
 
 	resVO.ExRate = helper.ConvertStrToFloat(validator.Tokens) / helper.ConvertStrToFloat(validator.DelegatorShares)
@@ -187,7 +187,7 @@ func (s ValidatorService) Detail(reqVO vo.ValidatorDetailReqVO) (
 	// query detail info of candidate
 	candidate, err := candidateModel.GetCandidateDetail(reqVO.ValAddr)
 	if err != nil {
-		return resVO, errors.SysErr(err)
+		return resVO, errors.SysErr(err.Error())
 	}
 
 	// not found
@@ -198,7 +198,7 @@ func (s ValidatorService) Detail(reqVO vo.ValidatorDetailReqVO) (
 	// get total shares
 	totalShares, err := candidateModel.GetTotalShares()
 	if err != nil {
-		return resVO, errors.SysErr(err)
+		return resVO, errors.SysErr(err.Error())
 	}
 
 	// query detail of candidate which i have delegated
@@ -207,7 +207,7 @@ func (s ValidatorService) Detail(reqVO vo.ValidatorDetailReqVO) (
 	)
 	delegator, err := delegatorModel.GetDelegatorListByAddressAndValidatorAddrs(reqVO.DelAddr, validatorAddrs)
 	if err != nil {
-		return resVO, errors.SysErr(err)
+		return resVO, errors.SysErr(err.Error())
 	}
 	candidate = s.buildValidator(candidate, delegator, nil, totalShares)
 

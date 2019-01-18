@@ -4,35 +4,27 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/irisnet/irishub-server/errors"
-	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc/vo"
 )
 
 type PostTxService struct {
 }
 
-// CheckTx result
-type ResultBroadcastTx struct {
-	Code uint32 `json:"code"`
-	Data string `json:"data"`
-	Log  string `json:"log"`
-	Hash string `json:"hash"`
-}
-
 type ResultBroadcastTxCommit struct {
-	CheckTx   Response `json:"check_tx"`
-	DeliverTx Response `json:"deliver_tx"`
-	Hash      string   `json:"hash"`
-	Height    string   `json:"height"`
+	CheckTx   Response `json:"check_tx,omitempty"`
+	DeliverTx Response `json:"deliver_tx,omitempty"`
+	Hash      string   `json:"hash,omitempty"`
+	Height    string   `json:"height,omitempty"`
 }
 
 type Response struct {
-	Code      uint32 `json:"code"`
-	Data      []byte `json:"data"`
-	Log       string `json:"log"`
-	Info      string `json:"info"`
-	GasWanted int64  `json:"gas_wanted"`
-	GasUsed   int64  `json:"gas_used"`
+	Code      uint32 `json:"code,omitempty"`
+	Data      []byte `json:"data,omitempty"`
+	Log       string `json:"log,omitempty"`
+	Info      string `json:"info,omitempty"`
+	GasWanted int64  `json:"gas_wanted,omitempty"`
+	GasUsed   int64  `json:"gas_used,omitempty"`
+	Codespace string `json:"codespace,omitempty"`
 }
 
 func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) (vo.PostTxResVO, errors.IrisError) {
@@ -42,7 +34,7 @@ func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) (vo.PostTxResVO, errors.Iris
 
 	reqPostTx := bytes.NewBuffer(tx)
 
-	hash, err := postTx(reqPostTx)
+	hash, err := broadcastTxSync(reqPostTx)
 	if err.IsNotNull() {
 		return resVO, err
 	}
@@ -54,48 +46,21 @@ func (s PostTxService) PostTx(reqVO vo.PostTxReqVO) (vo.PostTxResVO, errors.Iris
 	return resVO, irisErr
 }
 
-func postTx(requestBody *bytes.Buffer) (hash string, irisErr errors.IrisError) {
-	resByte, err := broadcastTx(false, false, requestBody)
-	if err.IsNotNull() {
-		return hash, err
+func broadcastTxSync(requestBody *bytes.Buffer) (hash string, irisErr errors.IrisError) {
+	resByte, err := postTxToLCD(false, false, requestBody)
+	if err != nil {
+		return hash, err.(errors.IrisError)
 	}
 
 	var resp ResultBroadcastTxCommit
 
 	er := json.Unmarshal(resByte, &resp)
 	if er != nil {
-		return hash, errors.SysErr(err)
+		return resp.Hash, errors.SysErr(err.Error())
 	}
 
 	if resp.CheckTx.Code != 0 {
-		logger.Error.Printf("%v: err is %v\n", "PostTx", resp.CheckTx.Log)
-		return hash, NewIrisErr(resp.CheckTx.Code, resp.CheckTx.Log, nil)
-	}
-
-	if resp.DeliverTx.Code != 0 {
-		logger.Error.Printf("%v: err is %v\n", "PostTx", resp.CheckTx.Log)
-		return hash, NewIrisErr(resp.DeliverTx.Code, resp.DeliverTx.Log, nil)
-	}
-
-	return resp.Hash, irisErr
-}
-
-func postTxAsync(requestBody *bytes.Buffer) (hash string, irisErr errors.IrisError) {
-	resByte, err := broadcastTx(true, false, requestBody)
-	if err.IsNotNull() {
-		return hash, err
-	}
-
-	var resp ResultBroadcastTx
-
-	er := json.Unmarshal(resByte, &resp)
-	if er != nil {
-		return hash, errors.SysErr(err)
-	}
-
-	if resp.Code != 0 {
-		logger.Error.Printf("%v: err is %v\n", "PostTxAsync", resp.Log)
-		return hash, NewIrisErr(resp.Code, resp.Log, nil)
+		return resp.Hash, errors.SdkCodeToIrisErr(resp.CheckTx.Code, resp.CheckTx.Log)
 	}
 
 	return resp.Hash, irisErr

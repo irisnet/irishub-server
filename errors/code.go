@@ -1,81 +1,117 @@
 package errors
 
 import (
-	e "errors"
 	"fmt"
 )
 
 const (
-	IrishubErrMsg = "irishub error:%s"
+	EC10000 = 10000
 
+	EC40000 = 40000
 	EC40001 = 40001
 	EC40002 = 40002
 
+	EC50000 = 50000
 	EC50001 = 50001
 	EC50002 = 50002
-
-	EC60001 = 60001
-	EC60002 = 60002
-	EC60003 = 60003
-	EC60004 = 60004
+	EC50003 = 50003
+	EC50004 = 50004
+	EC50005 = 50005
+	EC50006 = 50006
+	EC50007 = 50007
+	EC50008 = 50008
+	EC50009 = 50009
+	EC50010 = 50010
+	EC50011 = 50011
+	EC50012 = 50012
+	EC50013 = 50013
+	EC50014 = 50014
+	EC50015 = 50015
+	EC50016 = 50016
+	EC50017 = 50017
+	EC50018 = 50018
+	EC50019 = 50019
+	EC50020 = 50020
+	EC59999 = 59999
 )
 
 var (
-	InvalidParamsErr = errFun(EC40001, "invalid param error: %s")
-	ParamConvertErr  = errFun(EC40002, "param convert error: %s")
-	SysErr           = errFun(EC50001, "system error: %s")
-	UnKnownErr       = errFun(EC50002, "unKnown error: %s")
-	TxExistedErr     = errFun(EC60001, "tx alreay existed error: %s ")
-	TxTimeoutErr     = errFun(EC60002, "tx timeout error: %s")
+	irisErr = map[int]string{
+		EC10000: "the system is under maintenance",
+		EC40000: "system error: %s",
+		EC40001: "invalid param error: %s",
+		EC40002: "param convert error: %s",
+		EC50000: "external system error: %s",
+		EC59999: "tx timeout: %s",
+	}
+
+	SysMaintenance   = errFun(EC10000, irisErr[EC10000])
+	SysErr           = errFun(EC40000, irisErr[EC40000])
+	InvalidParamsErr = errFun(EC40001, irisErr[EC40001])
+	ParamConvertErr  = errFun(EC40002, irisErr[EC40002])
+	ExtSysUnKnownErr = errFun(EC50000, irisErr[EC50000])
+	TimeoutErr       = errFun(EC59999, irisErr[EC59999])
 )
+
+type CodeType uint32
 
 //sdkCode
 const (
-	//commom
-	RootCodeSpace                = "sdk"
-	CodeInternal        CodeType = 1
-	CodeInvalidSequence CodeType = 3
-	CodeUnauthorized    CodeType = 4
-	CodeUnknownRequest  CodeType = 6
-	CodeInvalidAddress  CodeType = 7
-	CodeOutOfGas        CodeType = 12
-
-	//stake
-	StakeCodeSpace                 = "stake"
-	CodeInvalidValidator  CodeType = 101
-	CodeInvalidDelegation CodeType = 102
-	CodeInvalidInput      CodeType = 103
-	CodeValidatorJailed   CodeType = 104
-
-	//distribution
-	DistrCodeSpace                  = "distr"
-	CodeNoDistributionInfo CodeType = 104
+	//sdk common code
+	CodeInternal          CodeType = 1
+	CodeTxDecode          CodeType = 2
+	CodeInvalidSequence   CodeType = 3
+	CodeUnauthorized      CodeType = 4
+	CodeInsufficientFunds CodeType = 5
+	CodeUnknownRequest    CodeType = 6
+	CodeInvalidAddress    CodeType = 7
+	CodeInvalidPubKey     CodeType = 8
+	CodeUnknownAddress    CodeType = 9
+	CodeInsufficientCoins CodeType = 10
+	CodeInvalidCoins      CodeType = 11
+	CodeOutOfGas          CodeType = 12
+	CodeMemoTooLarge      CodeType = 13
+	CodeInsufficientFee   CodeType = 14
+	CodeOutOfService      CodeType = 15
+	CodeTooManySignatures CodeType = 16
+	CodeGasPriceTooLow    CodeType = 17
+	CodeInvalidGas        CodeType = 18
+	CodeInvalidTxFee      CodeType = 19
+	CodeInvalidFeeDenom   CodeType = 20
 )
 
-var sdkCodeToIrisCodeMap = map[string]IrisError{
-	sdkCode(RootCodeSpace, CodeInternal):        errFun(EC50002, IrishubErrMsg)(e.New("internal error")),
-	sdkCode(RootCodeSpace, CodeUnauthorized):    errFun(EC50002, IrishubErrMsg)(e.New("unauthorized")),
-	sdkCode(RootCodeSpace, CodeUnknownRequest):  errFun(EC50002, IrishubErrMsg)(e.New("unknown request")),
-	sdkCode(RootCodeSpace, CodeInvalidAddress):  errFun(EC50002, IrishubErrMsg)(e.New("invalid address")),
-	sdkCode(RootCodeSpace, CodeInvalidSequence): errFun(EC50002, IrishubErrMsg)(e.New("Invalid sequence")),
-	//distinct
-	sdkCode(RootCodeSpace, CodeOutOfGas): errFun(EC60003, IrishubErrMsg)(e.New("out of gas")),
+type ErrFunc func(msg string, args ...interface{}) IrisError
 
-	sdkCode(StakeCodeSpace, CodeInvalidValidator):  errFun(EC50002, IrishubErrMsg)(e.New("validator does not exist for that address")),
-	sdkCode(StakeCodeSpace, CodeInvalidDelegation): errFun(EC60004, IrishubErrMsg)(e.New("no delegation for this validator")),
-	sdkCode(StakeCodeSpace, CodeInvalidInput):      errFun(EC50002, IrishubErrMsg)(e.New("validator address is nil")),
-	sdkCode(StakeCodeSpace, CodeValidatorJailed):   errFun(EC50002, IrishubErrMsg)(e.New("validator jailed")),
-
-	sdkCode(DistrCodeSpace, CodeInvalidInput):       errFun(EC50002, IrishubErrMsg)(e.New("no delegation distribution info")),
-	sdkCode(DistrCodeSpace, CodeNoDistributionInfo): errFun(EC50002, IrishubErrMsg)(e.New("no delegation distribution info")),
+var sdkCodeToErrFunc = map[CodeType]ErrFunc{
+	CodeInternal:          errFun(EC50001, irisErr[EC50000]),
+	CodeTxDecode:          errFun(EC50002, irisErr[EC50000]),
+	CodeInvalidSequence:   errFun(EC50003, irisErr[EC50000]),
+	CodeUnauthorized:      errFun(EC50004, irisErr[EC50000]),
+	CodeInsufficientFunds: errFun(EC50005, irisErr[EC50000]),
+	CodeUnknownRequest:    errFun(EC50006, irisErr[EC50000]),
+	CodeInvalidAddress:    errFun(EC50007, irisErr[EC50000]),
+	CodeInvalidPubKey:     errFun(EC50008, irisErr[EC50000]),
+	CodeUnknownAddress:    errFun(EC50009, irisErr[EC50000]),
+	CodeInsufficientCoins: errFun(EC50010, irisErr[EC50000]),
+	CodeInvalidCoins:      errFun(EC50011, irisErr[EC50000]),
+	CodeOutOfGas:          errFun(EC50012, irisErr[EC50000]),
+	CodeMemoTooLarge:      errFun(EC50013, irisErr[EC50000]),
+	CodeInsufficientFee:   errFun(EC50014, irisErr[EC50000]),
+	CodeOutOfService:      errFun(EC50015, irisErr[EC50000]),
+	CodeTooManySignatures: errFun(EC50016, irisErr[EC50000]),
+	CodeGasPriceTooLow:    errFun(EC50017, irisErr[EC50000]),
+	CodeInvalidGas:        errFun(EC50018, irisErr[EC50000]),
+	CodeInvalidTxFee:      errFun(EC50019, irisErr[EC50000]),
+	CodeInvalidFeeDenom:   errFun(EC50020, irisErr[EC50000]),
 }
 
-func errFun(errCode uint32, errMsg string) func(errMsg error) IrisError {
-	return func(err error) IrisError {
-		msg := errMsg
-		if err != nil {
-			msg = fmt.Sprintf(errMsg, err.Error())
+func errFun(errCode uint32, errMsg string) func(msg string, args ...interface{}) IrisError {
+	return func(msg string, args ...interface{}) IrisError {
+		message := msg
+		if len(args) > 0 {
+			message = fmt.Sprintf(msg, args)
 		}
+		msg = fmt.Sprintf(errMsg, message)
 		return IrisError{
 			ErrCode: errCode,
 			ErrMsg:  msg,
