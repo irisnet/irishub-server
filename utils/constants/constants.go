@@ -92,9 +92,9 @@ const HttpApiHealthCheck = "/ops_ctl/latest"
 const HeaderContentTypeJson = "application/json;charset=utf-8"
 
 // define default tx gas and gasPrice
-const DefaultMinGasPrice = 20000000000
-const DefaultAvgGasPrice = 30000000000
-const DefaultMaxGasPrice = 40000000000
+const DefaultMinGasPrice = 20000000000 * 1000
+const DefaultAvgGasPrice = 30000000000 * 1000
+const DefaultMaxGasPrice = 40000000000 * 1000
 
 const DefaultTxGasTransfer = 200000
 const DefaultTxGasDelegate = 200000
