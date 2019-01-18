@@ -15,8 +15,8 @@ var ServerConfig configServer
 func init() {
 	var (
 		rpcServerPort uint64 = 9080
-		lcdServer            = "http://192.168.150.7:30317"
-		rainbowServer        = "http://192.168.150.7:9180"
+		lcdServer            = "http://35.220.215.42:30417"
+		rainbowServer        = "http://192.168.150.7:30101"
 	)
 
 	if env.LCDServer != "" {

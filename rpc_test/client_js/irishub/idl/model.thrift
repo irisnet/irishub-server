@@ -8,7 +8,7 @@ struct DelegatorUnbondingDelegation {
 struct Delegator {
 	1: string address,
 	2: string valAddress,
-	3: double shares,
+	3: string shares,
     4: double bondedTokens,
     5: DelegatorUnbondingDelegation unbondingDelegation
 }
@@ -83,4 +83,17 @@ struct ValidatorExRateRequest {
 
 struct ValidatorExRateResponse {
     1: double tokenSharesRate
+}
+
+struct withdrawInfo{
+    1: string delAddr
+    2: string withdrawAddr
+}
+
+struct WithdrawAddrRequest {
+    1: list<string> delAddrs
+}
+
+struct WithdrawAddrResponse {
+    1: list<withdrawInfo> withdrawInfo
 }
