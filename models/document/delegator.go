@@ -13,9 +13,9 @@ const (
 )
 
 type Delegator struct {
-	Address             string  `json:"address" bson:"address"`
-	ValidatorAddr       string  `bson:"validator_addr"` // validator ValidatorAddress
-	Shares              float64 `json:"shares" bson:"shares"`
+	Address             string `json:"address" bson:"address"`
+	ValidatorAddr       string `bson:"validator_addr"` // validator ValidatorAddress
+	Shares              string `json:"shares" bson:"original_shares"`
 	BondedTokens        float64
 	UnbondingDelegation UnbondingDelegation `bson:"unbonding_delegation"`
 }
