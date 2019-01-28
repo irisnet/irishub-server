@@ -1,6 +1,7 @@
 package blockchain
 
 import (
+	"github.com/irisnet/irishub-server/errors"
 	"github.com/irisnet/irishub-server/rpc/vo"
 	commonProtoc "github.com/irisnet/irisnet-rpc/common/codegen/server/model"
 	"golang.org/x/net/context"
@@ -17,6 +18,10 @@ func (c TxListHandler) Handler(ctx context.Context, req *commonProtoc.TxListRequ
 
 	if err.IsNotNull() {
 		return nil, BuildException(err)
+	}
+
+	if len(resVO.Txs) == 0 {
+		return nil, BuildException(errors.DataNotFound(req.String()))
 	}
 
 	return c.buildResponse(resVO), nil
