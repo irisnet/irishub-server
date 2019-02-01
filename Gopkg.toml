@@ -29,7 +29,7 @@
   name = "gopkg.in/mgo.v2"
 
 [[constraint]]
-  version = "v1.1.0"
+  version = "v1.3.0"
   #branch = "develop"
   name = "github.com/irisnet/irisnet-rpc"
 [prune]
