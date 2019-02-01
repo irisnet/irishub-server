@@ -149,7 +149,7 @@ func (s ValidatorService) buildValidator(cd document.Candidate, delegators []doc
 			if err.IsNotNull() {
 				logger.Error.Printf("Can't getValidatorExRate, err is %v\n", err)
 			}
-			d.BondedTokens = float64(d.Shares) * res.ExRate
+			d.BondedTokens = helper.ConvertStrToFloat(d.Shares) * res.ExRate
 
 			resDelegators = append(resDelegators, d)
 

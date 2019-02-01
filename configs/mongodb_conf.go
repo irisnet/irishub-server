@@ -21,7 +21,7 @@ func init() {
 		dbName   string
 	)
 
-	addr = "192.168.150.7:30000"
+	addr = "192.168.150.7:27017"
 	if env.DbAddr != "" {
 		addr = env.DbAddr
 	}

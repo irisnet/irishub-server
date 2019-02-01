@@ -10,6 +10,7 @@ const (
 	EC40000 = 40000
 	EC40001 = 40001
 	EC40002 = 40002
+	EC40003 = 40003
 
 	EC50000 = 50000
 	EC50001 = 50001
@@ -41,12 +42,14 @@ var (
 		EC40000: "system error: %s",
 		EC40001: "invalid param error: %s",
 		EC40002: "param convert error: %s",
+		EC40003: "data not found: %s",
 		EC50000: "external system error: %s",
 		EC59999: "tx timeout: %s",
 	}
 
 	SysMaintenance   = errFun(EC10000, irisErr[EC10000])
 	SysErr           = errFun(EC40000, irisErr[EC40000])
+	DataNotFound     = errFun(EC40003, irisErr[EC40003])
 	InvalidParamsErr = errFun(EC40001, irisErr[EC40001])
 	ParamConvertErr  = errFun(EC40002, irisErr[EC40002])
 	ExtSysUnKnownErr = errFun(EC50000, irisErr[EC50000])
