@@ -4,6 +4,7 @@ import (
 	"github.com/irisnet/irishub-server/rpc/vo"
 	commonProtoc "github.com/irisnet/irisnet-rpc/common/codegen/server/model"
 	"golang.org/x/net/context"
+	"math"
 )
 
 type TxGasHandler struct {
@@ -37,9 +38,9 @@ func (h TxGasHandler) buildRes(resVO vo.TxGasResVO) *commonProtoc.TxGasResponse 
 
 	resGasPrice = commonProtoc.GasPrice{
 		Denom:       resVO.GasPrice.Denom,
-		MinGasPrice: resVO.GasPrice.MinGasPrice,
-		MaxGasPrice: resVO.GasPrice.MaxGasPrice,
-		AvgGasPrice: resVO.GasPrice.AvgGasPrice,
+		MinGasPrice: math.Ceil(resVO.GasPrice.MinGasPrice),
+		MaxGasPrice: math.Ceil(resVO.GasPrice.MaxGasPrice),
+		AvgGasPrice: math.Ceil(resVO.GasPrice.AvgGasPrice),
 	}
 	resGasLimit := int64(resVO.Gas.MaxGasUsed * 1.5)
 	response = commonProtoc.TxGasResponse{
