@@ -12,6 +12,9 @@ func (s BlockChainRPCServices) GetTxGas(ctx context.Context, req *commonProtoc.T
 	r *commonProtoc.TxGasResponse, err error) {
 
 	res, err := Handler(ctx, req)
+	if err != nil {
+		return &commonProtoc.TxGasResponse{}, err
+	}
 	return res.(*commonProtoc.TxGasResponse), err
 }
 

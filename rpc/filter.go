@@ -1,7 +1,6 @@
 package rpc
 
 import (
-	"fmt"
 	"github.com/irisnet/irishub-server/errors"
 	"github.com/irisnet/irishub-server/modules/logger"
 	"github.com/irisnet/irishub-server/rpc/filters"
@@ -30,7 +29,6 @@ func init() {
 }
 
 func DoFilters(req string) (bool, errors.IrisError) {
-	logger.Info.Println(fmt.Sprintf("doFilters req:%s", req))
 	//check global filters
 	globalFilters, ok := fts[GlobalFilterPath]
 	if ok {
